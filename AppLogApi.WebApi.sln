@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppLogApi.WebApi", "AppLogApi.WebApi\AppLogApi.WebApi.csproj", "{E3AB348E-8508-43EE-A161-031796FD5D95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppLogApi.Repositories", "AppLogApi.Repositories\AppLogApi.Repositories.csproj", "{A7FE671E-71DD-435F-8D96-BE54F60B877A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppLogApi.Services", "AppLogApi.Services\AppLogApi.Services.csproj", "{670389C8-DF1B-40B9-952A-33BA8ECE6F00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppLogApi.Models", "AppLogApi.Models\AppLogApi.Models.csproj", "{30AC9770-FCBB-4E09-8E17-30D7B410DBD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppLogApi.Criteria", "AppLogApi.Criteria\AppLogApi.Criteria.csproj", "{8F3F215A-F919-4570-817E-8DEE0A354E13}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeAnalysis", "CodeAnalysis", "{BFFD65BB-F186-4DEF-8225-42EA19A6FFE6}"
+	ProjectSection(SolutionItems) = preProject
+		CodeAnalysis\CodeAnalysisConfiguration.xml = CodeAnalysis\CodeAnalysisConfiguration.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6D9FF50D-05BE-4766-B1C3-D8066EE45B95}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3AB348E-8508-43EE-A161-031796FD5D95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3AB348E-8508-43EE-A161-031796FD5D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3AB348E-8508-43EE-A161-031796FD5D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3AB348E-8508-43EE-A161-031796FD5D95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7FE671E-71DD-435F-8D96-BE54F60B877A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7FE671E-71DD-435F-8D96-BE54F60B877A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7FE671E-71DD-435F-8D96-BE54F60B877A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7FE671E-71DD-435F-8D96-BE54F60B877A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{670389C8-DF1B-40B9-952A-33BA8ECE6F00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{670389C8-DF1B-40B9-952A-33BA8ECE6F00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{670389C8-DF1B-40B9-952A-33BA8ECE6F00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{670389C8-DF1B-40B9-952A-33BA8ECE6F00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30AC9770-FCBB-4E09-8E17-30D7B410DBD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30AC9770-FCBB-4E09-8E17-30D7B410DBD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30AC9770-FCBB-4E09-8E17-30D7B410DBD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30AC9770-FCBB-4E09-8E17-30D7B410DBD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F3F215A-F919-4570-817E-8DEE0A354E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F3F215A-F919-4570-817E-8DEE0A354E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F3F215A-F919-4570-817E-8DEE0A354E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F3F215A-F919-4570-817E-8DEE0A354E13}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
