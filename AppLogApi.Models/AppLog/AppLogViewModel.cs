@@ -12,6 +12,14 @@
 
         public string FormattedMessage { get; set; }
 
+        public string AppDomainName { get; set; }
+
+        public string Message { get; set; }
+
+        public string Url { get; set; }
+
+        public string Referrer { get; set; }
+
         public Category Category { get; set; }
 
         public Machine Machine { get; set; }

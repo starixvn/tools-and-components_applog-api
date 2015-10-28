@@ -20,8 +20,8 @@
             IAppLogService _appLogService = new AppLogService();
             GetAppLogCriteria criteria = new GetAppLogCriteria()
             {
-                ToDate = new DateTime(2015, 10, 22, 18, 0, 0),
-                FromDate = new DateTime(2015, 10, 22, 16, 0, 0),
+                FromDate = new DateTime(2015, 10, 19, 14, 0, 0),
+                ToDate = new DateTime(2015, 10, 19, 18, 0, 0),                
                 ClientTimeZone = 7,
                 IsProduction = true,
                 Severity = "Error, Critical"
