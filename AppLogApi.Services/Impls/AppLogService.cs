@@ -34,13 +34,12 @@
             if (criteria.IsValid())
             {
                 appLogs = _repository.GetAppLog(criteria).ToList();
-                appLogs = GenerateUrlAndReferrer(appLogs);
             }
 
             return appLogs;
         }
 
-        public IList<AppLogViewModel> MappGroupChat(string groupChatXmlPath, IList<AppLogViewModel> appLogs)
+        public IList<AppLogViewModel> MappGroupChatAndGenerateUrlAndReferrer(string groupChatXmlPath, IList<AppLogViewModel> appLogs)
         {
             IList<GroupChat> groupChats = GetGroupChat(groupChatXmlPath);
 
@@ -56,6 +55,8 @@
                         log.GroupChat = groupChat;
                     }
 
+                    log = GenerateUrlAndReferrer(log);
+
                     return log;
                 }).ToList();
             }
@@ -63,32 +64,27 @@
             return appLogs;
         }
 
-        private List<AppLogViewModel> GenerateUrlAndReferrer(List<AppLogViewModel> appLogs)
+        private AppLogViewModel GenerateUrlAndReferrer(AppLogViewModel log)
         {
-            appLogs.Select(log =>
+            string message = GetContentFromMessage(log.Message, string.Empty);
+            string url = GetContentFromMessage(log.Message, "Url:");
+            string referrer = GetContentFromMessage(log.Message, "REFERRER:");
+
+            if (string.IsNullOrWhiteSpace(url))
             {
-                string message = GetContentFromMessage(log.Message, string.Empty);
-                string url = GetContentFromMessage(log.Message, "Url:");
-                string referrer = GetContentFromMessage(log.Message, "REFERRER:");
+                url = "N/A";
+            }
 
-                if (string.IsNullOrWhiteSpace(url))
-                {
-                    url = "N/A";
-                }
+            if (string.IsNullOrWhiteSpace(referrer))
+            {
+                referrer = "N/A";
+            }
 
-                if (string.IsNullOrWhiteSpace(referrer))
-                {
-                    referrer = "N/A";
-                }
+            log.Message = message;
+            log.Url = url;
+            log.Referrer = referrer;
 
-                log.Message = message;
-                log.Url = url;
-                log.Referrer = referrer;
-
-                return log;
-            }).ToList();
-
-            return appLogs;
+            return log;
         }
 
         private string GetContentFromMessage(string message, string contentKey)

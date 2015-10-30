@@ -8,6 +8,6 @@
     {
         IList<AppLogViewModel> GetAppLog(GetAppLogCriteria criteria);
 
-        IList<AppLogViewModel> MappGroupChat(string groupChatXmlPath, IList<AppLogViewModel> appLogs);
+        IList<AppLogViewModel> MappGroupChatAndGenerateUrlAndReferrer(string groupChatXmlPath, IList<AppLogViewModel> appLogs);
     }
 }

@@ -33,7 +33,7 @@
             {
                 string groupChatXmlPath = Server.MapPath("~/App_Data/GroupChat.xml");
 
-                appLogs = _appLogService.MappGroupChat(groupChatXmlPath, appLogs).ToList();
+                appLogs = _appLogService.MappGroupChatAndGenerateUrlAndReferrer(groupChatXmlPath, appLogs).ToList();
             }
         }
     }
