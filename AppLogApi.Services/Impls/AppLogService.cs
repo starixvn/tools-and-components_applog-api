@@ -100,6 +100,16 @@
                 startIndex = contentIndex + contentKey.Length;
                 endIndex = message.IndexOf(Environment.NewLine, startIndex, System.StringComparison.InvariantCultureIgnoreCase);
 
+                if (endIndex == -1 && startIndex == contentIndex)
+                {
+                    endIndex = message.IndexOf(".", startIndex, System.StringComparison.InvariantCultureIgnoreCase);
+
+                    if (endIndex == -1)
+                    {
+                        resultContent = message;
+                    }
+                }
+
                 if (endIndex != -1)
                 {
                     length = endIndex - startIndex;
