@@ -1,6 +1,7 @@
 ﻿namespace AppLogApi.WebApi.Controllers
 {
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Linq;
     using System.Web;
     using System.Web.Http;
@@ -8,27 +9,31 @@
     using AppLogApi.Models.AppLog;
     using AppLogApi.Services.Impls;
     using AppLogApi.Services.Interfaces;
+    using Sunplus.UMControllerLibrary;
 
     public class LogManagerController : ApiController
     {
         private readonly IAppLogService _appLogService;
+        private UMBusiness _umService;
 
         public LogManagerController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public LogManagerController(IAppLogService appLogService)
+        public LogManagerController(IAppLogService appLogService, UMBusiness umService)
         {
             _appLogService = appLogService ?? new AppLogService();
+            _umService = umService ?? new UMBusiness();
         }
 
         [HttpGet]
         public IList<AppLogViewModel> GetAppLog([FromUri]GetAppLogCriteria criteria)
         {
             var appLogs = new List<AppLogViewModel>();
+            bool isUnderMaintenance = _umService.isUnderMaintainence(Sites.Agency, ConfigurationManager.AppSettings["UnderMaintenanceUrl"]);
 
-            if (criteria != null)
+            if (!isUnderMaintenance && criteria != null)
             {
                 appLogs = _appLogService.GetAppLog(criteria).ToList();
 
