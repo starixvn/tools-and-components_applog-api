@@ -71,13 +71,11 @@
     </GroupChat>
     <GroupChat>
         <LogCategory>LiveCasino</LogCategory>
-        <SkypeGroup>[ALPHA]-247</SkypeGroup>
-        <LineGroup>[ALPHA]-247</LineGroup>
+        <SkypeGroup>[ALPHA]-247</SkypeGroup>        
     </GroupChat>
     <GroupChat>
         <LogCategory>LiveCasinoSetting</LogCategory>
-        <SkypeGroup>[ALPHA]-247</SkypeGroup>
-        <LineGroup>[ALPHA]-247</LineGroup>
+        <SkypeGroup>[ALPHA]-247</SkypeGroup>        
     </GroupChat>
     <GroupChat>
         <LogCategory>LiveChart</LogCategory>
