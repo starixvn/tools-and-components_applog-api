@@ -173,7 +173,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\GroupChat.pro.xml" />
+    <Content Include="App_Data\GroupChat.pro.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\GroupChat.xml" />
     <Content Include="App_Data\SpNames.xml">
       <SubType>Designer</SubType>

@@ -23,22 +23,27 @@
     <GroupChat>
         <LogCategory>Alpha-789y-AF</LogCategory>
         <SkypeGroup>[ALPHA]-247</SkypeGroup>
+        <LineGroup>[ALPHA]-247</LineGroup>
     </GroupChat>
     <GroupChat>
         <LogCategory>Alpha-789y-BF</LogCategory>
         <SkypeGroup>[ALPHA]-247</SkypeGroup>
+        <LineGroup>[ALPHA]-247</LineGroup>
     </GroupChat>
     <GroupChat>
         <LogCategory>Alpha-Internal</LogCategory>
         <SkypeGroup>[ALPHA]-247</SkypeGroup>
+        <LineGroup>[ALPHA]-247</LineGroup>
     </GroupChat>
     <GroupChat>
         <LogCategory>Alpha-MBC-AF</LogCategory>
         <SkypeGroup>[ALPHA]-247</SkypeGroup>
+        <LineGroup>[ALPHA]-247</LineGroup>
     </GroupChat>
     <GroupChat>
         <LogCategory>Alpha-MBC-Smartphone</LogCategory>
         <SkypeGroup>[ALPHA]-247</SkypeGroup>
+        <LineGroup>[ALPHA]-247</LineGroup>
     </GroupChat>
     <GroupChat>
         <LogCategory>Fanex-Mail</LogCategory>
@@ -61,16 +66,18 @@
         <SkypeGroup>[LA]-247</SkypeGroup>
     </GroupChat>
     <GroupChat>
-        <LogCategory>Licensee-Validation-Service </LogCategory>
+        <LogCategory>Licensee-Validation-Service</LogCategory>
         <SkypeGroup>[LA]-247</SkypeGroup>
     </GroupChat>
     <GroupChat>
         <LogCategory>LiveCasino</LogCategory>
         <SkypeGroup>[ALPHA]-247</SkypeGroup>
+        <LineGroup>[ALPHA]-247</LineGroup>
     </GroupChat>
     <GroupChat>
         <LogCategory>LiveCasinoSetting</LogCategory>
         <SkypeGroup>[ALPHA]-247</SkypeGroup>
+        <LineGroup>[ALPHA]-247</LineGroup>
     </GroupChat>
     <GroupChat>
         <LogCategory>LiveChart</LogCategory>
