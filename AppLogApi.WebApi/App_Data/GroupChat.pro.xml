@@ -21,6 +21,10 @@
         <SkypeGroup>[AFFILIATE]-247</SkypeGroup>
     </GroupChat>
     <GroupChat>
+    <LogCategory>AffiliateService</LogCategory>
+    <SkypeGroup>[AFFILIATE]-247</SkypeGroup>
+  </GroupChat>
+    <GroupChat>
         <LogCategory>Alpha-789y-AF</LogCategory>
         <SkypeGroup>[ALPHA]-247</SkypeGroup>
         <LineGroup>[ALPHA]-247</LineGroup>
