@@ -15,10 +15,15 @@
     public class AppLogService : IAppLogService
     {
         private readonly IAppLogRepository _repository;
-
+        private List<string> ignoreMessages = new List<string>();
         public AppLogService()
             : this(null)
         {
+            ignoreMessages.Add("Thread was being aborted.");
+            ignoreMessages.Add("Invalid attempt to read when no data is present.");
+            ignoreMessages.Add("Object reference not set to an instance of an object.");
+            ignoreMessages.Add("Server cannot set status after HTTP headers have been sent.");
+
         }
 
         public AppLogService(IAppLogRepository repository)
@@ -58,7 +63,10 @@
                     log = GenerateUrlAndReferrer(log);
 
                     return log;
-                }).ToList();
+
+                })
+                .Where(x => x != null)
+                .ToList();
             }
 
             return appLogs;
@@ -66,7 +74,8 @@
 
         private AppLogViewModel GenerateUrlAndReferrer(AppLogViewModel log)
         {
-            string message = GetContentFromMessage(log.Message, string.Empty);
+            string content = GetContentFromMessage(log.Message, string.Empty);
+            string message = GetContentFromMessage(log.Message, "Message:");
             string url = GetContentFromMessage(log.Message, "Url:");
             string referrer = GetContentFromMessage(log.Message, "REFERRER:");
 
@@ -80,11 +89,23 @@
                 referrer = "N/A";
             }
 
-            log.Message = message;
+            if (IgnoreMessage(message) == null)
+            {
+                return null;
+            }
+
+            log.Message = content;
             log.Url = url;
             log.Referrer = referrer;
 
             return log;
+        }
+
+        private string IgnoreMessage(string message)
+        {
+            if (ignoreMessages.Contains(message))
+                return null;
+            return message;
         }
 
         private string GetContentFromMessage(string message, string contentKey)
