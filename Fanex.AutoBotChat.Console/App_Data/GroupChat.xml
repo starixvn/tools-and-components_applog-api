@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<GroupChats>
+  <GroupChat>
+    <LogCategory>NAP-Settlement-LOCAL</LogCategory>
+    <Targets>TestingTarget</Targets>
+  </GroupChat>
+  <GroupChat>
+    <LogCategory>MailStation</LogCategory>
+    <Targets>TestingTarget</Targets>
+  </GroupChat>
+  <GroupChat>
+    <LogCategory>Alpha-789y-NAP</LogCategory>
+    <Targets>TestingTarget</Targets>
+  </GroupChat>
+  <GroupChat>
+    <LogCategory>NAP-LOCAL</LogCategory>
+    <Targets>TestingTarget</Targets>
+  </GroupChat>
+</GroupChats>

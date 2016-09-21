@@ -72,7 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Impls\AppLogService.cs" />
+    <Compile Include="Impls\DBANotificationLogService.cs" />
     <Compile Include="Interfaces\IAppLogService.cs" />
+    <Compile Include="Interfaces\IDBANotificationLogService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

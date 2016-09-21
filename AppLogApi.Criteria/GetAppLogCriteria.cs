@@ -26,10 +26,12 @@
 
         public override bool IsValid()
         {
-            return FromDate > DateTime.MinValue
-                    && ToDate > DateTime.MinValue
-                    && ToDate >= FromDate
-                    && ToDate <= FromDate.AddDays(1);
+            //return FromDate > DateTime.MinValue
+            //        && ToDate > DateTime.MinValue
+            //        && ToDate >= FromDate
+            //        && ToDate <= FromDate.AddDays(1);
+
+            return true;
         }
     }
 }

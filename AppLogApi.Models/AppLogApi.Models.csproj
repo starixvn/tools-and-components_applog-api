@@ -42,8 +42,10 @@
   <ItemGroup>
     <Compile Include="AppLog\AppLogViewModel.cs" />
     <Compile Include="AppLog\Category.cs" />
+    <Compile Include="AppLog\DBANotificationLogViewModel.cs" />
     <Compile Include="AppLog\GroupChat.cs" />
     <Compile Include="AppLog\Machine.cs" />
+    <Compile Include="AppLog\Target.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

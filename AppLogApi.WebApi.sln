@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppLogApi.WebApi", "AppLogApi.WebApi\AppLogApi.WebApi.csproj", "{E3AB348E-8508-43EE-A161-031796FD5D95}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppLogApi.Repositories", "AppLogApi.Repositories\AppLogApi.Repositories.csproj", "{A7FE671E-71DD-435F-8D96-BE54F60B877A}"
@@ -22,6 +24,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6D9FF5
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.AutoBotChat.Console", "Fanex.AutoBotChat.Console\Fanex.AutoBotChat.Console.csproj", "{4830EDFD-B2E3-4B4A-9E80-5F843E06C48A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.AutoBotChat.DBANotificationConsole", "Fanex.AutoBotChat.DBANotificationConsole\Fanex.AutoBotChat.DBANotificationConsole.csproj", "{826175DD-1E6F-4051-817C-2354710DE6FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.AutoBotChat.TestingConsole", "Fanex.AutoBotChat.TestingConsole\Fanex.AutoBotChat.TestingConsole.csproj", "{02F71502-0C9D-4AAE-87C7-562EEFC3BA91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,8 +57,23 @@ Global
 		{8F3F215A-F919-4570-817E-8DEE0A354E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F3F215A-F919-4570-817E-8DEE0A354E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F3F215A-F919-4570-817E-8DEE0A354E13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4830EDFD-B2E3-4B4A-9E80-5F843E06C48A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4830EDFD-B2E3-4B4A-9E80-5F843E06C48A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4830EDFD-B2E3-4B4A-9E80-5F843E06C48A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4830EDFD-B2E3-4B4A-9E80-5F843E06C48A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{826175DD-1E6F-4051-817C-2354710DE6FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{826175DD-1E6F-4051-817C-2354710DE6FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{826175DD-1E6F-4051-817C-2354710DE6FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{826175DD-1E6F-4051-817C-2354710DE6FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02F71502-0C9D-4AAE-87C7-562EEFC3BA91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02F71502-0C9D-4AAE-87C7-562EEFC3BA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02F71502-0C9D-4AAE-87C7-562EEFC3BA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02F71502-0C9D-4AAE-87C7-562EEFC3BA91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45
 	EndGlobalSection
 EndGlobal

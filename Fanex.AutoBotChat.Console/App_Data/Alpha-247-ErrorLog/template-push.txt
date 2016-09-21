@@ -1,0 +1,8 @@
+Category: {{Category}}
+Timestamp: {{Timestamp}}
+Severity: {{Severity}}
+Message: {{Message}}
+URL: {{URL}}
+REFERRER: {{REFERRER}}
+DOMAIN: {{DOMAIN}}
+MACHINE: {{MACHINE}}

@@ -68,7 +68,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Impls\AppLogRepository.cs" />
+    <Compile Include="Impls\DBANotificationLogRepository.cs" />
     <Compile Include="Interfaces\IAppLogRepository.cs" />
+    <Compile Include="Interfaces\IDBANotificationLogRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
