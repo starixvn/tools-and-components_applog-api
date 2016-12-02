@@ -111,16 +111,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="App_Data\Settlement-247-ErrorLog\target.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App_Data\DB-ErrorLog\target.config" />
     <None Include="App_Data\keypair.snk" />
     <None Include="App_Data\public.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Settlement-247-ErrorLog\exclamation.png" />
-    <Content Include="App_Data\Settlement-247-ErrorLog\template-mail.html" />
-    <Content Include="App_Data\Settlement-247-ErrorLog\template-push.txt" />
+    <Content Include="App_Data\DB-ErrorLog\exclamation.png" />
+    <Content Include="App_Data\DB-ErrorLog\template-mail.html" />
+    <Content Include="App_Data\DB-ErrorLog\template-push.txt" />
     <Content Include="App_Data\SpNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
