@@ -5,7 +5,7 @@
     {
         public override string GetSettingKey()
         {
-            return "dba_getNotification";
+            return "dba_Letstalk_Notify";
         }
 
         public override bool IsValid()

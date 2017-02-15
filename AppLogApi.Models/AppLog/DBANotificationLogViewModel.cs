@@ -13,5 +13,7 @@
         public string MsgInfo { get; set; }
 
         public DateTime LogDate { get; set; }
+
+        public string TargetName { get; set; }
     }
 }

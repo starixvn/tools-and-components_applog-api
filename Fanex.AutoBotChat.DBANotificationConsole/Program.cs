@@ -33,11 +33,9 @@ namespace Fanex.AutoBotChat.DBANotificationConsole
                 _umService = new UMBusiness();
                 _interval = Convert.ToInt32(ConfigurationManager.AppSettings["interval"]);
                 _environmentServers = ConfigurationManager.AppSettings["Environtment-Servers"];
-                _environmentAuthKey = ConfigurationManager.AppSettings["Environtment-AuthKey"];
-                _targetNames = ConfigurationManager.AppSettings["TargetNames"];
-
-
-                Process();
+                _environmentAuthKey = ConfigurationManager.AppSettings["Environtment-AuthKey"];            
+                                              
+               Process();
             }
             catch (Exception ex)
             {
@@ -49,8 +47,7 @@ namespace Fanex.AutoBotChat.DBANotificationConsole
         private static void Process()
         {
             var dbaNotificationLogs = new List<DBANotificationLogViewModel>();
-            bool isUnderMaintenance = _umService.isUnderMaintainence(Sites.Agency, ConfigurationManager.AppSettings["UnderMaintenanceUrl"]);
-
+            bool isUnderMaintenance = _umService.isUnderMaintainence(Sites.Agency, ConfigurationManager.AppSettings["UnderMaintenanceUrl"]);            
             if (!isUnderMaintenance)
             {
                 dbaNotificationLogs = _DBANotificationLogService.GetDBANotificationLog().ToList();
@@ -66,12 +63,17 @@ namespace Fanex.AutoBotChat.DBANotificationConsole
                                 { "LogDate", dbaNotificationLog.LogDate.ToString() },
                                 { "Message", dbaNotificationLog.MsgInfo }
                             };
-                        var targets = _targetNames.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
+                        var target = dbaNotificationLog.TargetName; //_targetNames.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
 
-                        foreach (var target in targets)
-                        {
-                            SendMessage(target, vars);
-                        }
+
+                        System.Console.WriteLine(target);
+
+                        SendMessage(target, vars);
+
+                        //foreach (var target in targets)
+                        //{
+                        //    SendMessage(target, vars);
+                        //}
                     }
                 }
             }
