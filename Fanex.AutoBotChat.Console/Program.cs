@@ -51,8 +51,9 @@ namespace Fanex.AutoBotChat.Console
         {
             var criteria = new GetAppLogCriteria()
             {
-                ClientTimeZone = 7,
-                FromDate = DateTime.Now.AddMinutes(-_interval),
+                ClientTimeZone = -4,
+                //FromDate = DateTime.Now.AddDays(-1),
+                FromDate =DateTime.Now.AddMinutes(-_interval),
                 ToDate = DateTime.Now,
                 IsProduction = true,
                 Severity = "Error,Critical"
@@ -64,38 +65,46 @@ namespace Fanex.AutoBotChat.Console
             {
                 appLogs = _appLogService.GetAppLog(criteria).ToList();
                 System.Console.WriteLine("appLogs counter item " + appLogs.Count());
+
+                var ignoreAppLogsXmlPath = AppDomain.CurrentDomain.BaseDirectory + "/App_Data/IgnoreMessages.xml";
+
                 if (appLogs.Count > 0)
                 {
                     string groupChatXmlPath = AppDomain.CurrentDomain.BaseDirectory + "/App_Data/GroupChat.xml";
 
                     appLogs = _appLogService.MappGroupChatAndGenerateUrlAndReferrer(groupChatXmlPath, appLogs).ToList();
+                    var appLogsIgnored = _appLogService.GetIgnoreMessage(ignoreAppLogsXmlPath);
 
                     foreach (var appLog in appLogs)
                     {
                         System.Console.WriteLine(appLog.Category.CategoryName);
                         if (appLog.GroupChat != null)
                         {
-                            using (System.IO.StreamWriter file = new System.IO.StreamWriter(Directory.GetCurrentDirectory() + @"/logs.txt", true))
+                            if (!IsIgnoreMessage(appLogsIgnored, appLog.Message))
                             {
-                                file.WriteLine(appLog.Category.CategoryName);
-                                file.WriteLine(appLog.Message);
-                            }
-                            var vars = new Dictionary<string, string>()
-                            {
-                                { "Category", appLog.Category.CategoryName },
-                                { "Timestamp", appLog.Timestamp.ToString() + " (GMT+7)" },
-                                { "Severity", appLog.Severity },
-                                { "Message", appLog.Message },
-                                { "URL", appLog.Url },
-                                { "REFERRER", appLog.Referrer },
-                                { "DOMAIN", appLog.AppDomainName },
-                                { "MACHINE", appLog.Machine.MachineIP }
-                            };
-                            var targets = appLog.GroupChat.Targets.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
+                                using (System.IO.StreamWriter file = new System.IO.StreamWriter(Directory.GetCurrentDirectory() + @"/logs.txt", true))
+                                {
+                                    file.WriteLine(appLog.Category.CategoryName);
+                                    file.WriteLine(appLog.Message);                                    
+                                }
 
-                            foreach (var target in targets)
-                            {
-                                SendMessage(target, vars);
+                                var vars = new Dictionary<string, string>()
+                                {
+                                    { "category", appLog.Category.CategoryName },
+                                    { "timestamp", appLog.Timestamp.ToString() + " (GMT-4)" },
+                                    { "severity", appLog.Severity },
+                                    { "message", appLog.Message },
+                                    { "url", appLog.Url },
+                                    { "referrer", appLog.Referrer },
+                                    { "domain", appLog.AppDomainName },
+                                    { "machine", appLog.Machine.MachineIP }
+                                };
+                                var targets = appLog.GroupChat.Targets.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
+
+                                foreach (var target in targets)
+                                {
+                                    SendMessage(target, vars);
+                                }
                             }
                         }
                     }
@@ -105,31 +114,10 @@ namespace Fanex.AutoBotChat.Console
 
         public static bool SendMessage(string targetName, Dictionary<string, string> vars)
         {
-
             var serverUrls = _environmentServers.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             Notification.Initialize(serverUrls, _environmentAuthKey);
 
             return Notification.Send(targetName, vars, null, null);
-
-            //using (var client = new HttpClient())
-            //{
-            //    var encryptParam = EncryptParameters(param);
-            //    var parameter = "Parameter=" + Uri.EscapeDataString(encryptParam);
-            //    var content = new StringContent(parameter, Encoding.UTF8, "application/x-www-form-urlencoded");
-            //    HttpResponseMessage response = client.PostAsync(_letstalkAPI, content).Result;
-            //    string result = response.Content.ReadAsStringAsync().Result;
-
-            //    if (response.StatusCode == HttpStatusCode.OK)
-            //    {
-            //        var getResult = JsonConvert.DeserializeObject<bool>(result);
-            //        if (getResult)
-            //        {
-            //            return true;
-            //        }
-            //    }
-            //}
-
-            //return false;
         }
 
         private static string EncryptParameters(object data)
@@ -138,6 +126,19 @@ namespace Fanex.AutoBotChat.Console
             var keyPath = Directory.GetCurrentDirectory() + "/App_Data/public.snk";
             var encryptionThread = new EncryptionThread();
             return encryptionThread.EncryptString(jsonData, KeySize, keyPath);
+        }
+
+        private static bool IsIgnoreMessage(IList<AppLog> appLogs, string message)
+        {
+            foreach (var applog in appLogs)
+            {
+                if (message.IndexOf(applog.Message) != -1)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

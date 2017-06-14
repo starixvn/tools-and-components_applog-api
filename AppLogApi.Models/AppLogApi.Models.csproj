@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppLog\AppLog.cs" />
     <Compile Include="AppLog\AppLogViewModel.cs" />
     <Compile Include="AppLog\Category.cs" />
     <Compile Include="AppLog\DBANotificationLogViewModel.cs" />

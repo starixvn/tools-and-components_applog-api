@@ -72,6 +72,24 @@
             return appLogs;
         }
 
+
+        public IList<AppLog> GetIgnoreMessage(string xmlPath)
+        {
+            var appLogs = new List<AppLog>();
+
+            if (File.Exists(xmlPath))
+            {
+                var deserializer = new XmlSerializer(typeof(List<AppLog>), new XmlRootAttribute("AppLogs"));
+
+                using (FileStream stream = File.OpenRead(xmlPath))
+                {
+                    appLogs = deserializer.Deserialize(stream) as List<AppLog>;
+                }
+            }
+
+            return appLogs;
+        }
+
         private AppLogViewModel GenerateUrlAndReferrer(AppLogViewModel log)
         {
             string content = GetContentFromMessage(log.Message, string.Empty);
@@ -157,5 +175,6 @@
 
             return groupChats;
         }
+
     }
 }

@@ -108,7 +108,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="App_Data\Alpha-247-ErrorLog\target.config">
+    <None Include="App_Data\Alpha-BOTCHAT-ErrorLog\target.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="App_Data\keypair.snk" />
@@ -116,15 +116,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Alpha-247-ErrorLog\exclamation.png" />
-    <Content Include="App_Data\Alpha-247-ErrorLog\template-mail.html" />
-    <Content Include="App_Data\Alpha-247-ErrorLog\template-push.txt" />
+    <Content Include="App_Data\Alpha-BOTCHAT-ErrorLog\exclamation.png" />
+    <Content Include="App_Data\Alpha-BOTCHAT-ErrorLog\template-mail.html" />
+    <Content Include="App_Data\Alpha-BOTCHAT-ErrorLog\template-push.txt" />
     <Content Include="App_Data\GroupChat.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\IgnoreMessages.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Data\SpNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

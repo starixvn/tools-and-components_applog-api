@@ -9,5 +9,7 @@
         IList<AppLogViewModel> GetAppLog(GetAppLogCriteria criteria);
 
         IList<AppLogViewModel> MappGroupChatAndGenerateUrlAndReferrer(string groupChatXmlPath, IList<AppLogViewModel> appLogs);
+
+        IList<AppLog> GetIgnoreMessage(string xmlPath);
     }
 }

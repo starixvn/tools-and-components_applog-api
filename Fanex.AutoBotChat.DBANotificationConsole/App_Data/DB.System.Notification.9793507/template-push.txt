@@ -1,0 +1,4 @@
+Title: {{Title}}
+ServerName: {{ServerName}}
+LogDate: {{LogDate}}
+Message: {{Message}}

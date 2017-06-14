@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AppLogs>
+  <AppLog>
+    <Url>N/A</Url>
+    <Referrer>N/A</Referrer>
+    <Message>Thread was being aborted.</Message>
+  </AppLog>
+  <AppLog>
+    <Url>N/A</Url>
+    <Referrer>N/A</Referrer>
+    <Message>Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding.</Message>
+  </AppLog>
+  <AppLog>
+    <Url>N/A</Url>
+    <Referrer>N/A</Referrer>
+    <Message>Specified argument was out of the range of valid values.</Message>
+  </AppLog>
+</AppLogs>
