@@ -15,15 +15,14 @@ using Sunplus.UMControllerLibrary;
 
 namespace Fanex.AutoBotChat.DBANotificationConsole
 {
-    class Program
+    static class Program
     {
         private static IDBANotificationLogService _DBANotificationLogService;
         private static UMBusiness _umService;
         private static int _interval = 0;
-        private const int KeySize = 1024;
         private static string _environmentServers = string.Empty;
         private static string _environmentAuthKey = string.Empty;
-        private static string _targetNames = string.Empty;
+
         static void Main(string[] args)
         {
             try
@@ -33,9 +32,9 @@ namespace Fanex.AutoBotChat.DBANotificationConsole
                 _umService = new UMBusiness();
                 _interval = Convert.ToInt32(ConfigurationManager.AppSettings["interval"]);
                 _environmentServers = ConfigurationManager.AppSettings["Environtment-Servers"];
-                _environmentAuthKey = ConfigurationManager.AppSettings["Environtment-AuthKey"];            
-                                              
-               Process();
+                _environmentAuthKey = ConfigurationManager.AppSettings["Environtment-AuthKey"];
+
+                Process();
             }
             catch (Exception ex)
             {
@@ -47,7 +46,7 @@ namespace Fanex.AutoBotChat.DBANotificationConsole
         private static void Process()
         {
             var dbaNotificationLogs = new List<DBANotificationLogViewModel>();
-            bool isUnderMaintenance = _umService.isUnderMaintainence(Sites.Agency, ConfigurationManager.AppSettings["UnderMaintenanceUrl"]);            
+            bool isUnderMaintenance = _umService.isUnderMaintainence(Sites.Agency, ConfigurationManager.AppSettings["UnderMaintenanceUrl"]);
             if (!isUnderMaintenance)
             {
                 dbaNotificationLogs = _DBANotificationLogService.GetDBANotificationLog().ToList();
@@ -63,17 +62,20 @@ namespace Fanex.AutoBotChat.DBANotificationConsole
                                 { "LogDate", dbaNotificationLog.LogDate.ToString() },
                                 { "Message", dbaNotificationLog.MsgInfo }
                             };
-                        var target = dbaNotificationLog.TargetName; //_targetNames.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
+                        var target = dbaNotificationLog.TargetName;
 
 
                         System.Console.WriteLine(target);
 
-                        SendMessage(target, vars);
-
-                        //foreach (var target in targets)
-                        //{
-                        //    SendMessage(target, vars);
-                        //}
+                        var result = SendMessage(target, vars);
+                        if (result)
+                        {
+                            System.Console.WriteLine("Message is sent.");
+                        }
+                        else
+                        {
+                            System.Console.WriteLine("Message cannot send.");
+                        }
                     }
                 }
             }

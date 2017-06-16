@@ -19,12 +19,11 @@ using Sunplus.UMControllerLibrary;
 
 namespace Fanex.AutoBotChat.Console
 {
-    class Program
+    static class Program
     {
         private static IAppLogService _appLogService;
         private static UMBusiness _umService;
-        private static int _interval = 0;
-        private const int KeySize = 1024;
+        private static int _interval = 0;        
         private static string _environmentServers = string.Empty;
         private static string _environmentAuthKey = string.Empty;
         static void Main(string[] args)
@@ -118,15 +117,7 @@ namespace Fanex.AutoBotChat.Console
             Notification.Initialize(serverUrls, _environmentAuthKey);
 
             return Notification.Send(targetName, vars, null, null);
-        }
-
-        private static string EncryptParameters(object data)
-        {
-            var jsonData = JsonConvert.SerializeObject(data);
-            var keyPath = Directory.GetCurrentDirectory() + "/App_Data/public.snk";
-            var encryptionThread = new EncryptionThread();
-            return encryptionThread.EncryptString(jsonData, KeySize, keyPath);
-        }
+        }        
 
         private static bool IsIgnoreMessage(IList<AppLog> appLogs, string message)
         {

@@ -14,7 +14,7 @@
     public class LogManagerController : ApiController
     {
         private readonly IAppLogService _appLogService;
-        private UMBusiness _umService;
+        private readonly UMBusiness _umService;
 
         public LogManagerController()
             : this(null, null)

@@ -31,6 +31,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.AutoBotChat.DBANotifi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.AutoBotChat.TestingConsole", "Fanex.AutoBotChat.TestingConsole\Fanex.AutoBotChat.TestingConsole.csproj", "{02F71502-0C9D-4AAE-87C7-562EEFC3BA91}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{B99F24E7-4307-47CC-A3D2-9FA48998137E}"
+	ProjectSection(SolutionItems) = preProject
+		SonarQube\AutoBotChatCSharp.ruleset = SonarQube\AutoBotChatCSharp.ruleset
+		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

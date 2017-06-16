@@ -1,0 +1,11 @@
+{
+  "ServerUri": "http://sonarqube.nexdev.net",
+  "Organization": null,
+  "ProjectKey": "AutoBotChat",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "cs-sonar-way-80515",
+      "ProfileTimestamp": "2017-06-07T13:52:58+07:00"
+    }
+  }
+}

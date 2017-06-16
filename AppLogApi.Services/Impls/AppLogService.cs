@@ -15,7 +15,7 @@
     public class AppLogService : IAppLogService
     {
         private readonly IAppLogRepository _repository;
-        private List<string> ignoreMessages = new List<string>();
+        private readonly List<string> ignoreMessages = new List<string>();
         public AppLogService()
             : this(null)
         {
