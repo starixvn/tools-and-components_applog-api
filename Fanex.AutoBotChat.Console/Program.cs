@@ -23,7 +23,7 @@ namespace Fanex.AutoBotChat.Console
     {
         private static IAppLogService _appLogService;
         private static UMBusiness _umService;
-        private static int _interval = 0;        
+        private static int _interval;
         private static string _environmentServers = string.Empty;
         private static string _environmentAuthKey = string.Empty;
         static void Main(string[] args)
@@ -34,34 +34,27 @@ namespace Fanex.AutoBotChat.Console
             _interval = Convert.ToInt32(ConfigurationManager.AppSettings["interval"]);
             _environmentServers = ConfigurationManager.AppSettings["Environtment-Servers"];
             _environmentAuthKey = ConfigurationManager.AppSettings["Environtment-AuthKey"];
+            _interval = 0;
 
-            try
-            {
-                Process();
-            }
-            catch (Exception ex)
-            {
-                System.Console.WriteLine(ex.Message);
-                System.Console.ReadKey();
-            }
+            Processing();
         }
 
-        public static void Process()
+        public static void Processing()
         {
             var criteria = new GetAppLogCriteria
             {
-                ClientTimeZone = -4,                
-                FromDate =DateTime.Now.AddMinutes(-_interval),
+                ClientTimeZone = -4,
+                FromDate = DateTime.Now.AddMinutes(-_interval),
                 ToDate = DateTime.Now,
                 IsProduction = true,
                 Severity = "Error,Critical"
             };
-            var appLogs = new List<AppLogViewModel>();
+
             bool isUnderMaintenance = _umService.isUnderMaintainence(Sites.Agency, ConfigurationManager.AppSettings["UnderMaintenanceUrl"]);
 
             if (!isUnderMaintenance)
             {
-                appLogs = _appLogService.GetAppLog(criteria).ToList();                
+                var appLogs = _appLogService.GetAppLog(criteria).ToList();
 
                 var ignoreAppLogsXmlPath = AppDomain.CurrentDomain.BaseDirectory + "/App_Data/IgnoreMessages.xml";
 
@@ -73,36 +66,8 @@ namespace Fanex.AutoBotChat.Console
                     var appLogsIgnored = _appLogService.GetIgnoreMessage(ignoreAppLogsXmlPath);
 
                     foreach (var appLog in appLogs)
-                    {                        
-                        if (appLog.GroupChat != null)
-                        {
-                            if (!IsIgnoreMessage(appLogsIgnored, appLog.Message))
-                            {
-                                using (System.IO.StreamWriter file = new System.IO.StreamWriter(Directory.GetCurrentDirectory() + @"/logs.txt", true))
-                                {
-                                    file.WriteLine(appLog.Category.CategoryName);
-                                    file.WriteLine(appLog.Message);                                    
-                                }
-
-                                var vars = new Dictionary<string, string>
-                                {
-                                    { "category", appLog.Category.CategoryName },
-                                    { "timestamp", appLog.Timestamp.ToShortTimeString() + " (GMT-4)" },
-                                    { "severity", appLog.Severity },
-                                    { "message", appLog.Message },
-                                    { "url", appLog.Url },
-                                    { "referrer", appLog.Referrer },
-                                    { "domain", appLog.AppDomainName },
-                                    { "machine", appLog.Machine.MachineIP }
-                                };
-                                var targets = appLog.GroupChat.Targets.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
-
-                                foreach (var target in targets)
-                                {
-                                    SendMessage(target, vars);
-                                }
-                            }
-                        }
+                    {                       
+                        AssignMessageData(appLog, appLogsIgnored);
                     }
                 }
             }
@@ -110,17 +75,47 @@ namespace Fanex.AutoBotChat.Console
 
         public static bool SendMessage(string targetName, Dictionary<string, string> vars)
         {
-            var serverUrls = _environmentServers.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var serverUrls = _environmentServers.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             Notification.Initialize(serverUrls, _environmentAuthKey);
 
             return Notification.Send(targetName, vars);
-        }        
+        }
+
+        private static void AssignMessageData(AppLogViewModel appLog, IList<AppLog> appLogsIgnored)
+        {
+            if (appLog.GroupChat != null && !IsIgnoreMessage(appLogsIgnored, appLog.Message))
+            {
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(Directory.GetCurrentDirectory() + @"/logs.txt", true))
+                {
+                    file.WriteLine(appLog.Category.CategoryName);
+                    file.WriteLine(appLog.Message);
+                }
+
+                var vars = new Dictionary<string, string>
+                                {
+                                    { "category", appLog.Category.CategoryName },
+                                    { "timestamp", appLog.Timestamp.ToShortTimeString() + " (GMT-4)" },
+                                    { "severity", appLog.Severity },
+                                    { "message", appLog.Message },
+                                    { "url", appLog.Url.ToString() },
+                                    { "referrer", appLog.Referrer },
+                                    { "domain", appLog.AppDomainName },
+                                    { "machine", appLog.Machine.MachineIP }
+                                };
+                var targets = appLog.GroupChat.Targets.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var target in targets)
+                {
+                    SendMessage(target, vars);
+                }
+            }
+        }
 
         private static bool IsIgnoreMessage(IList<AppLog> appLogs, string message)
         {
             foreach (var applog in appLogs)
             {
-                if (message.IndexOf(applog.Message) != -1)
+                if (message.IndexOf(applog.Message, StringComparison.OrdinalIgnoreCase) != -1)
                 {
                     return true;
                 }

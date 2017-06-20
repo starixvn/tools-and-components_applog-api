@@ -24,30 +24,21 @@ namespace Fanex.AutoBotChat.DBANotificationConsole
 
         static void Main(string[] args)
         {
-            try
-            {
-                DbSettingProviderManager.Current.Start();
-                _DBANotificationLogService = new DBANotificationLogService();
-                _umService = new UMBusiness();                
-                _environmentServers = ConfigurationManager.AppSettings["Environtment-Servers"];
-                _environmentAuthKey = ConfigurationManager.AppSettings["Environtment-AuthKey"];
+            DbSettingProviderManager.Current.Start();
+            _DBANotificationLogService = new DBANotificationLogService();
+            _umService = new UMBusiness();
+            _environmentServers = ConfigurationManager.AppSettings["Environtment-Servers"];
+            _environmentAuthKey = ConfigurationManager.AppSettings["Environtment-AuthKey"];
 
-                Process();
-            }
-            catch (Exception ex)
-            {
-                System.Console.WriteLine(ex.Message);
-                System.Console.ReadKey();
-            }
+            Process();
         }
 
         private static void Process()
-        {
-            var dbaNotificationLogs = new List<DBANotificationLogViewModel>();
+        {            
             bool isUnderMaintenance = _umService.isUnderMaintainence(Sites.Agency, ConfigurationManager.AppSettings["UnderMaintenanceUrl"]);
             if (!isUnderMaintenance)
             {
-                dbaNotificationLogs = _DBANotificationLogService.GetDBANotificationLog().ToList();                
+               var dbaNotificationLogs = _DBANotificationLogService.GetDBANotificationLog().ToList();                
                 if (dbaNotificationLogs.Count > 0)
                 {
                     foreach (var dbaNotificationLog in dbaNotificationLogs)
@@ -56,35 +47,24 @@ namespace Fanex.AutoBotChat.DBANotificationConsole
                             {
                                 { "Title", dbaNotificationLog.Title },
                                 { "ServerName", dbaNotificationLog.ServerName },
-                                { "LogDate", dbaNotificationLog.LogDate.ToString() },
+                                { "LogDate", dbaNotificationLog.LogDate.ToLongDateString() },
                                 { "Message", dbaNotificationLog.MsgInfo }
                             };
                         var target = dbaNotificationLog.TargetName;
 
-
-                        System.Console.WriteLine(target);
-
-                        var result = SendMessage(target, vars);
-                        if (result)
-                        {
-                            System.Console.WriteLine("Message is sent.");
-                        }
-                        else
-                        {
-                            System.Console.WriteLine("Message cannot send.");
-                        }
+                        SendMessage(target, vars);
                     }
                 }
             }
         }
 
-        private static bool SendMessage(string targetName, Dictionary<string, string> vars)
+        private static void SendMessage(string targetName, Dictionary<string, string> vars)
         {
 
-            var serverUrls = _environmentServers.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var serverUrls = _environmentServers.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             Notification.Initialize(serverUrls, _environmentAuthKey);
 
-            return Notification.Send(targetName, vars, null, null);
+            Notification.Send(targetName, vars);
         }
     }
 }

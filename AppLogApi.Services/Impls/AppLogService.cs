@@ -46,30 +46,31 @@
 
         public IList<AppLogViewModel> MappGroupChatAndGenerateUrlAndReferrer(string groupChatXmlPath, IList<AppLogViewModel> appLogs)
         {
-            IList<GroupChat> groupChats = GetGroupChat(groupChatXmlPath);
+            var groupChats = GetGroupChat(groupChatXmlPath);
+            var appLogList = new List<AppLogViewModel>();
 
             if (groupChats != null && groupChats.Count > 0)
             {
-                appLogs.Select(log =>
-                {
-                    var groupChat = groupChats
-                        .FirstOrDefault(g => g.LogCategory.Equals(log.Category.CategoryName, System.StringComparison.InvariantCultureIgnoreCase));
+                appLogList = appLogs.Select(log =>
+                 {
+                     var groupChat = groupChats
+                         .FirstOrDefault(g => g.LogCategory.Equals(log.Category.CategoryName, System.StringComparison.InvariantCultureIgnoreCase));
 
-                    if (groupChat != null)
-                    {
-                        log.GroupChat = groupChat;
-                    }
+                     if (groupChat != null)
+                     {
+                         log.GroupChat = groupChat;
+                     }
 
-                    log = GenerateUrlAndReferrer(log);
+                    var generatedLog = GenerateUrlAndReferrer(log);
 
-                    return log;
+                    return generatedLog;
 
-                })
+                 })
                 .Where(x => x != null)
                 .ToList();
             }
 
-            return appLogs;
+            return appLogList;
         }
 
 
@@ -113,7 +114,7 @@
             }
 
             log.Message = content;
-            log.Url = url;
+            log.Url = new Uri(url);
             log.Referrer = referrer;
 
             return log;
@@ -122,7 +123,7 @@
         private string IgnoreMessage(string message)
         {
             if (ignoreMessages.Contains(message))
-            { 
+            {
                 return null;
             }
 
