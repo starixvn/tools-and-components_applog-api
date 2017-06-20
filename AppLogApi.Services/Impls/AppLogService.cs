@@ -122,11 +122,14 @@
         private string IgnoreMessage(string message)
         {
             if (ignoreMessages.Contains(message))
+            { 
                 return null;
+            }
+
             return message;
         }
 
-        private string GetContentFromMessage(string message, string contentKey)
+        private static string GetContentFromMessage(string message, string contentKey)
         {
             string resultContent = string.Empty;
             int startIndex = 0;
@@ -159,7 +162,7 @@
             return resultContent;
         }
 
-        private IList<GroupChat> GetGroupChat(string groupChatXmlPath)
+        private static IList<GroupChat> GetGroupChat(string groupChatXmlPath)
         {
             var groupChats = new List<GroupChat>();
 

@@ -18,8 +18,7 @@ namespace Fanex.AutoBotChat.DBANotificationConsole
     static class Program
     {
         private static IDBANotificationLogService _DBANotificationLogService;
-        private static UMBusiness _umService;
-        private static int _interval = 0;
+        private static UMBusiness _umService;        
         private static string _environmentServers = string.Empty;
         private static string _environmentAuthKey = string.Empty;
 
@@ -29,8 +28,7 @@ namespace Fanex.AutoBotChat.DBANotificationConsole
             {
                 DbSettingProviderManager.Current.Start();
                 _DBANotificationLogService = new DBANotificationLogService();
-                _umService = new UMBusiness();
-                _interval = Convert.ToInt32(ConfigurationManager.AppSettings["interval"]);
+                _umService = new UMBusiness();                
                 _environmentServers = ConfigurationManager.AppSettings["Environtment-Servers"];
                 _environmentAuthKey = ConfigurationManager.AppSettings["Environtment-AuthKey"];
 
@@ -49,13 +47,12 @@ namespace Fanex.AutoBotChat.DBANotificationConsole
             bool isUnderMaintenance = _umService.isUnderMaintainence(Sites.Agency, ConfigurationManager.AppSettings["UnderMaintenanceUrl"]);
             if (!isUnderMaintenance)
             {
-                dbaNotificationLogs = _DBANotificationLogService.GetDBANotificationLog().ToList();
-                System.Console.WriteLine("appLogs counter item " + dbaNotificationLogs.Count());
+                dbaNotificationLogs = _DBANotificationLogService.GetDBANotificationLog().ToList();                
                 if (dbaNotificationLogs.Count > 0)
                 {
                     foreach (var dbaNotificationLog in dbaNotificationLogs)
                     {
-                        var vars = new Dictionary<string, string>()
+                        var vars = new Dictionary<string, string>
                             {
                                 { "Title", dbaNotificationLog.Title },
                                 { "ServerName", dbaNotificationLog.ServerName },

@@ -48,10 +48,9 @@ namespace Fanex.AutoBotChat.Console
 
         public static void Process()
         {
-            var criteria = new GetAppLogCriteria()
+            var criteria = new GetAppLogCriteria
             {
-                ClientTimeZone = -4,
-                //FromDate = DateTime.Now.AddDays(-1),
+                ClientTimeZone = -4,                
                 FromDate =DateTime.Now.AddMinutes(-_interval),
                 ToDate = DateTime.Now,
                 IsProduction = true,
@@ -62,8 +61,7 @@ namespace Fanex.AutoBotChat.Console
 
             if (!isUnderMaintenance)
             {
-                appLogs = _appLogService.GetAppLog(criteria).ToList();
-                System.Console.WriteLine("appLogs counter item " + appLogs.Count());
+                appLogs = _appLogService.GetAppLog(criteria).ToList();                
 
                 var ignoreAppLogsXmlPath = AppDomain.CurrentDomain.BaseDirectory + "/App_Data/IgnoreMessages.xml";
 
@@ -75,8 +73,7 @@ namespace Fanex.AutoBotChat.Console
                     var appLogsIgnored = _appLogService.GetIgnoreMessage(ignoreAppLogsXmlPath);
 
                     foreach (var appLog in appLogs)
-                    {
-                        System.Console.WriteLine(appLog.Category.CategoryName);
+                    {                        
                         if (appLog.GroupChat != null)
                         {
                             if (!IsIgnoreMessage(appLogsIgnored, appLog.Message))
@@ -87,10 +84,10 @@ namespace Fanex.AutoBotChat.Console
                                     file.WriteLine(appLog.Message);                                    
                                 }
 
-                                var vars = new Dictionary<string, string>()
+                                var vars = new Dictionary<string, string>
                                 {
                                     { "category", appLog.Category.CategoryName },
-                                    { "timestamp", appLog.Timestamp.ToString() + " (GMT-4)" },
+                                    { "timestamp", appLog.Timestamp.ToShortTimeString() + " (GMT-4)" },
                                     { "severity", appLog.Severity },
                                     { "message", appLog.Message },
                                     { "url", appLog.Url },
@@ -116,7 +113,7 @@ namespace Fanex.AutoBotChat.Console
             var serverUrls = _environmentServers.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             Notification.Initialize(serverUrls, _environmentAuthKey);
 
-            return Notification.Send(targetName, vars, null, null);
+            return Notification.Send(targetName, vars);
         }        
 
         private static bool IsIgnoreMessage(IList<AppLog> appLogs, string message)
