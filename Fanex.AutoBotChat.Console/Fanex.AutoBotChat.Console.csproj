@@ -119,6 +119,9 @@
     <None Include="App_Data\RnD-BOTCHAT-ErrorLog\target.config" />
     <None Include="App_Data\Sparta-BOTCHAT-ErrorLog\target.config" />
     <None Include="App_Data\public.snk" />
+    <Content Include="Configuration\Fanex.AutoBotChat.Console.exe.pro.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Fanex.AutoBotChat.Console.ruleset" />
     <None Include="packages.config" />
   </ItemGroup>
