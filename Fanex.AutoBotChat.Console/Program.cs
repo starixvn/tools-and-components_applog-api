@@ -34,7 +34,6 @@ namespace Fanex.AutoBotChat.Console
             _interval = Convert.ToInt32(ConfigurationManager.AppSettings["interval"]);
             _environmentServers = ConfigurationManager.AppSettings["Environtment-Servers"];
             _environmentAuthKey = ConfigurationManager.AppSettings["Environtment-AuthKey"];
-            _interval = 0;
 
             Processing();
         }
@@ -56,11 +55,11 @@ namespace Fanex.AutoBotChat.Console
             {
                 var appLogs = _appLogService.GetAppLog(criteria).ToList();
 
-                System.Console.WriteLine("Get Log Data from Database:" + appLogs.Count().ToString());
-                foreach (var applog in appLogs)
-                {
-                    System.Console.WriteLine(applog.Message);
-                }
+                //System.Console.WriteLine("Get Log Data from Database:" + appLogs.Count().ToString());
+                //foreach (var applog in appLogs)
+                //{
+                //    System.Console.WriteLine(applog.Message);
+                //}
 
                 var ignoreAppLogsXmlPath = AppDomain.CurrentDomain.BaseDirectory + "/App_Data/IgnoreMessages.xml";
 
