@@ -114,7 +114,7 @@
             }
 
             log.Message = content;
-            log.Url = new Uri(url);
+            log.LogUrl = url;
             log.Referrer = referrer;
 
             return log;

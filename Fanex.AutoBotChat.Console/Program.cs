@@ -97,7 +97,7 @@ namespace Fanex.AutoBotChat.Console
                                     { "timestamp", appLog.Timestamp.ToShortTimeString() + " (GMT-4)" },
                                     { "severity", appLog.Severity },
                                     { "message", appLog.Message },
-                                    { "url", appLog.Url.ToString() },
+                                    { "url", appLog.LogUrl },
                                     { "referrer", appLog.Referrer },
                                     { "domain", appLog.AppDomainName },
                                     { "machine", appLog.Machine.MachineIP }
