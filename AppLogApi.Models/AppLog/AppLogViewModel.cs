@@ -20,7 +20,7 @@
 
         public GroupChat GroupChat { get; set; }
 
-        public string LogUrl { get; set; }
+        public string SiteAddress { get; set; }
 
         public string Referrer { get; set; }
     }
