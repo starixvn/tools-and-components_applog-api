@@ -56,6 +56,12 @@ namespace Fanex.AutoBotChat.Console
             {
                 var appLogs = _appLogService.GetAppLog(criteria).ToList();
 
+                System.Console.WriteLine("Get Log Data from Database:" + appLogs.Count().ToString());
+                foreach (var applog in appLogs)
+                {
+                    System.Console.WriteLine(applog.Message);
+                }
+
                 var ignoreAppLogsXmlPath = AppDomain.CurrentDomain.BaseDirectory + "/App_Data/IgnoreMessages.xml";
 
                 if (appLogs.Count > 0)
