@@ -54,12 +54,7 @@
     <Url>N/A</Url>
     <Referrer>N/A</Referrer>
     <Message>Invalid attempt to read when no data is present.</Message>
-  </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
-    <Message>Login failed for user 'bodbDownlineNet'.</Message>
-  </AppLog>
+  </AppLog> 
   <AppLog>
     <Url>N/A</Url>
     <Referrer>N/A</Referrer>
