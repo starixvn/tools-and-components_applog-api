@@ -75,4 +75,9 @@
     <Referrer>N/A</Referrer>
     <Message>Child actions are not allowed to perform redirect actions</Message>
   </AppLog>
+  <AppLog>
+    <Url>N/A</Url>
+    <Referrer>N/A</Referrer>
+    <Message>Result.Core Exception. Exception: Index was outside the bounds of the array.</Message>
+  </AppLog>
 </AppLogs>
