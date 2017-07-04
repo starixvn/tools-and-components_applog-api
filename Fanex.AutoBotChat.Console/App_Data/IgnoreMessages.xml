@@ -1,83 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <AppLogs>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog>   
     <Message>Thread was being aborted.</Message>
   </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog>   
     <Message>Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding.</Message>
   </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog> 
     <Message>Specified argument was out of the range of valid values.</Message>
   </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog>  
     <Message>Object reference not set to an instance of an object.</Message>
   </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog>   
     <Message>Server cannot set status after HTTP headers have been sent.</Message>
   </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog>  
     <Message>Additional non-parsable characters are at the end of the string.</Message>
   </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog>   
     <Message>Input string was not in a correct format.</Message>
   </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog>  
     <Message>The model item passed into the dictionary is of type 'System.Web.Mvc.HandleErrorInfo', but this dictionary requires a model item of type 'Fanex.Alpha.Before.Customer.Models.SignInResult'.</Message>
   </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog>  
     <Message>Could not find any recognizable digits.</Message>
   </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog> 
     <Message>Error converting data type nvarchar to bigint.</Message>
   </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog>   
     <Message>Invalid attempt to read when no data is present.</Message>
   </AppLog> 
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog>   
     <Message>Cannot verify request key</Message>
   </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog>   
     <Message>was deadlocked on lock resources with another process and has been chosen as the deadlock victim</Message>
   </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog> 
     <Message>A task was canceled</Message>
   </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog>   
     <Message>Child actions are not allowed to perform redirect actions</Message>
   </AppLog>
-  <AppLog>
-    <Url>N/A</Url>
-    <Referrer>N/A</Referrer>
+  <AppLog>   
     <Message>Result.Core Exception. Exception: Index was outside the bounds of the array.</Message>
   </AppLog>
 </AppLogs>

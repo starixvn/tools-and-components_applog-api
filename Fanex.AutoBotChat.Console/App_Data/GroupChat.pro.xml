@@ -112,11 +112,11 @@
         <LogCategory>NAP-Home</LogCategory>
         <Targets>Rome-BOTCHAT-ErrorLog</Targets>
     </GroupChat>
-    <GroupChat>
+  <GroupChat IsIgnore="true">
         <LogCategory>Nap-Report</LogCategory>
         <Targets>Olympus-BOTCHAT-ErrorLog</Targets>
     </GroupChat>
-    <GroupChat>
+  <GroupChat IsIgnore="true">
         <LogCategory>NAP-Report-Service</LogCategory>
         <Targets>Olympus-BOTCHAT-ErrorLog</Targets>
     </GroupChat>

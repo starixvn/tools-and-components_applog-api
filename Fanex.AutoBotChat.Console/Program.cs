@@ -65,7 +65,7 @@ namespace Fanex.AutoBotChat.Console
                     var appLogsIgnored = _appLogService.GetIgnoreMessage(ignoreAppLogsXmlPath);
 
                     foreach (var appLog in appLogs)
-                    {                       
+                    {
                         AssignMessageData(appLog, appLogsIgnored);
                     }
                 }
@@ -82,7 +82,7 @@ namespace Fanex.AutoBotChat.Console
 
         private static void AssignMessageData(AppLogViewModel appLog, IList<AppLog> appLogsIgnored)
         {
-            if (appLog.GroupChat != null && !IsIgnoreMessage(appLogsIgnored, appLog.Message))
+            if (appLog.GroupChat != null && !IsIgnoreMessage(appLogsIgnored, appLog) && !appLog.GroupChat.IsIgnore)
             {
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(Directory.GetCurrentDirectory() + @"/logs.txt", true))
                 {
@@ -110,11 +110,11 @@ namespace Fanex.AutoBotChat.Console
             }
         }
 
-        private static bool IsIgnoreMessage(IList<AppLog> appLogs, string message)
+        private static bool IsIgnoreMessage(IList<AppLog> ignoreLogs, AppLogViewModel appLog)
         {
-            foreach (var applog in appLogs)
+            foreach (var ignoreLog in ignoreLogs)
             {
-                if (message.IndexOf(applog.Message, StringComparison.OrdinalIgnoreCase) != -1)
+                if (ignoreLog.IsIgnoreCategory(appLog.Category.CategoryName) && appLog.Message.IndexOf(ignoreLog.Message, StringComparison.OrdinalIgnoreCase) != -1)
                 {
                     return true;
                 }

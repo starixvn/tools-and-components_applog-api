@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <GroupChats>
-  <GroupChat>
+  <GroupChat IsIgnore="true">
     <LogCategory>Affiliate-12Bet-LOCAL</LogCategory>
     <Targets>[AFFILIATE]-247</Targets>
   </GroupChat>
@@ -116,11 +116,11 @@
     <LogCategory>NAP-Home-LOCAL</LogCategory>
     <Targets>Alpha-BOTCHAT-ErrorLog</Targets>
   </GroupChat>
-  <GroupChat>
+  <GroupChat IsIgnore="true">
     <LogCategory>Nap-Report-LOCAL</LogCategory>
     <Targets>Alpha-BOTCHAT-ErrorLog</Targets>
   </GroupChat>
-  <GroupChat>
+  <GroupChat IsIgnore="true">
     <LogCategory>NAP-Report-Service-LOCAL</LogCategory>
     <Targets>Alpha-BOTCHAT-ErrorLog</Targets>
   </GroupChat>
