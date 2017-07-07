@@ -33,17 +33,12 @@ namespace AppLogApi.Models.AppLog
 
         public bool IsIgnoreMessage(string message)
         {
-            if (!string.IsNullOrWhiteSpace(message) && string.IsNullOrWhiteSpace(Message))
+            if (Message.IndexOf(message, StringComparison.OrdinalIgnoreCase) != -1)
             {
-                if (Message.IndexOf(message, StringComparison.OrdinalIgnoreCase) != -1)
-                { 
-                    return true;
-                }
-
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         public bool IsIgnoreDomain(string siteAddress)

@@ -4,6 +4,8 @@ Local Time: {{localtime}}
 Severity: {{severity}}
 Message: {{message}}
 URL: {{url}}
-REFERRER: {{referrer}}
-DOMAIN: {{domain}}
-MACHINE: {{machine}}
+Referrer: {{referrer}}
+Domain: {{domain}}
+Machine: {{machine}}
+Client Ip: {{clientip}}
+CustId:	{{custid}}

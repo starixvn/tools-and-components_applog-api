@@ -21,5 +21,9 @@
         public GroupChat GroupChat { get; set; }
 
         public string Referrer { get; set; }
+
+        public string CustId { get; set; }
+
+        public string ClientIp { get; set; }
     }
 }

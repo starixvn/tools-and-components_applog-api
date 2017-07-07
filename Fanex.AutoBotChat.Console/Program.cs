@@ -40,8 +40,8 @@ namespace Fanex.AutoBotChat.Console
 
             Processing();
 
-           
-        }       
+
+        }
 
         public static void Processing()
         {
@@ -94,7 +94,7 @@ namespace Fanex.AutoBotChat.Console
                     file.WriteLine(appLog.Category.CategoryName);
                     file.WriteLine(appLog.Message);
                 }
-                
+
                 var vars = new Dictionary<string, string>
                                 {
                                     { "category", appLog.Category.CategoryName },
@@ -105,7 +105,9 @@ namespace Fanex.AutoBotChat.Console
                                     { "url", appLog.SiteAddress },
                                     { "referrer", appLog.Referrer },
                                     { "domain", appLog.AppDomainName },
-                                    { "machine", appLog.Machine.MachineIP }
+                                    { "machine", appLog.Machine.MachineIP },
+                                    { "clientip", appLog.ClientIp },
+                                    { "custid", appLog.CustId }
 
                                 };
                 var targets = appLog.GroupChat.Targets.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);

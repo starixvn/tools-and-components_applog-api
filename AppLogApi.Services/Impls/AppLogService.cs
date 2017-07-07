@@ -97,7 +97,8 @@
             string message = GetContentFromMessage(log.Message, "Message:");
             string url = GetContentFromMessage(log.Message, "Url:");
             string referrer = GetContentFromMessage(log.Message, "REFERRER:");
-
+            string clientIp = GetContentFromMessage(log.Message, "CLIENT IP:");
+            string custid = GetContentFromMessage(log.Message, "CUSTID:");
             if (string.IsNullOrWhiteSpace(url))
             {
                 url = "N/A";
@@ -108,6 +109,16 @@
                 referrer = "N/A";
             }
 
+            if (string.IsNullOrWhiteSpace(custid))
+            {
+                custid = "N/A";
+            }
+
+            if (string.IsNullOrWhiteSpace(clientIp))
+            {
+                clientIp = "N/A";
+            }
+
             if (IgnoreMessage(message) == null)
             {
                 return null;
@@ -116,6 +127,8 @@
             log.Message = content;
             log.SiteAddress = url;
             log.Referrer = referrer;
+            log.ClientIp = clientIp;
+            log.CustId = custid;
 
             return log;
         }
