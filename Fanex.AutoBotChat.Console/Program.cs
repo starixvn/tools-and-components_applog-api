@@ -48,14 +48,10 @@ namespace Fanex.AutoBotChat.Console
 
         public static void WriteLog()
         {
-            // Write the string to a file.
-            System.IO.StreamWriter file = new System.IO.StreamWriter(_logPath, true);
-            foreach (var log in Logs)
+            using (StreamWriter file = new StreamWriter(_logPath, false))
             {
-                file.WriteLine(log);
-            }
-
-            file.Close();
+                file.WriteLine(Logs);
+            }           
         }
 
         public static void Processing()
