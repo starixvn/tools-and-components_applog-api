@@ -1,5 +1,6 @@
 Category: {{category}}
-Timestamp: {{timestamp}}
+Server Time: {{timestamp}}
+Local Time: {{localtime}}
 Severity: {{severity}}
 Message: {{message}}
 URL: {{url}}

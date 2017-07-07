@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
 using System.Linq;
@@ -23,9 +24,10 @@ namespace Fanex.AutoBotChat.Console
     {
         private static IAppLogService _appLogService;
         private static UMBusiness _umService;
-        private static int _interval;
+        private static int _interval = 1;
         private static string _environmentServers = string.Empty;
         private static string _environmentAuthKey = string.Empty;
+        private static bool _isProduction;
         static void Main(string[] args)
         {
             DbSettingProviderManager.Current.Start();
@@ -34,9 +36,12 @@ namespace Fanex.AutoBotChat.Console
             _interval = Convert.ToInt32(ConfigurationManager.AppSettings["interval"]);
             _environmentServers = ConfigurationManager.AppSettings["Environtment-Servers"];
             _environmentAuthKey = ConfigurationManager.AppSettings["Environtment-AuthKey"];
+            _isProduction = Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"]);
 
             Processing();
-        }
+
+           
+        }       
 
         public static void Processing()
         {
@@ -45,9 +50,9 @@ namespace Fanex.AutoBotChat.Console
                 ClientTimeZone = -4,
                 FromDate = DateTime.Now.AddMinutes(-_interval),
                 ToDate = DateTime.Now,
-                IsProduction = true,
+                IsProduction = _isProduction,
                 Severity = "Error,Critical"
-            };           
+            };
 
             bool isUnderMaintenance = _umService.isUnderMaintainence(Sites.Agency, ConfigurationManager.AppSettings["UnderMaintenanceUrl"]);
 
@@ -89,11 +94,12 @@ namespace Fanex.AutoBotChat.Console
                     file.WriteLine(appLog.Category.CategoryName);
                     file.WriteLine(appLog.Message);
                 }
-
+                
                 var vars = new Dictionary<string, string>
                                 {
                                     { "category", appLog.Category.CategoryName },
                                     { "timestamp", appLog.Timestamp.ToShortTimeString() + " (GMT-4)" },
+                                    { "localtime", ConvertToGMT7(appLog.Timestamp).ToShortTimeString() + " (GMT+7)" },
                                     { "severity", appLog.Severity },
                                     { "message", appLog.Message },
                                     { "url", appLog.SiteAddress },
@@ -115,13 +121,21 @@ namespace Fanex.AutoBotChat.Console
         {
             foreach (var ignoreLog in ignoreLogs)
             {
-                if (ignoreLog.IsIgnoreMessage(appLog.Message) && ignoreLog.IsIgnoreDomain(appLog.SiteAddress) && ignoreLog.IsIgnoreCategory(appLog.Category.CategoryName))
+                if (ignoreLog.IsIgnoreMessage(appLog.Message))
                 {
                     return true;
                 }
             }
 
             return false;
+        }
+        private static DateTime ConvertToGMT7(DateTime fromDate)
+        {
+            var toTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            var fromTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Western Standard Time");
+            DateTime convertedTime = TimeZoneInfo.ConvertTime(fromDate, fromTimeZone, toTimeZone);
+
+            return convertedTime;
         }
     }
 }
