@@ -47,7 +47,7 @@ namespace Fanex.AutoBotChat.Console
                 ToDate = DateTime.Now,
                 IsProduction = true,
                 Severity = "Error,Critical"
-            };
+            };           
 
             bool isUnderMaintenance = _umService.isUnderMaintainence(Sites.Agency, ConfigurationManager.AppSettings["UnderMaintenanceUrl"]);
 
@@ -100,6 +100,7 @@ namespace Fanex.AutoBotChat.Console
                                     { "referrer", appLog.Referrer },
                                     { "domain", appLog.AppDomainName },
                                     { "machine", appLog.Machine.MachineIP }
+
                                 };
                 var targets = appLog.GroupChat.Targets.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
 
@@ -114,7 +115,7 @@ namespace Fanex.AutoBotChat.Console
         {
             foreach (var ignoreLog in ignoreLogs)
             {
-                if (ignoreLog.IsIgnoreCategory(appLog.Category.CategoryName) && appLog.Message.IndexOf(ignoreLog.Message, StringComparison.OrdinalIgnoreCase) != -1)
+                if (ignoreLog.IsIgnoreMessage(appLog.Message) && ignoreLog.IsIgnoreDomain(appLog.SiteAddress) && ignoreLog.IsIgnoreCategory(appLog.Category.CategoryName))
                 {
                     return true;
                 }

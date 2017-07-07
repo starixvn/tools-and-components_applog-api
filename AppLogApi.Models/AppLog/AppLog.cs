@@ -13,6 +13,8 @@ namespace AppLogApi.Models.AppLog
         [XmlAttribute]
         public string Categories { get; set; }
 
+        public string SiteAddress { get; set; }
+
         public bool IsIgnoreCategory(string category)
         {
             if (!string.IsNullOrWhiteSpace(Categories) && !string.IsNullOrWhiteSpace(category))
@@ -21,6 +23,36 @@ namespace AppLogApi.Models.AppLog
                 if (listOfCategory.Count > 0)
                 {
                     return listOfCategory.Contains(category);
+                }
+
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool IsIgnoreMessage(string message)
+        {
+            if (!string.IsNullOrWhiteSpace(message) && string.IsNullOrWhiteSpace(Message))
+            {
+                if (Message.IndexOf(message, StringComparison.OrdinalIgnoreCase) != -1)
+                { 
+                    return true;
+                }
+
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool IsIgnoreDomain(string siteAddress)
+        {
+            if (!string.IsNullOrWhiteSpace(SiteAddress) && siteAddress != "N/A")
+            {
+                if (SiteAddress.IndexOf(siteAddress, StringComparison.OrdinalIgnoreCase) != -1)
+                {
+                    return true;
                 }
 
                 return false;
