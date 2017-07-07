@@ -28,6 +28,8 @@ namespace Fanex.AutoBotChat.Console
         private static string _environmentServers = string.Empty;
         private static string _environmentAuthKey = string.Empty;
         private static bool _isProduction;
+        private static string _logPath = string.Empty;
+        private static IList<string> Logs;
         static void Main(string[] args)
         {
             DbSettingProviderManager.Current.Start();
@@ -37,10 +39,23 @@ namespace Fanex.AutoBotChat.Console
             _environmentServers = ConfigurationManager.AppSettings["Environtment-Servers"];
             _environmentAuthKey = ConfigurationManager.AppSettings["Environtment-AuthKey"];
             _isProduction = Convert.ToBoolean(ConfigurationManager.AppSettings["IsProduction"]);
+            _logPath = ConfigurationManager.AppSettings["LogPath"];
+            Logs = new List<string>();
 
             Processing();
+            WriteLog();
+        }
 
+        public static void WriteLog()
+        {
+            // Write the string to a file.
+            System.IO.StreamWriter file = new System.IO.StreamWriter(_logPath, true);
+            foreach (var log in Logs)
+            {
+                file.WriteLine(log);
+            }
 
+            file.Close();
         }
 
         public static void Processing()
@@ -59,6 +74,7 @@ namespace Fanex.AutoBotChat.Console
             if (!isUnderMaintenance)
             {
                 var appLogs = _appLogService.GetAppLog(criteria).ToList();
+                Logs.Add("Get applog data: " + appLogs.Count.ToString());
 
                 var ignoreAppLogsXmlPath = AppDomain.CurrentDomain.BaseDirectory + "/App_Data/IgnoreMessages.xml";
 
@@ -67,6 +83,8 @@ namespace Fanex.AutoBotChat.Console
                     string groupChatXmlPath = AppDomain.CurrentDomain.BaseDirectory + "/App_Data/GroupChat.xml";
 
                     appLogs = _appLogService.MappGroupChatAndGenerateUrlAndReferrer(groupChatXmlPath, appLogs).ToList();
+                    Logs.Add("Mapped group chat: " + appLogs.Count.ToString());
+
                     var appLogsIgnored = _appLogService.GetIgnoreMessage(ignoreAppLogsXmlPath);
 
                     foreach (var appLog in appLogs)
@@ -89,12 +107,6 @@ namespace Fanex.AutoBotChat.Console
         {
             if (appLog.GroupChat != null && !IsIgnoreMessage(appLogsIgnored, appLog) && !appLog.GroupChat.IsIgnore)
             {
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(Directory.GetCurrentDirectory() + @"/logs.txt", true))
-                {
-                    file.WriteLine(appLog.Category.CategoryName);
-                    file.WriteLine(appLog.Message);
-                }
-
                 var vars = new Dictionary<string, string>
                                 {
                                     { "category", appLog.Category.CategoryName },
@@ -116,6 +128,8 @@ namespace Fanex.AutoBotChat.Console
                 {
                     SendMessage(target, vars);
                 }
+
+                Logs.Add("Message is sent: " + appLog.Message);
             }
         }
 
@@ -125,6 +139,7 @@ namespace Fanex.AutoBotChat.Console
             {
                 if (ignoreLog.IsIgnoreMessage(appLog.Message))
                 {
+                    Logs.Add("Ignored message: " + appLog.Message);
                     return true;
                 }
             }

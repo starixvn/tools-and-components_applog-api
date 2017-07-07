@@ -123,6 +123,10 @@
     <None Include="App_Data\RnD-BOTCHAT-ErrorLog\target.config" />
     <None Include="App_Data\Sparta-BOTCHAT-ErrorLog\target.config" />
     <None Include="App_Data\public.snk" />
+    <Content Include="App_Data\SpNames.pro.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Configuration\Fanex.AutoBotChat.Console.exe.pro.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

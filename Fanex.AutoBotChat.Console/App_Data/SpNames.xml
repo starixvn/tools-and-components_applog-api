@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions>
-    <Function Name="AppLog">
-        <Setting Key="IS_SelAppLog_All" SpName="IS_SelAppLog_All_V2" DbName="LogApi" Plain="0" />        
-        <!--<Setting Key="IS_SelAppLog_All" SpName="IS_SelAppLog_All_Billy" DbName="LogApi" Plain="0" />-->      
+    <Function Name="AppLog">             
+        <Setting Key="IS_SelAppLog_All" SpName="IS_SelAppLog_All_Billy" DbName="LogApi" Plain="0" />      
     </Function>
 </Functions>
