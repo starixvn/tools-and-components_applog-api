@@ -60,5 +60,10 @@
   <AppLog>
     <Message>Thread was being aborted.</Message>
   </AppLog>
-  
+  <AppLog>
+    <Message>Error on get action for logging:Object reference not set to an instance of an object</Message>
+  </AppLog>
+  <AppLog>
+    <Message>XML parsing: line 1, character 4000, equal expected</Message>
+  </AppLog>
 </AppLogs>
