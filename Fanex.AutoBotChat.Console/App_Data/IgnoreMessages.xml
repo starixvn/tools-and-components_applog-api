@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <AppLogs>
   <AppLog>
+    <Message>Thread was being aborted.</Message>
+  </AppLog>
+  <AppLog>
     <Message>Column 'closedreason' does not belong to table Table.</Message>    
   </AppLog>
   <AppLog>
@@ -56,10 +59,7 @@
   </AppLog>
   <AppLog>
     <Message>Login failed for user 'bodbLicenseeNet'. Reason: The account is disabled.</Message>
-  </AppLog>
-  <AppLog>
-    <Message>Thread was being aborted.</Message>
-  </AppLog>
+  </AppLog>  
   <AppLog>
     <Message>Error on get action for logging:Object reference not set to an instance of an object</Message>
   </AppLog>

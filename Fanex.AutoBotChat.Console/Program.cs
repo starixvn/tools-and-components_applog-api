@@ -44,6 +44,8 @@ namespace Fanex.AutoBotChat.Console
 
             Processing();
             WriteLog();
+
+            
         }
 
         public static void WriteLog()
