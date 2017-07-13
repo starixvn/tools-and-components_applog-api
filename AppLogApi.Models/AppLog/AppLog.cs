@@ -33,7 +33,7 @@ namespace AppLogApi.Models.AppLog
 
         public bool IsIgnoreMessage(string message)
         {
-            if (message.Trim().IndexOf(Message.Trim(), StringComparison.OrdinalIgnoreCase) != -1)
+            if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(Message) || message.Trim().IndexOf(Message.Trim(), StringComparison.OrdinalIgnoreCase) != -1)
             {
                 return true;
             }
