@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using AppLogApi.Criteria;
 using AppLogApi.Models.AppLog;
 using AppLogApi.Services.Impls;
 using AppLogApi.Services.Interfaces;
 using Fanex.Data.Configuration;
-using Newtonsoft.Json;
 using ONEbook.NotificationService;
-using RSACryptoPad;
 using Sunplus.UMControllerLibrary;
 
 namespace Fanex.AutoBotChat.Console
