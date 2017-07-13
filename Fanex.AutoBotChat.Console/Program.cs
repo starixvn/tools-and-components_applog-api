@@ -43,9 +43,7 @@ namespace Fanex.AutoBotChat.Console
             Logs = new List<string>();
 
             Processing();
-            WriteLog();
-
-            
+            WriteLog();            
         }
 
         public static void WriteLog()
@@ -103,20 +101,20 @@ namespace Fanex.AutoBotChat.Console
             if (appLog.GroupChat != null && !IsIgnoreMessage(appLogsIgnored, appLog) && !appLog.GroupChat.IsIgnore)
             {
                 var vars = new Dictionary<string, string>
-                                {
-                                    { "category", appLog.Category.CategoryName },
-                                    { "timestamp", appLog.Timestamp.ToShortTimeString() + " (GMT-4)" },
-                                    { "localtime", ConvertToGMT7(appLog.Timestamp).ToShortTimeString() + " (GMT+7)" },
-                                    { "severity", appLog.Severity },
-                                    { "message", appLog.Message },
-                                    { "url", appLog.SiteAddress },
-                                    { "referrer", appLog.Referrer },
-                                    { "domain", appLog.AppDomainName },
-                                    { "machine", appLog.Machine.MachineIP },
-                                    { "clientip", appLog.ClientIp },
-                                    { "custid", appLog.CustId }
+                {
+                    { "category", appLog.Category.CategoryName },
+                    { "timestamp", appLog.Timestamp.ToShortTimeString() + " (GMT-4)" },
+                    { "localtime", ConvertToGMT7(appLog.Timestamp).ToShortTimeString() + " (GMT+7)" },
+                    { "severity", appLog.Severity },
+                    { "message", appLog.Message },
+                    { "url", appLog.SiteAddress },
+                    { "referrer", appLog.Referrer },
+                    { "domain", appLog.AppDomainName },
+                    { "machine", appLog.Machine.MachineIP },
+                    { "clientip", appLog.ClientIp },
+                    { "custid", appLog.CustId }
 
-                                };
+                };
                 var targets = appLog.GroupChat.Targets.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var target in targets)

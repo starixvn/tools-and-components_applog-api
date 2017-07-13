@@ -55,10 +55,10 @@
     <Message>Result.Core Exception. Exception: Index was outside the bounds of the array.</Message>
   </AppLog>
   <AppLog>
-    <Message>Login failed for user 'bodbDownlineNet'. Reason: The account is disabled.</Message>
+    <Message>Login failed for user 'bodbDownlineNet'</Message>
   </AppLog>
   <AppLog>
-    <Message>Login failed for user 'bodbLicenseeNet'. Reason: The account is disabled.</Message>
+    <Message>Login failed for user 'bodbLicenseeNet'</Message>
   </AppLog>  
   <AppLog>
     <Message>Error on get action for logging:Object reference not set to an instance of an object</Message>
