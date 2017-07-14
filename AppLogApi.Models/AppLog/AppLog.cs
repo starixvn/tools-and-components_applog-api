@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace AppLogApi.Models.AppLog
@@ -19,7 +17,7 @@ namespace AppLogApi.Models.AppLog
         {
             if (!string.IsNullOrWhiteSpace(Categories) && !string.IsNullOrWhiteSpace(category))
             {
-                var listOfCategory = Categories.Split(new[] { ';', ',' }).Select(p=>p.Trim()).ToList();
+                var listOfCategory = Categories.Split(new[] { ';', ',' }).Select(p => p.Trim()).ToList();
                 if (listOfCategory.Count > 0)
                 {
                     return listOfCategory.Contains(category);

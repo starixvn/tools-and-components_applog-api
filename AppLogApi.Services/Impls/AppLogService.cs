@@ -1,21 +1,22 @@
 ﻿namespace AppLogApi.Services.Impls
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Xml.Serialization;
     using AppLogApi.Criteria;
     using AppLogApi.Models.AppLog;
     using AppLogApi.Repositories.Impls;
     using AppLogApi.Repositories.Interfaces;
     using AppLogApi.Services.Interfaces;
     using Fanex.Common.Helper;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Xml.Serialization;
 
     public class AppLogService : IAppLogService
     {
         private readonly IAppLogRepository _repository;
         private readonly List<string> ignoreMessages = new List<string>();
+
         public AppLogService()
             : this(null)
         {
@@ -23,7 +24,6 @@
             ignoreMessages.Add("Invalid attempt to read when no data is present.");
             ignoreMessages.Add("Object reference not set to an instance of an object.");
             ignoreMessages.Add("Server cannot set status after HTTP headers have been sent.");
-
         }
 
         public AppLogService(IAppLogRepository repository)
@@ -61,10 +61,9 @@
                          log.GroupChat = groupChat;
                      }
 
-                    var generatedLog = GenerateUrlAndReferrer(log);
+                     var generatedLog = GenerateUrlAndReferrer(log);
 
-                    return generatedLog;
-
+                     return generatedLog;
                  })
                 .Where(x => x != null)
                 .ToList();
@@ -72,7 +71,6 @@
 
             return appLogList;
         }
-
 
         public IList<AppLog> GetIgnoreMessage(string xmlPath)
         {
@@ -192,6 +190,5 @@
 
             return groupChats;
         }
-
     }
 }

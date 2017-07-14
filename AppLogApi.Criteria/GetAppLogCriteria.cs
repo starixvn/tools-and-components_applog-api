@@ -1,7 +1,7 @@
 ﻿namespace AppLogApi.Criteria
 {
-    using System;
     using Fanex.Data.Repository;
+    using System;
 
     public class GetAppLogCriteria : CriteriaBase
     {

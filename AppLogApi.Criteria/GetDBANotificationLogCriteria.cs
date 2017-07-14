@@ -1,6 +1,7 @@
 ﻿namespace AppLogApi.Criteria
 {
     using Fanex.Data.Repository;
+
     public class GetDBANotificationLogCriteria : CriteriaBase
     {
         public override string GetSettingKey()

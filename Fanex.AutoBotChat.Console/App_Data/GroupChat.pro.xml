@@ -26,28 +26,28 @@
   </GroupChat>
     <GroupChat>
         <LogCategory>Alpha-789y-AF</LogCategory>
-        <Targets>Alpha-BOTCHAT-ErrorLog</Targets>        
+        <Targets>Alpha-BOTCHAT-ErrorLog</Targets>
     </GroupChat>
     <GroupChat>
         <LogCategory>Alpha-789y-BF</LogCategory>
-        <Targets>Alpha-BOTCHAT-ErrorLog</Targets>        
+        <Targets>Alpha-BOTCHAT-ErrorLog</Targets>
     </GroupChat>
     <GroupChat>
         <LogCategory>Alpha-Internal</LogCategory>
-        <Targets>Alpha-BOTCHAT-ErrorLog</Targets>        
+        <Targets>Alpha-BOTCHAT-ErrorLog</Targets>
     </GroupChat>
     <GroupChat>
         <LogCategory>Alpha-MBC-AF</LogCategory>
-        <Targets>Alpha-BOTCHAT-ErrorLog</Targets>        
+        <Targets>Alpha-BOTCHAT-ErrorLog</Targets>
     </GroupChat>
 	<GroupChat>
         <LogCategory>Alpha-MBC-BF</LogCategory>
-        <Targets>Alpha-BOTCHAT-ErrorLog</Targets>        
+        <Targets>Alpha-BOTCHAT-ErrorLog</Targets>
     </GroupChat>
     <GroupChat>
         <LogCategory>Alpha-MBC-Smartphone</LogCategory>
-        <Targets>Alpha-BOTCHAT-ErrorLog</Targets>        
-    </GroupChat>   
+        <Targets>Alpha-BOTCHAT-ErrorLog</Targets>
+    </GroupChat>
     <GroupChat>
         <LogCategory>Fraud-Detection-Auto</LogCategory>
         <Targets>Alpha-BOTCHAT-ErrorLog1</Targets>
@@ -70,11 +70,11 @@
     </GroupChat>
     <GroupChat>
         <LogCategory>LiveCasino</LogCategory>
-        <Targets>Alpha-BOTCHAT-ErrorLog1</Targets>        
+        <Targets>Alpha-BOTCHAT-ErrorLog1</Targets>
     </GroupChat>
     <GroupChat>
         <LogCategory>LiveCasinoSetting</LogCategory>
-        <Targets>Alpha-BOTCHAT-ErrorLog1</Targets>        
+        <Targets>Alpha-BOTCHAT-ErrorLog1</Targets>
     </GroupChat>
     <GroupChat>
         <LogCategory>LiveChart</LogCategory>
@@ -131,7 +131,7 @@
     <GroupChat>
         <LogCategory>NAP U3</LogCategory>
         <Targets>Rome-BOTCHAT-ErrorLog</Targets>
-    </GroupChat>    
+    </GroupChat>
     <GroupChat>
         <LogCategory>NAP-Alpha-U3</LogCategory>
         <Targets>Rome-BOTCHAT-ErrorLog</Targets>

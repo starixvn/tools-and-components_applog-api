@@ -1,10 +1,8 @@
-﻿
-
-namespace AppLogApi.Repositories.Interfaces
+﻿namespace AppLogApi.Repositories.Interfaces
 {
-    using System.Collections.Generic;
     using Fanex.Data.Repository;
     using Models.AppLog;
+    using System.Collections.Generic;
 
     public interface IDBANotificationLogRepository
     {

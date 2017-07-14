@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppLogApi.Repositories", "AppLogApi.Repositories\AppLogApi.Repositories.csproj", "{A7FE671E-71DD-435F-8D96-BE54F60B877A}"
 EndProject
@@ -34,6 +34,28 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{
 		SonarQube\AutoBotChatCSharp.ruleset = SonarQube\AutoBotChatCSharp.ruleset
 		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A043D0A5-3893-4309-95E5-F80ED7B7F1FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3EB38406-1C42-4DC2-9036-A22F2BA43DC6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skype", "Skype", "{AB279804-125F-47A6-A648-691E657413CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Letstalk", "Letstalk", "{65DB34C0-CE38-4A4C-8FD6-22488B7431A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Letstalk.Bots.AppLogSender", "src\Letstalk\Letstalk.Bots.AppLogSender\Letstalk.Bots.AppLogSender.csproj", "{19037DA8-5DD3-45DC-8510-FA590A5A6302}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Letstalk.Bots.DatabaseLogSender", "src\Letstalk\Letstalk.Bots.DatabaseLogSender\Letstalk.Bots.DatabaseLogSender.csproj", "{DAD2825B-73CF-4FFC-A486-6109328339EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit", "unit", "{51D52E75-97D3-4986-B3AA-9A7248088381}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "integration", "integration", "{B7BDF267-E8EF-4157-AB94-584CEC19BC63}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Letstalk", "Letstalk", "{4BF9169B-F701-4ECB-9D4C-07C14C5A8A3C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skype", "Skype", "{6E55522F-3B57-4F51-922A-B04A24389371}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Letstalk.Bots.AppLogSender.UnitTests", "tests\Letstalk\unit\Letstalk.Bots.AppLogSender.UnitTests\Letstalk.Bots.AppLogSender.UnitTests.csproj", "{3B226016-65E6-4DD0-BC1A-E544DC0C7609}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,9 +91,32 @@ Global
 		{02F71502-0C9D-4AAE-87C7-562EEFC3BA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02F71502-0C9D-4AAE-87C7-562EEFC3BA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02F71502-0C9D-4AAE-87C7-562EEFC3BA91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19037DA8-5DD3-45DC-8510-FA590A5A6302}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19037DA8-5DD3-45DC-8510-FA590A5A6302}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19037DA8-5DD3-45DC-8510-FA590A5A6302}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19037DA8-5DD3-45DC-8510-FA590A5A6302}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAD2825B-73CF-4FFC-A486-6109328339EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAD2825B-73CF-4FFC-A486-6109328339EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAD2825B-73CF-4FFC-A486-6109328339EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAD2825B-73CF-4FFC-A486-6109328339EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B226016-65E6-4DD0-BC1A-E544DC0C7609}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B226016-65E6-4DD0-BC1A-E544DC0C7609}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B226016-65E6-4DD0-BC1A-E544DC0C7609}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B226016-65E6-4DD0-BC1A-E544DC0C7609}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AB279804-125F-47A6-A648-691E657413CF} = {A043D0A5-3893-4309-95E5-F80ED7B7F1FD}
+		{65DB34C0-CE38-4A4C-8FD6-22488B7431A7} = {A043D0A5-3893-4309-95E5-F80ED7B7F1FD}
+		{19037DA8-5DD3-45DC-8510-FA590A5A6302} = {65DB34C0-CE38-4A4C-8FD6-22488B7431A7}
+		{DAD2825B-73CF-4FFC-A486-6109328339EA} = {65DB34C0-CE38-4A4C-8FD6-22488B7431A7}
+		{51D52E75-97D3-4986-B3AA-9A7248088381} = {4BF9169B-F701-4ECB-9D4C-07C14C5A8A3C}
+		{B7BDF267-E8EF-4157-AB94-584CEC19BC63} = {4BF9169B-F701-4ECB-9D4C-07C14C5A8A3C}
+		{4BF9169B-F701-4ECB-9D4C-07C14C5A8A3C} = {3EB38406-1C42-4DC2-9036-A22F2BA43DC6}
+		{6E55522F-3B57-4F51-922A-B04A24389371} = {3EB38406-1C42-4DC2-9036-A22F2BA43DC6}
+		{3B226016-65E6-4DD0-BC1A-E544DC0C7609} = {51D52E75-97D3-4986-B3AA-9A7248088381}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45

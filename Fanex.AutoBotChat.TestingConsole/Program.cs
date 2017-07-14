@@ -1,18 +1,16 @@
-﻿using System;
+﻿using ONEbook.NotificationService;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ONEbook.NotificationService;
 
 namespace Fanex.AutoBotChat.TestingConsole
 {
-    class Program
+    internal class Program
     {
         private static string _environmentServers = string.Empty;
         private static string _environmentAuthKey = string.Empty;
-        static void Main(string[] args)
+
+        private static void Main(string[] args)
         {
             _environmentServers = ConfigurationManager.AppSettings["Environtment-Servers"];
             _environmentAuthKey = ConfigurationManager.AppSettings["Environtment-AuthKey"];
@@ -28,7 +26,6 @@ namespace Fanex.AutoBotChat.TestingConsole
                                 { "ServerName","Testing Server Name" },
                                 { "LogDate", DateTime.Now.ToString() },
                                 { "Message", message }
-
                             };
             try
             {
@@ -37,11 +34,10 @@ namespace Fanex.AutoBotChat.TestingConsole
                 if (result)
                 {
                     Console.WriteLine("Message is sent");
-                }                                
+                }
             }
             catch (Exception ex)
             {
-
                 Console.WriteLine(ex.Message);
             }
             Console.ReadKey();
@@ -49,7 +45,6 @@ namespace Fanex.AutoBotChat.TestingConsole
 
         public static bool SendMessage(string targetName, Dictionary<string, string> vars)
         {
-
             var serverUrls = _environmentServers.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             Notification.Initialize(serverUrls, _environmentAuthKey);
 

@@ -1,8 +1,8 @@
 ﻿namespace AppLogApi.Repositories.Interfaces
 {
-    using System.Collections.Generic;
     using AppLogApi.Models.AppLog;
     using Fanex.Data.Repository;
+    using System.Collections.Generic;
 
     public interface IAppLogRepository
     {

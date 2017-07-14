@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-using AppLogApi.Criteria;
+﻿using AppLogApi.Criteria;
 using AppLogApi.Models.AppLog;
 using AppLogApi.Services.Impls;
 using AppLogApi.Services.Interfaces;
 using Fanex.Data;
 using ONEbook.NotificationService;
 using Sunplus.UMControllerLibrary;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Linq;
 
 namespace Fanex.AutoBotChat.Console
 {
-    static class Program
+    internal static class Program
     {
         private static IAppLogService _appLogService;
         private static UMBusiness _umService;
@@ -23,7 +23,8 @@ namespace Fanex.AutoBotChat.Console
         private static bool _isProduction;
         private static string _logPath = string.Empty;
         private static IList<string> Logs;
-        static void Main(string[] args)
+
+        private static void Main(string[] args)
         {
             DbSettingProviderManager.StartNewSession();
             _appLogService = new AppLogService();
@@ -36,7 +37,7 @@ namespace Fanex.AutoBotChat.Console
             Logs = new List<string>();
 
             Processing();
-            WriteLog();            
+            WriteLog();
         }
 
         public static void WriteLog()
@@ -106,8 +107,8 @@ namespace Fanex.AutoBotChat.Console
                     { "machine", appLog.Machine.MachineIP },
                     { "clientip", appLog.ClientIp },
                     { "custid", appLog.CustId }
-
                 };
+
                 var targets = appLog.GroupChat.Targets.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var target in targets)
@@ -132,6 +133,7 @@ namespace Fanex.AutoBotChat.Console
 
             return false;
         }
+
         private static DateTime ConvertToGMT7(DateTime fromDate)
         {
             var toTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");

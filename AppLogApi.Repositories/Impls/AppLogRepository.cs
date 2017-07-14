@@ -1,11 +1,11 @@
 ﻿namespace AppLogApi.Repositories.Impls
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using AppLogApi.Models.AppLog;
     using AppLogApi.Repositories.Interfaces;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class AppLogRepository : IAppLogRepository
     {

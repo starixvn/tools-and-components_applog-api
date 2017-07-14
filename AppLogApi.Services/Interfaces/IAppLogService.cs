@@ -1,8 +1,8 @@
 ﻿namespace AppLogApi.Services.Interfaces
 {
-    using System.Collections.Generic;
     using AppLogApi.Criteria;
     using AppLogApi.Models.AppLog;
+    using System.Collections.Generic;
 
     public interface IAppLogService
     {

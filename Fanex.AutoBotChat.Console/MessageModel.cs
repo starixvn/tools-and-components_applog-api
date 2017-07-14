@@ -2,7 +2,7 @@
 
 namespace Fanex.AutoBotChat.Console
 {
-    class MessageModel
+    internal class MessageModel
     {
         public string TargetName { get; set; }
 

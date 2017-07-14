@@ -1,8 +1,5 @@
-﻿using System;
+﻿using AppLogApi.Models.AppLog;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AppLogApi.Models.AppLog;
 
 namespace AppLogApi.Services.Interfaces
 {
