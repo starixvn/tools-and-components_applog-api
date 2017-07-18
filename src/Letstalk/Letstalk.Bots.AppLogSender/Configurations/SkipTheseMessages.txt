@@ -1,0 +1,4 @@
+﻿Thread was being aborted
+Invalid attempt to read when no data is present
+Object reference not set to an instance of an object
+Server cannot set status after HTTP headers have been sent

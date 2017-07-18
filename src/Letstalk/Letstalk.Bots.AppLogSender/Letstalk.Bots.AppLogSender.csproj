@@ -68,12 +68,14 @@
       <DependentUpon>AppLogSenderService.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\LogEntry.cs" />
+    <Compile Include="Models\Result.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Content.cs" />
     <Compile Include="Models\Group.cs" />
-    <Compile Include="Services\ContentValidator.cs" />
-    <Compile Include="Services\LogDataService.cs" />
+    <Compile Include="Services\GroupService.cs" />
+    <Compile Include="Services\LogEntryChecker.cs" />
+    <Compile Include="Services\LogEntryGetter.cs" />
     <Compile Include="Services\MessageSender.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +87,10 @@
     <Analyzer Include="..\..\..\packages\SonarAnalyzer.CSharp.5.11.0.1761\analyzers\Google.Protobuf.dll" />
     <Analyzer Include="..\..\..\packages\SonarAnalyzer.CSharp.5.11.0.1761\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\..\..\packages\SonarAnalyzer.CSharp.5.11.0.1761\analyzers\SonarAnalyzer.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Configurations\CategoryGroupMapper.json" />
+    <Content Include="Configurations\SkipTheseMessages.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
