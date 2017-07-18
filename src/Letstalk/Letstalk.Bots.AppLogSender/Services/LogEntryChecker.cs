@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Letstalk.Bots.AppLogSender.Models;
 
@@ -31,10 +32,14 @@ namespace Letstalk.Bots.AppLogSender.Services
                 || !ignoreTextList.Any(ingoreText => logEntry.Message.Contains(ingoreText)));
         }
 
-        private IEnumerable<string> GetIgnoreTextList()
+        private static IEnumerable<string> GetIgnoreTextList()
         {
             // TODO: Terry will load data from config file here
-            return Enumerable.Empty<string>();
+
+            var configPath = AppDomain.CurrentDomain.BaseDirectory + "/Configurations/SkipTheseMessages.txt";
+            var ignoreMessages = File.ReadLines(configPath);
+
+            return ignoreMessages;
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Fanex.Data;
 using Fanex.Data.Repository;
 using System.Collections.Immutable;
+using Letstalk.Bots.AppLogSender.Criteria;
 
 namespace Letstalk.Bots.AppLogSender.Services
 {
@@ -30,7 +31,7 @@ namespace Letstalk.Bots.AppLogSender.Services
 
         public IEnumerable<IContent> GetLatestData()
             => repository
-            .Fetch<LogEntry>(new { FromDate = DateTime.Now })
+            .Fetch<LogEntry>(new LogEntryCriteria { FromDate = DateTime.Now.AddSeconds(-AppSettingService.Interval), IsProduction = AppSettingService.IsProduction })
             .Where(logEntry => checker.IsOK(logEntry))
             .Select(logEntry => new Content(logEntry));
     }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppLogApi.Repositories", "AppLogApi.Repositories\AppLogApi.Repositories.csproj", "{A7FE671E-71DD-435F-8D96-BE54F60B877A}"
 EndProject
@@ -100,7 +100,6 @@ Global
 		{DAD2825B-73CF-4FFC-A486-6109328339EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAD2825B-73CF-4FFC-A486-6109328339EA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3B226016-65E6-4DD0-BC1A-E544DC0C7609}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B226016-65E6-4DD0-BC1A-E544DC0C7609}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B226016-65E6-4DD0-BC1A-E544DC0C7609}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B226016-65E6-4DD0-BC1A-E544DC0C7609}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

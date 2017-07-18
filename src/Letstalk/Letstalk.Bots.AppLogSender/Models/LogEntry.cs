@@ -29,7 +29,13 @@ namespace Letstalk.Bots.AppLogSender.Models
 
         public DateTime Timestamp { get; set; }
 
-        public DateTime LocalTime { get => ConvertToGMT7(Timestamp); }
+        public DateTime LocalTime
+        {
+            get
+            {
+                return ConvertToGMT7(Timestamp);
+            }
+        }
 
         public int CustId { get; }
 
