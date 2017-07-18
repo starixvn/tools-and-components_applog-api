@@ -31,7 +31,7 @@ namespace Letstalk.Bots.AppLogSender.Services
         public IEnumerable<IContent> GetLatestData()
             => repository
             .Fetch<LogEntry>(new { FromDate = DateTime.Now })
-            .Where(logEntry => checker.CannotSkipThisLog(logEntry))
+            .Where(logEntry => checker.IsValid(logEntry))
             .Select(logEntry => new Content(logEntry));
     }
 }

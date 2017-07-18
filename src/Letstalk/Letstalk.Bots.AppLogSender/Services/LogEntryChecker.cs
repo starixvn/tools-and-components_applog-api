@@ -7,7 +7,7 @@ namespace Letstalk.Bots.AppLogSender.Services
 {
     public interface LogEntryChecker
     {
-        bool CannotSkipThisLog(LogEntry entry);
+        bool IsValid(LogEntry entry);
     }
 
     public class LogEntryCheckerImpl : LogEntryChecker
@@ -19,7 +19,7 @@ namespace Letstalk.Bots.AppLogSender.Services
             this.ignoreTextList = ignoreTextList ?? GetIgnoreTextList();
         }
 
-        public bool CannotSkipThisLog(LogEntry logEntry)
+        public bool IsValid(LogEntry logEntry)
         {
             if (logEntry == null)
             {

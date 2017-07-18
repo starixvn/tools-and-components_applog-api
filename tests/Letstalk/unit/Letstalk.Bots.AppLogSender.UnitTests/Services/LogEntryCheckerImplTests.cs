@@ -20,7 +20,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         {
             var validator = new LogEntryCheckerImpl();
 
-            var expected = validator.CannotSkipThisLog(logEntry);
+            var expected = validator.IsValid(logEntry);
 
             Assert.True(expected);
         }
@@ -30,7 +30,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         {
             var validator = new LogEntryCheckerImpl(IgnoreTextList);
 
-            var expected = validator.CannotSkipThisLog(logEntry);
+            var expected = validator.IsValid(logEntry);
 
             Assert.False(expected);
         }
@@ -40,7 +40,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         {
             var validator = new LogEntryCheckerImpl(null);
 
-            var expected = validator.CannotSkipThisLog(logEntry);
+            var expected = validator.IsValid(logEntry);
 
             Assert.True(expected);
         }
@@ -50,7 +50,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         {
             var validator = new LogEntryCheckerImpl(null);
 
-            Assert.Throws<ArgumentNullException>(() => validator.CannotSkipThisLog(null));
+            Assert.Throws<ArgumentNullException>(() => validator.IsValid(null));
         }
     }
 }
