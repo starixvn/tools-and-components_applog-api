@@ -24,5 +24,21 @@ namespace Letstalk.Bots.AppLogSender.Services
                 return Convert.ToInt32(ConfigurationManager.AppSettings["interval"]);
             }
         }
+
+        public static string NotificationServer
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["notificationServers"];
+            }
+        }
+
+        public static string NotificationAuthKey
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["notificationAuthKey"];
+            }
+        }
     }
 }

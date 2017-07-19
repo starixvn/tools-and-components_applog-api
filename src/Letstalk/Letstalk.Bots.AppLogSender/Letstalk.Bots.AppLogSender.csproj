@@ -48,6 +48,14 @@
       <HintPath>..\..\..\packages\Fanex.Data.Repository.1.0.2.1\lib\net461\Fanex.Data.Repository.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NotificationServiceLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ONEbook.NotificationService.1.0.5\lib\NotificationServiceLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
@@ -72,6 +80,7 @@
     <Compile Include="AppLogSenderService.Designer.cs">
       <DependentUpon>AppLogSenderService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AppLogSenderController.cs" />
     <Compile Include="Criteria\LogEntryCriteria.cs" />
     <Compile Include="Models\LogEntry.cs" />
     <Compile Include="Models\Result.cs" />
@@ -80,7 +89,7 @@
     <Compile Include="Models\Content.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Services\AppSettingService.cs" />
-    <Compile Include="Services\GroupService.cs" />
+    <Compile Include="Services\GroupMapper.cs" />
     <Compile Include="Services\LogEntryChecker.cs" />
     <Compile Include="Services\LogEntryGetter.cs" />
     <Compile Include="Services\MessageSender.cs" />

@@ -34,12 +34,15 @@ namespace Letstalk.Bots.AppLogSender.Services
 
         private static IEnumerable<string> GetIgnoreTextList()
         {
-            // TODO: Terry will load data from config file here
-
             var configPath = AppDomain.CurrentDomain.BaseDirectory + "/Configurations/SkipTheseMessages.txt";
-            var ignoreMessages = File.ReadLines(configPath);
+            if (File.Exists(configPath))
+            {
+                var ignoreMessages = File.ReadLines(configPath);
 
-            return ignoreMessages;
+                return ignoreMessages;
+            }
+
+            return null;
         }
     }
 }

@@ -6,14 +6,14 @@ using Fanex.Data.Repository;
 
 namespace Letstalk.Bots.AppLogSender.UnitTests.Services
 {
-    public class GroupServiceImplTests
+    public class GroupMapperImplTests
     {
         [Theory]
         [InlineData("")]
         [InlineData(null)]
         public void GetGroupByCategory_CategoryIsNullOrEmpty_ReturnEmpty(string category)
         {
-            var service = new GroupServiceImpl();
+            var service = new GroupMapperImpl();
 
             var expected = service.GetGroupByCategory(category);
 

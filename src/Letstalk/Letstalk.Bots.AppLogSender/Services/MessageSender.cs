@@ -1,5 +1,6 @@
 ﻿using System;
 using Letstalk.Bots.AppLogSender.Models;
+using ONEbook.NotificationService;
 
 namespace Letstalk.Bots.AppLogSender.Services
 {
@@ -7,11 +8,12 @@ namespace Letstalk.Bots.AppLogSender.Services
     {
         MessageSender Send(IContent content);
 
-        void To(IGroup group);
+        bool To(string group);
     }
 
     public class MessageSenderImpl : MessageSender
     {
+        public IContent Content { get; set; }
         public MessageSender Send(IContent content)
         {
             if (content == null)
@@ -19,12 +21,22 @@ namespace Letstalk.Bots.AppLogSender.Services
                 throw new ArgumentNullException(nameof(content));
             }
 
-            throw new NotImplementedException();
+            this.Content = content;
+
+            return this;
         }
 
-        public void To(IGroup group)
+        public bool To(string group)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(group))
+            {
+                return false;
+            }
+
+            var serverUrls = AppSettingService.NotificationServer.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            Notification.Initialize(serverUrls, AppSettingService.NotificationAuthKey);
+
+            return Notification.Send(group, this.Content.Message);
         }
     }
 }
