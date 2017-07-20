@@ -33,16 +33,6 @@ namespace Letstalk.Bots.AppLogSender.Services
         }
 
         private static IEnumerable<string> GetIgnoreTextList()
-        {
-            var configPath = AppDomain.CurrentDomain.BaseDirectory + "/Configurations/SkipTheseMessages.txt";
-            if (File.Exists(configPath))
-            {
-                var ignoreMessages = File.ReadLines(configPath);
-
-                return ignoreMessages;
-            }
-
-            return null;
-        }
+            => File.ReadLines(AppSettings.IgnoreMessagesFilePath);
     }
 }

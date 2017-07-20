@@ -7,37 +7,38 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Timers;
-using Letstalk.Bots.AppLogSender.Controllers;
 using Letstalk.Bots.AppLogSender.Services;
 
 namespace Letstalk.Bots.AppLogSender
 {
     public partial class AppLogSenderService : ServiceBase
     {
-        private readonly AppLogSenderController appLogSenderController;
+        private readonly MessageSender messageSender = new MessageSenderImpl();
+
         public AppLogSenderService()
         {
             InitializeComponent();
-            appLogSenderController = new AppLogSenderController();
 
+            AppSettings.Verify();
         }
 
         protected override void OnStart(string[] args)
         {
             var timer = new Timer();
-            timer.Interval = AppSettingService.Interval * 1000;
+            timer.Interval = AppSettings.Interval * 1000;
             timer.Elapsed += this.Ontimer;
             timer.Start();
         }
 
         private void Ontimer(object sender, ElapsedEventArgs e)
         {
-            appLogSenderController.Send();
+            messageSender.Run();
         }
 
         protected override void OnStop()
         {
             // Method intentionally left empty.
+            // TODO: write message to msite, service is stopped.
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Letstalk.Bots.AppLogSender.Models;
 using ONEbook.NotificationService;
 
@@ -6,37 +7,40 @@ namespace Letstalk.Bots.AppLogSender.Services
 {
     public interface MessageSender
     {
-        MessageSender Send(IContent content);
-
-        bool To(string group);
+        void Run();
     }
 
     public class MessageSenderImpl : MessageSender
     {
-        public IContent Content { get; set; }
-        public MessageSender Send(IContent content)
+        private readonly GroupManager groupManager;
+        private readonly LogContentService logContenGetter;
+        private readonly LetstalkSender sender;
+
+        public MessageSenderImpl(GroupManager groupManager = null,
+            LogContentService logContentGetter = null,
+            LetstalkSender sender = null)
         {
-            if (content == null)
-            {
-                throw new ArgumentNullException(nameof(content));
-            }
-
-            this.Content = content;
-
-            return this;
+            this.groupManager = groupManager ?? new GroupManagerImpl(null);
+            this.logContenGetter = logContenGetter ?? new LogContentServiceImpl();
+            this.sender = sender ?? new LetstalkSenderImpl();
         }
 
-        public bool To(string group)
+        public void Run()
         {
-            if (string.IsNullOrWhiteSpace(group))
+            var logContent = logContenGetter.GetLatestData();
+
+            if (logContent != null)
             {
-                return false;
+                foreach (var content in logContent)
+                {
+                    var group = groupManager.GetGroupByCategory(content.Category);
+
+                    if (!string.IsNullOrWhiteSpace(group))
+                    {
+                        sender.SendAsync(group, content);
+                    }
+                }
             }
-
-            var serverUrls = AppSettingService.NotificationServer.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            Notification.Initialize(serverUrls, AppSettingService.NotificationAuthKey);
-
-            return Notification.Send(group, this.Content.Message);
         }
     }
 }

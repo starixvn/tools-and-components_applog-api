@@ -80,18 +80,17 @@
     <Compile Include="AppLogSenderService.Designer.cs">
       <DependentUpon>AppLogSenderService.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppLogSenderController.cs" />
-    <Compile Include="Criteria\LogEntryCriteria.cs" />
     <Compile Include="Models\LogEntry.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Content.cs" />
     <Compile Include="Models\Group.cs" />
-    <Compile Include="Services\AppSettingService.cs" />
-    <Compile Include="Services\GroupMapper.cs" />
+    <Compile Include="Services\AppSettings.cs" />
+    <Compile Include="Services\GroupManager.cs" />
+    <Compile Include="Services\LetstalkSender.cs" />
     <Compile Include="Services\LogEntryChecker.cs" />
-    <Compile Include="Services\LogEntryGetter.cs" />
+    <Compile Include="Services\LogContentService.cs" />
     <Compile Include="Services\MessageSender.cs" />
   </ItemGroup>
   <ItemGroup>

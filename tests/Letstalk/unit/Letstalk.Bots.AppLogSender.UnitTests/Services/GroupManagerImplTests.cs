@@ -1,19 +1,19 @@
-﻿using Letstalk.Bots.AppLogSender.Services;
-using System;
+﻿using System.Collections.Specialized;
+using Letstalk.Bots.AppLogSender.Services;
 using Xunit;
-using NSubstitute;
-using Fanex.Data.Repository;
 
 namespace Letstalk.Bots.AppLogSender.UnitTests.Services
 {
-    public class GroupMapperImplTests
+    [Trait("Service", "GroupManager")]
+    public class GroupManagerImplTests
     {
         [Theory]
         [InlineData("")]
+        [InlineData("     ")]
         [InlineData(null)]
         public void GetGroupByCategory_CategoryIsNullOrEmpty_ReturnEmpty(string category)
         {
-            var service = new GroupMapperImpl();
+            var service = new GroupManagerImpl(new StringDictionary());
 
             var expected = service.GetGroupByCategory(category);
 

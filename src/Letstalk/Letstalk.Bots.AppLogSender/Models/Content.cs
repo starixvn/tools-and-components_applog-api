@@ -7,7 +7,7 @@ namespace Letstalk.Bots.AppLogSender.Models
     {
         Dictionary<string, string> Message { get; }
 
-        string Group { get; }
+        string Category { get; }
 
         List<string> Attachments { get; set; }
 
@@ -28,7 +28,7 @@ namespace Letstalk.Bots.AppLogSender.Models
             this.logEntry = logEntry;
         }
 
-        public string Group { get; }
+        public string Category { get => logEntry.CategoryName; }
 
         public Dictionary<string, string> Message
         {
@@ -54,6 +54,7 @@ namespace Letstalk.Bots.AppLogSender.Models
         {
             get; set;
         }
+
         public List<string> InlineImages
         {
             get; set;

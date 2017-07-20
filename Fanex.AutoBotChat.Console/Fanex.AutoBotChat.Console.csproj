@@ -168,24 +168,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AppLogApi.Criteria\AppLogApi.Criteria.csproj">
-      <Project>{8f3f215a-f919-4570-817e-8dee0a354e13}</Project>
-      <Name>AppLogApi.Criteria</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AppLogApi.Models\AppLogApi.Models.csproj">
-      <Project>{30ac9770-fcbb-4e09-8e17-30d7b410dbd2}</Project>
-      <Name>AppLogApi.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AppLogApi.Repositories\AppLogApi.Repositories.csproj">
-      <Project>{a7fe671e-71dd-435f-8d96-be54f60b877a}</Project>
-      <Name>AppLogApi.Repositories</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AppLogApi.Services\AppLogApi.Services.csproj">
-      <Project>{670389c8-df1b-40b9-952a-33ba8ece6f00}</Project>
-      <Name>AppLogApi.Services</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.5.11.0.1761\analyzers\Google.Protobuf.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.5.11.0.1761\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.5.11.0.1761\analyzers\SonarAnalyzer.dll" />

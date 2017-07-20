@@ -76,12 +76,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AppLogApi.Models\AppLogApi.Models.csproj">
-      <Project>{30AC9770-FCBB-4E09-8E17-30D7B410DBD2}</Project>
-      <Name>AppLogApi.Models</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="AppLogApi.Repositories.ruleset" />
     <None Include="packages.config" />
