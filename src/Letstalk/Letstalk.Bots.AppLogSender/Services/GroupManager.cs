@@ -17,9 +17,9 @@ namespace Letstalk.Bots.AppLogSender.Services
 
     public class GroupManagerImpl : GroupManager
     {
-        private readonly StringDictionary groupCategoryMapper;
+        private readonly Dictionary<string, string> groupCategoryMapper;
 
-        public GroupManagerImpl(StringDictionary groupCategoryMapper)
+        public GroupManagerImpl(Dictionary<string, string> groupCategoryMapper)
         {
             this.groupCategoryMapper = groupCategoryMapper ?? GetCategoryGroupList();
         }
@@ -31,11 +31,11 @@ namespace Letstalk.Bots.AppLogSender.Services
                 return string.Empty;
             }
 
-            return groupCategoryMapper[category];
+            return groupCategoryMapper.Keys.Contains(category) ? groupCategoryMapper[category] : string.Empty;
         }
 
-        private static StringDictionary GetCategoryGroupList()
+        private static Dictionary<string, string> GetCategoryGroupList()
             => JsonConvert
-            .DeserializeObject<StringDictionary>(File.ReadAllText(AppSettings.CategoryGroupMapperFilePath));
+            .DeserializeObject<Dictionary<string, string>>(File.ReadAllText(AppSettings.CategoryGroupMapperFilePath));
     }
 }

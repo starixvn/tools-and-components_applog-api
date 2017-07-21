@@ -8,6 +8,8 @@ using System.ServiceProcess;
 using System.Text;
 using System.Timers;
 using Letstalk.Bots.AppLogSender.Services;
+using Fanex.Data;
+using Fanex.Data.OldConnectionStringProvider;
 
 namespace Letstalk.Bots.AppLogSender
 {
@@ -20,6 +22,12 @@ namespace Letstalk.Bots.AppLogSender
             InitializeComponent();
 
             AppSettings.Verify();
+
+            DbSettingProviderManager
+                .StartNewSession()
+                .Use(new OldConnectionStringProvider())
+                .UseDefaultDbSettingProvider("~/App_Data")
+                .Run();            
         }
 
         protected override void OnStart(string[] args)

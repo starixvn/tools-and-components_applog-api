@@ -15,10 +15,10 @@ namespace Letstalk.Bots.AppLogSender.Services
         public static string Service => ConfigurationManager.AppSettings["letstalk:Service"];
 
         public static readonly string CategoryGroupMapperFilePath =
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "/Configurations/CategoryGroupMapper.json");
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configurations\\CategoryGroupMapper.json");
 
         public static readonly string IgnoreMessagesFilePath =
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "/Configurations/SkipTheseMessages.txt");
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configurations\\SkipTheseMessages.txt");
 
         public static void Verify()
         {

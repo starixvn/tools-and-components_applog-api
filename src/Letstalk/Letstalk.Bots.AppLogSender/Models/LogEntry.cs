@@ -19,13 +19,37 @@ namespace Letstalk.Bots.AppLogSender.Models
 
         public string FormattedMessage { get; set; }
 
-        public string Referrer { get; set; }
+        public string Referrer
+        {
+            get
+            {
+                var referrer = GetContentFromMessage(this.Message, "REFERRER:");
 
-        public string ClientIp { get; set; }
+                return string.IsNullOrWhiteSpace(referrer) ? "N/A" : referrer;
+            }
+        }
+
+        public string ClientIp
+        {
+            get
+            {
+                var clientIp = GetContentFromMessage(this.Message, "CLIENT IP:");
+
+                return string.IsNullOrWhiteSpace(clientIp) ? "N/A" : clientIp;
+            }
+        }
 
         public string MachineIP { get; set; }
 
-        public string Machine { get; set; }
+        
+        public string Machine {
+            get
+            {
+                var machine = GetContentFromMessage(this.Message, "Machine:");
+
+                return string.IsNullOrWhiteSpace(machine) ? "N/A" : machine;
+            }
+        }
 
         public DateTime Timestamp { get; set; }
 
@@ -37,9 +61,25 @@ namespace Letstalk.Bots.AppLogSender.Models
             }
         }
 
-        public int CustId { get; }
+        public string CustId
+        {
+            get
+            {
+                var custId = GetContentFromMessage(this.Message, "CUSTID:");
 
-        public string SiteAddress { get; }
+                return string.IsNullOrWhiteSpace(custId) ? "N/A" : custId;
+            }
+        }
+
+        public string SiteAddress
+        {
+            get
+            {
+                var siteAddress = GetContentFromMessage(this.Message, "Url:");
+
+                return string.IsNullOrWhiteSpace(siteAddress) ? "N/A" : siteAddress;
+            }
+        }
 
         public bool IsValid => !string.IsNullOrWhiteSpace(Message);
 
@@ -50,6 +90,39 @@ namespace Letstalk.Bots.AppLogSender.Models
             DateTime convertedTime = TimeZoneInfo.ConvertTime(fromDate, fromTimeZone, toTimeZone);
 
             return convertedTime;
+        }
+
+        private static string GetContentFromMessage(string message, string contentKey)
+        {
+            string resultContent = string.Empty;
+            int startIndex = 0;
+            int endIndex = 0;
+            int length = 0;
+
+            int contentIndex = message.IndexOf(contentKey, System.StringComparison.InvariantCultureIgnoreCase);
+            if (contentIndex != -1)
+            {
+                startIndex = contentIndex + contentKey.Length;
+                endIndex = message.IndexOf(Environment.NewLine, startIndex, System.StringComparison.InvariantCultureIgnoreCase);
+
+                if (endIndex == -1 && startIndex == contentIndex)
+                {
+                    endIndex = message.IndexOf(".", startIndex, System.StringComparison.InvariantCultureIgnoreCase);
+
+                    if (endIndex == -1)
+                    {
+                        resultContent = message;
+                    }
+                }
+
+                if (endIndex != -1)
+                {
+                    length = endIndex - startIndex;
+                    resultContent = message.Substring(startIndex, length);
+                }
+            }
+
+            return resultContent;
         }
     }
 }

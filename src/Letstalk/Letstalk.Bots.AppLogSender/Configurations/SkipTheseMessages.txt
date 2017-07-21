@@ -2,3 +2,21 @@
 Invalid attempt to read when no data is present
 Object reference not set to an instance of an object
 Server cannot set status after HTTP headers have been sent
+Column 'closedreason' does not belong to table Table
+Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding
+Specified argument was out of the range of valid values
+Server cannot set status after HTTP headers have been sent
+Additional non-parsable characters are at the end of the string
+Input string was not in a correct format
+The model item passed into the dictionary is of type 'System.Web.Mvc.HandleErrorInfo', but this dictionary requires a model item of type 'Fanex.Alpha.Before.Customer.Models.SignInResult'
+Could not find any recognizable digits
+Error converting data type nvarchar to bigint
+Cannot verify request key
+was deadlocked on lock resources with another process and has been chosen as the deadlock victim
+A task was canceled
+Child actions are not allowed to perform redirect actions
+Result.Core Exception. Exception: Index was outside the bounds of the array
+Login failed for user 'bodbDownlineNet'
+Login failed for user 'bodbLicenseeNet'
+Error on get action for logging:Object reference not set to an instance of an object
+XML parsing: line 1, character 4000, equal expected

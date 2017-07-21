@@ -53,7 +53,7 @@ namespace Letstalk.Bots.AppLogSender.Services
 
         public bool IsProduction { get; }
 
-        public override string GetSettingKey() => "IS_SelAppLog_All_V2";
+        public override string GetSettingKey() => "IS_SelAppLog_All";
 
         public override bool IsValid() => true;
     }

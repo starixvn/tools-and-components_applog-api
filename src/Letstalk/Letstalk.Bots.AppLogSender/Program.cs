@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Letstalk.Bots.AppLogSender.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceProcess;
@@ -19,7 +20,7 @@ namespace Letstalk.Bots.AppLogSender
             {
                 new AppLogSenderService()
             };
-            ServiceBase.Run(ServicesToRun);
+            ServiceBase.Run(ServicesToRun);            
         }
     }
 }
