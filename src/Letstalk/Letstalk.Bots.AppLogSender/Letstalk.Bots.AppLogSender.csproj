@@ -104,12 +104,16 @@
     <Analyzer Include="..\..\..\packages\SonarAnalyzer.CSharp.5.11.0.1761\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Configurations\CategoryGroupMapper.json" />
+    <None Include="Configurations\CategoryGroupMapper.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="App_Data\SpNames.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\SkipTheseMessages.txt" />
+    <Content Include="Configurations\SkipTheseMessages.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
