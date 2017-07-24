@@ -37,6 +37,8 @@
             timer.Interval = AppSettings.Interval * 1000;
             timer.Elapsed += this.Ontimer;
             timer.Start();
+
+            LogService.Info("Service is starting...");
         }
 
         private void Ontimer(object sender, ElapsedEventArgs e)
@@ -47,14 +49,13 @@
             }
             catch (Exception ex)
             {
-                Logger.Log.Error(ex.Message);
+                LogService.Error(ex.Message);
             }
         }
 
         protected override void OnStop()
         {
-            // Method intentionally left empty.
-            // TODO: write message to msite, service is stopped.
+            LogService.Info("Service is started...");
         }
     }
 }
