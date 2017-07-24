@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
-using System.Timers;
-using Letstalk.Bots.AppLogSender.Services;
-using Fanex.Data;
-using Fanex.Data.OldConnectionStringProvider;
-
-namespace Letstalk.Bots.AppLogSender
+﻿namespace Letstalk.Bots.AppLogSender
 {
+    using Fanex.Data;
+    using Fanex.Data.OldConnectionStringProvider;
+    using Fanex.Logging;
+    using Letstalk.Bots.AppLogSender.Services;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Data;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.ServiceProcess;
+    using System.Text;
+    using System.Timers;
+
     public partial class AppLogSenderService : ServiceBase
     {
         private readonly MessageSender messageSender = new MessageSenderImpl();
@@ -40,7 +41,14 @@ namespace Letstalk.Bots.AppLogSender
 
         private void Ontimer(object sender, ElapsedEventArgs e)
         {
-            messageSender.Run();
+            try
+            {
+                messageSender.Run();
+            }
+            catch (Exception ex)
+            {
+                Logger.Log.Error(ex.Message);
+            }
         }
 
         protected override void OnStop()
