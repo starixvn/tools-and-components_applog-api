@@ -45,7 +45,7 @@ namespace Letstalk.Bots.AppLogSender.Models
                     ["domain"] = logEntry.AppDomainName,
                     ["machine"] = logEntry.Machine,
                     ["clientip"] = logEntry.ClientIp,
-                    ["custid"] = logEntry.CustId.ToString()
+                    ["custid"] = logEntry.CustId
                 };
             }
         }
