@@ -81,6 +81,15 @@ namespace Letstalk.Bots.AppLogSender.Models
             }
         }
 
+        public string Severity {
+            get
+            {
+                var severity = GetContentFromMessage(this.Message, "Severity:");
+
+                return string.IsNullOrWhiteSpace(severity) ? "N/A" : severity;
+            }
+        }
+
         public bool IsValid => !string.IsNullOrWhiteSpace(Message);
 
         private static DateTime ConvertToGMT7(DateTime fromDate)
