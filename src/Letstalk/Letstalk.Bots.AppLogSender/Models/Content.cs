@@ -28,7 +28,13 @@ namespace Letstalk.Bots.AppLogSender.Models
             this.logEntry = logEntry;
         }
 
-        public string Category { get => logEntry.CategoryName; }
+        public string Category
+        {
+            get
+            {
+                return logEntry.CategoryName;
+            }
+        }
 
         public Dictionary<string, string> Message
         {
