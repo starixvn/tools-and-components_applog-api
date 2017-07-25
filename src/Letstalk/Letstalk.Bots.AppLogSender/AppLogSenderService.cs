@@ -4,6 +4,7 @@
     using Fanex.Data.OldConnectionStringProvider;
     using Fanex.Logging;
     using Letstalk.Bots.AppLogSender.Services;
+    using ONEbook.UM.Services.Impl;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -17,10 +18,13 @@
     public partial class AppLogSenderService : ServiceBase
     {
         private readonly MessageSender messageSender = new MessageSenderImpl();
+        private readonly MaintenanceService maintenanceService = new MaintenanceService();
 
         public AppLogSenderService()
         {
             InitializeComponent();
+
+            LogService.Info("Service is initializing...");
 
             AppSettings.Verify();
 
@@ -28,23 +32,28 @@
                 .StartNewSession()
                 .Use(new OldConnectionStringProvider())
                 .UseDefaultDbSettingProvider("~/App_Data")
-                .Run();            
+                .Run();
         }
 
         protected override void OnStart(string[] args)
         {
+            LogService.Info("Service is starting...");
+
             var timer = new Timer();
             timer.Interval = AppSettings.Interval * 1000;
             timer.Elapsed += this.Ontimer;
             timer.Start();
-
-            LogService.Info("Service is starting...");
         }
 
         private void Ontimer(object sender, ElapsedEventArgs e)
         {
             try
             {
+                if (maintenanceService.IsUnderMaintenance())
+                {
+                    return;
+                }
+
                 messageSender.Run();
             }
             catch (Exception ex)

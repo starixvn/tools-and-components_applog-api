@@ -37,5 +37,7 @@ namespace Letstalk.Bots.AppLogSender.Services
         private static Dictionary<string, string> GetCategoryGroupList()
             => JsonConvert
             .DeserializeObject<Dictionary<string, string>>(File.ReadAllText(AppSettings.CategoryGroupMapperFilePath));
+
+       
     }
 }

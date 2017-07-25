@@ -2,6 +2,7 @@
 using System.Linq;
 using Letstalk.Bots.AppLogSender.Models;
 using ONEbook.NotificationService;
+using Fanex.Logging;
 
 namespace Letstalk.Bots.AppLogSender.Services
 {
@@ -30,7 +31,7 @@ namespace Letstalk.Bots.AppLogSender.Services
             var logContent = logContenGetter.GetLatestData();
 
             if (logContent != null)
-            {
+            {               
                 foreach (var content in logContent)
                 {
                     var group = groupManager.GetGroupByCategory(content.Category);

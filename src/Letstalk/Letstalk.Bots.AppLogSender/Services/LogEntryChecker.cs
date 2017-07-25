@@ -33,6 +33,6 @@ namespace Letstalk.Bots.AppLogSender.Services
         }
 
         private static IEnumerable<string> GetIgnoreTextList()
-            => File.ReadLines(AppSettings.IgnoreMessagesFilePath);
+            => File.ReadAllLines(AppSettings.IgnoreMessagesFilePath);
     }
 }
