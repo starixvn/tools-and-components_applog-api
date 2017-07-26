@@ -1,12 +1,12 @@
-﻿using Letstalk.Bots.AppLogSender.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using System.Collections.Immutable;
+using Letstalk.Bots.AppLogSender.Models;
 
 namespace Letstalk.Bots.AppLogSender.Services
 {

@@ -1,32 +1,34 @@
 ﻿namespace Letstalk.Bots.AppLogSender
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Configuration;
+    using System.Data;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.ServiceProcess;
+    using System.Text;
+    using System.Timers;
     using Fanex.Data;
     using Fanex.Data.OldConnectionStringProvider;
     using Fanex.Logging;
     using Letstalk.Bots.AppLogSender.Services;
     using ONEbook.UM.Services.Impl;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Data;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.ServiceProcess;
-    using System.Text;
-    using System.Timers;
 
     public partial class AppLogSenderService : ServiceBase
     {
         private readonly MessageSender messageSender = new MessageSenderImpl();
         private readonly MaintenanceService maintenanceService = new MaintenanceService();
-
+      
         public AppLogSenderService()
         {
             InitializeComponent();
 
-            LogService.Info("Service is initializing...");
+            LogService.Info("Service is initializing...");            
 
-            AppSettings.Verify();
+            AppSettings.Verify();            
 
             DbSettingProviderManager
                 .StartNewSession()
@@ -49,12 +51,10 @@
         {
             try
             {
-                if (maintenanceService.IsUnderMaintenance())
+                if (!maintenanceService.IsUnderMaintenance())
                 {
-                    return;
-                }
-
-                messageSender.Run();
+                    messageSender.Run();
+                }               
             }
             catch (Exception ex)
             {
@@ -64,7 +64,7 @@
 
         protected override void OnStop()
         {
-            LogService.Info("Service is started...");
-        }
+            LogService.Info("Service is stopped...");
+        }       
     }
 }

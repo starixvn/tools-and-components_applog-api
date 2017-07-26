@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\LogEntryTests.cs" />
+    <Compile Include="Services\AppSettingsTests.cs" />
     <Compile Include="Services\GroupManagerImplTests.cs" />
     <Compile Include="Services\LogEntryCheckerImplTests.cs" />
     <Compile Include="Services\LogDataServiceImplTests.cs" />

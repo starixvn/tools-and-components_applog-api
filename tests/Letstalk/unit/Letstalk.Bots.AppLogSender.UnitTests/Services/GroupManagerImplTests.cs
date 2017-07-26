@@ -14,22 +14,27 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         [InlineData(null)]
         public void GetGroupByCategory_CategoryIsNullOrEmpty_ReturnEmpty(string category)
         {
-            var service = new GroupManagerImpl(new Dictionary<string, string>());
+            var service = new GroupManagerImpl(new StringDictionary());
 
             var expected = service.GetGroupByCategory(category);
 
             Assert.Empty(expected);
         }
 
-        [Theory]
-        [InlineData("category 1")]
-        public void GroupCategoryMapper_GetGroupNameByCategory_ReturnGroupName(string category)
+        [Fact]
+        public void GetGroupByCategory_CategoryGroupDictionaryDoesNotContainCategory_ReturnEmpty()
         {
-            var service = new GroupManagerImpl(null);
-            var expected = service.GetGroupByCategory(category);
+            var categoryGroupDict = new StringDictionary
+            {
+                ["category 1"] = "group 1",
+                ["category 2"] = "group 2"
+            };
 
-            Assert.True(expected.Equals("Group A"));
+            var service = new GroupManagerImpl(categoryGroupDict);
 
+            var expected = service.GetGroupByCategory("Anders' categtory");
+
+            Assert.Empty(expected);
         }
     }
 }
