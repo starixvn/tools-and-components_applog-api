@@ -5,6 +5,8 @@ namespace Letstalk.Bots.AppLogSender.Models
 {
     public interface IContent
     {
+        int LogId { get; }
+
         Dictionary<string, string> Message { get; }
 
         string Category { get; }
@@ -28,19 +30,13 @@ namespace Letstalk.Bots.AppLogSender.Models
             this.logEntry = logEntry;
         }
 
-        public string Category
-        {
-            get
-            {
-                return logEntry.CategoryName;
-            }
-        }
+        public int LogId => logEntry.LogId;
+
+        public string Category => logEntry.CategoryName;
+
 
         public Dictionary<string, string> Message
-        {
-            get
-            {
-                return new Dictionary<string, string>
+                => new Dictionary<string, string>
                 {
                     ["category"] = logEntry.CategoryName,
                     ["timestamp"] = $"{logEntry.Timestamp.ToShortTimeString()} (GMT-4)",
@@ -54,8 +50,8 @@ namespace Letstalk.Bots.AppLogSender.Models
                     ["custid"] = logEntry.CustId,
                     ["severity"] = logEntry.Severity
                 };
-            }
-        }
+
+
 
         public List<string> Attachments
         {

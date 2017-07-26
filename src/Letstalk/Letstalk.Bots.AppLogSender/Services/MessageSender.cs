@@ -9,26 +9,42 @@ namespace Letstalk.Bots.AppLogSender.Services
     public interface MessageSender
     {
         void Run();
+        MessageSender GetDataFrom(DateTime fromDate);
+        MessageSender OnProduction(bool isProduction = true);
     }
 
     public class MessageSenderImpl : MessageSender
     {
         private readonly GroupManager groupManager;
-        private readonly LogContentService logContenGetter;
+        private readonly LogContentService logContentService;
         private readonly LetstalkSender sender;
+        private DateTime fromDate;
+        private bool isProduction;
 
         public MessageSenderImpl(GroupManager groupManager = null,
-            LogContentService logContentGetter = null,
+            LogContentService logContentService = null,
             LetstalkSender sender = null)
         {
-            this.groupManager = groupManager ?? new GroupManagerImpl(null);
-            this.logContenGetter = logContenGetter ?? new LogContentServiceImpl();
+            this.groupManager = groupManager ?? new GroupManagerImpl();
+            this.logContentService = this.logContentService ?? new LogContentServiceImpl();
             this.sender = sender ?? new LetstalkSenderImpl();
+        }
+
+        public MessageSender GetDataFrom(DateTime fromDate)
+        {
+            this.fromDate = fromDate;
+            return this;
+        }
+
+        public MessageSender OnProduction(bool isProduction = true)
+        {
+            this.isProduction = isProduction;
+            return this;
         }
 
         public void Run()
         {
-            var logContent = logContenGetter.GetLatestData();
+            var logContent = logContentService.GetLatestData(this.fromDate, this.isProduction);
 
             if (logContent != null)
             {               

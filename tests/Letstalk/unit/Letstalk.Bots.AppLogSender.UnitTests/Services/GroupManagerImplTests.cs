@@ -8,13 +8,15 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
     [Trait("Service", "GroupManager")]
     public class GroupManagerImplTests
     {
+        private const string JsonContentCategoryGroup = "{'category 1': 'Group A', 'LA': 'Sparta-BOTCHAT-ErrorLog'}";  
+    
         [Theory]
         [InlineData("")]
         [InlineData("     ")]
         [InlineData(null)]
         public void GetGroupByCategory_CategoryIsNullOrEmpty_ReturnEmpty(string category)
         {
-            var service = new GroupManagerImpl(new StringDictionary());
+            var service = new GroupManagerImpl(JsonContentCategoryGroup);
 
             var expected = service.GetGroupByCategory(category);
 
@@ -24,13 +26,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         [Fact]
         public void GetGroupByCategory_CategoryGroupDictionaryDoesNotContainCategory_ReturnEmpty()
         {
-            var categoryGroupDict = new StringDictionary
-            {
-                ["category 1"] = "group 1",
-                ["category 2"] = "group 2"
-            };
-
-            var service = new GroupManagerImpl(categoryGroupDict);
+            var service = new GroupManagerImpl(JsonContentCategoryGroup);
 
             var expected = service.GetGroupByCategory("Anders' categtory");
 

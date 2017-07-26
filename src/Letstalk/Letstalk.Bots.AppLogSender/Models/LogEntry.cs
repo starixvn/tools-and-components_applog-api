@@ -9,6 +9,8 @@ namespace Letstalk.Bots.AppLogSender.Models
     /// </summary>
     public class LogEntry
     {
+        public int LogId { get; set; }
+
         public string Message { get; set; }
 
         public int CategoryId { get; set; }

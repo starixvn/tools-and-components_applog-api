@@ -26,7 +26,7 @@
         {
             InitializeComponent();
 
-            LogService.Info("Service is initializing...");            
+            LogService.Info("Service is initializing at " + DateTime.Now);            
 
             AppSettings.Verify();            
 
@@ -53,7 +53,10 @@
             {
                 if (!maintenanceService.IsUnderMaintenance())
                 {
-                    messageSender.Run();
+                    messageSender
+                        .GetDataFrom(DateTime.Now.AddSeconds(-AppSettings.Interval))
+                        .OnProduction(AppSettings.IsProduction)
+                        .Run();
                 }               
             }
             catch (Exception ex)
@@ -64,7 +67,7 @@
 
         protected override void OnStop()
         {
-            LogService.Info("Service is stopped...");
+            LogService.Info("Service is stopped " + DateTime.Now);
         }       
     }
 }

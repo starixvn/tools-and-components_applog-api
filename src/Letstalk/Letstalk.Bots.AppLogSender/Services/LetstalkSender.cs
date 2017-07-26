@@ -17,10 +17,12 @@ namespace Letstalk.Bots.AppLogSender.Services
 
     public class LetstalkSenderImpl : LetstalkSender
     {
-        public LetstalkSenderImpl()
+        public LetstalkSenderImpl(string[] serverUrls = null)
         {
-            var serverUrls = AppSettings.Service.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            Notification.Initialize(serverUrls, AppSettings.AuthKey);
+            var serverUris = serverUrls ??
+                AppSettings.Service.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            Notification.Initialize(serverUris, AppSettings.AuthKey);
         }
 
         public void Send(string group, IContent content)
