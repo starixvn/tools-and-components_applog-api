@@ -36,7 +36,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         //    IgnoreTextList = ImmutableList.Create(ignoreText.Split(','));
         //    var logEntry = new LogEntry()
         //    {
-        //        Message = message
+        //        IContent = message
         //    };
 
         //    Assert.False(logEntry.IsValid(IgnoreTextList));
@@ -49,7 +49,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
 
         //    var logEntry = new LogEntry()
         //    {
-        //        Message = "Any text"
+        //        IContent = "Any text"
         //    };
 
         //    Assert.True(logEntry.IsValid(IgnoreTextList));
@@ -62,7 +62,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
 
         //    var logEntry = new LogEntry()
         //    {
-        //        Message = "Any text"
+        //        IContent = "Any text"
         //    };
 
         //    Assert.True(logEntry.IsValid(IgnoreTextList));

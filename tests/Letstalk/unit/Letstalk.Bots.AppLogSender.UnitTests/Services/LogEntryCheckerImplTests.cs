@@ -12,7 +12,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
     {
         private readonly IEnumerable<string> IgnoreTextList = new List<string> { "ignore", "hello" };
         private readonly IEnumerable<string> EmptyIgnoreList = Enumerable.Empty<string>();
-        public LogEntry logEntry = new LogEntry { Message = "Message contains ignore text" };
+        public LogEntry logEntry = new LogEntry { Message = "IContent contains ignore text" };
               
 
         [Fact]

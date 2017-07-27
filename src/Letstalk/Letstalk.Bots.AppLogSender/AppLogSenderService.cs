@@ -53,10 +53,8 @@
             {
                 if (!maintenanceService.IsUnderMaintenance())
                 {
-                    messageSender
-                        .GetDataFrom(DateTime.Now.AddSeconds(-AppSettings.Interval))
-                        .OnProduction(AppSettings.IsProduction)
-                        .Run();
+                    messageSender                        
+                        .Run(DateTime.Now.AddSeconds(-AppSettings.Interval), AppSettings.IsProduction);
                 }               
             }
             catch (Exception ex)

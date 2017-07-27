@@ -10,29 +10,19 @@ namespace Letstalk.Bots.AppLogSender.Services
 {
     public interface LetstalkSender
     {
-        void Send(string group, IContent content);
-
-        void SendAsync(string group, IContent content);
+        void SendAsync(string group, IMessage content);
     }
 
     public class LetstalkSenderImpl : LetstalkSender
     {
-        public LetstalkSenderImpl(string[] serverUrls = null)
+        public LetstalkSenderImpl(string[] serviceUri = null)
         {
-            var serverUris = serverUrls ??
-                AppSettings.Service.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-            Notification.Initialize(serverUris, AppSettings.AuthKey);
+            Notification.Initialize(serviceUri ?? AppSettings.ServiceUri, AppSettings.AuthKey);
         }
 
-        public void Send(string group, IContent content)
+        public void SendAsync(string group, IMessage content)
         {
-            Notification.Send(group, content.Message);
-        }
-
-        public void SendAsync(string group, IContent content)
-        {
-            Notification.SendAsync(group, content.Message);
+            Notification.SendAsync(group, content.IContent);
         }
     }
 }

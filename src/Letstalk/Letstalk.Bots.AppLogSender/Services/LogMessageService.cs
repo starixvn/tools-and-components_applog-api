@@ -10,17 +10,17 @@ using Letstalk.Bots.AppLogSender.Models;
 
 namespace Letstalk.Bots.AppLogSender.Services
 {
-    public interface LogContentService
+    public interface LogMessageService
     {
-        IEnumerable<IContent> GetLatestData(DateTime fromDate, bool isProduction);
+        IEnumerable<IMessage> GetLatestData(DateTime fromDate, bool isProduction);
     }
 
-    public class LogContentServiceImpl : LogContentService
+    public class LogMessageServiceImpl : LogMessageService
     {
         private readonly LogEntryChecker checker;
         private readonly IDynamicRepository repository;
 
-        public LogContentServiceImpl(
+        public LogMessageServiceImpl(
             LogEntryChecker checker = null,
             IDynamicRepository repository = null)
         {
@@ -28,11 +28,11 @@ namespace Letstalk.Bots.AppLogSender.Services
             this.repository = repository ?? new DynamicRepository();
         }
 
-        public IEnumerable<IContent> GetLatestData(DateTime fromDate, bool isProduction)
+        public IEnumerable<IMessage> GetLatestData(DateTime fromDate, bool isProduction)
             => repository
             .Fetch<LogEntry>(new LogEntryCriteria(fromDate, isProduction))
             .Where(logEntry => checker.IsOK(logEntry))
-            .Select(logEntry => new Content(logEntry));
+            .Select(logEntry => new Message(logEntry));
     }
 
     public class LogEntryCriteria : CriteriaBase

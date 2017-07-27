@@ -3,24 +3,20 @@ using System.Collections.Generic;
 
 namespace Letstalk.Bots.AppLogSender.Models
 {
-    public interface IContent
+    public interface IMessage
     {
         int LogId { get; }
 
-        Dictionary<string, string> Message { get; }
+        Dictionary<string, string> IContent { get; }
 
-        string Category { get; }
-
-        List<string> Attachments { get; set; }
-
-        List<string> InlineImages { get; set; }
+        string Category { get; }      
     }
 
-    public class Content : IContent
+    public class Message : IMessage, IEquatable<Message>
     {
         private readonly LogEntry logEntry;
 
-        public Content(LogEntry logEntry)
+        public Message(LogEntry logEntry)
         {
             if (logEntry == null)
             {
@@ -34,8 +30,7 @@ namespace Letstalk.Bots.AppLogSender.Models
 
         public string Category => logEntry.CategoryName;
 
-
-        public Dictionary<string, string> Message
+        public Dictionary<string, string> IContent
                 => new Dictionary<string, string>
                 {
                     ["category"] = logEntry.CategoryName,
@@ -51,16 +46,13 @@ namespace Letstalk.Bots.AppLogSender.Models
                     ["severity"] = logEntry.Severity
                 };
 
+        public override bool Equals(object obj)
+            => (obj is Message) && Equals(obj as Message);     
 
+        public bool Equals(Message other) 
+            => this.LogId == other.LogId;
 
-        public List<string> Attachments
-        {
-            get; set;
-        }
-
-        public List<string> InlineImages
-        {
-            get; set;
-        }
+        public override int GetHashCode() 
+            => this.logEntry.GetHashCode();
     }
 }

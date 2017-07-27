@@ -10,10 +10,11 @@ namespace Letstalk.Bots.AppLogSender.Services
 
         public static int Interval => Convert.ToInt32(GetSettingValue("interval"));
 
-        public static string AuthKey => GetSettingValue("letstalk:AuthKey");
+        public static string AuthKey => GetSettingValue("letstalk:AuthKey");        
 
-        public static string Service => GetSettingValue("letstalk:Service");
-
+        public static string[] ServiceUri => GetSettingValue("letstalk:Service")
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        
         public static readonly string CategoryGroupMapperFilePath =
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, GetSettingValue("bot:CategoryGroupMapperPath"));
 
@@ -25,9 +26,14 @@ namespace Letstalk.Bots.AppLogSender.Services
         /// </summary>
         public static void Verify()
         {
-            if (string.IsNullOrWhiteSpace(AuthKey) || string.IsNullOrWhiteSpace(Service))
+            if (string.IsNullOrWhiteSpace(AuthKey))
             {
-                throw new InvalidDataException("authentication key and service uri are both required");
+                throw new InvalidDataException(nameof(AuthKey));
+            }
+
+            if (ServiceUri.Length == 0)
+            {
+                throw new InvalidDataException(nameof(ServiceUri));
             }
 
             if (!File.Exists(CategoryGroupMapperFilePath))

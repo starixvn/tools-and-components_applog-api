@@ -9,30 +9,32 @@ using Xunit;
 
 namespace Letstalk.Bots.AppLogSender.UnitTests.Services
 {
-    [Trait("Service", "LogContentService")]
-    public class LogContentServiceImplTests
+    [Trait("Service", "LogMessageService")]
+    public class LogMessageServiceImplTests
     {
         private IList<LogEntry> latestData;
 
-        public LogContentServiceImplTests()
+        public LogMessageServiceImplTests()
         {
-            latestData = new List<LogEntry>();
-            latestData.Add(new LogEntry { LogId = 1, Message = "Message 1" });
-            latestData.Add(new LogEntry { LogId = 2, Message = "Contain ignore message" });
-            latestData.Add(new LogEntry { LogId = 3, Message = "" });
+            latestData = new List<LogEntry>
+            {
+                new LogEntry { LogId = 1, Message = "IContent 1" },
+                new LogEntry { LogId = 2, Message = "Contain ignore message" },
+                new LogEntry { LogId = 3, Message = "" }
+            };
         }
 
         [Fact]
         public void GetLatestData_NeverReturnContentCreatedByInvalidLogEntry()
         {
-            var validLogEntry = new Content(latestData[0]);
+            var validLogEntry = new Message(latestData[0]);
             var logEntryChecker = new LogEntryCheckerImpl(new List<string> { "ignore message" });
             var repository = Substitute.For<IDynamicRepository>();
             repository
                 .Fetch<LogEntry>(Arg.Any<LogEntryCriteria>())
                 .Returns(latestData);            
 
-            var logContentService = new LogContentServiceImpl(logEntryChecker, repository);
+            var logContentService = new LogMessageServiceImpl(logEntryChecker, repository);
 
             var contentCollection = logContentService.GetLatestData(Arg.Any<DateTime>(), true);
 
