@@ -15,10 +15,10 @@ namespace Letstalk.Bots.AppLogSender.Services
         public static string[] ServiceUri => GetSettingValue("letstalk:Service")
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
         
-        public static readonly string CategoryGroupMapperFilePath =
+        public static string CategoryGroupMapperFilePath =>
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, GetSettingValue("bot:CategoryGroupMapperPath"));
 
-        public static readonly string IgnoreMessagesFilePath =
+        public static string IgnoreMessagesFilePath =>
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, GetSettingValue("bot:SkipTheseMessagesPath"));              
 
         /// <summary>

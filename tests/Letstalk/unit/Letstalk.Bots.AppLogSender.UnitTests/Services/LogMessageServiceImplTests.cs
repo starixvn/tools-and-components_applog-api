@@ -12,7 +12,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
     [Trait("Service", "LogMessageService")]
     public class LogMessageServiceImplTests
     {
-        private IList<LogEntry> latestData;
+        private IList<LogEntry> latestData;        
 
         public LogMessageServiceImplTests()
         {
@@ -28,15 +28,15 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         public void GetLatestData_NeverReturnContentCreatedByInvalidLogEntry()
         {
             var validLogEntry = new Message(latestData[0]);
-            var logEntryChecker = new LogEntryCheckerImpl(new List<string> { "ignore message" });
+            var logEntryChecker = new LogEntryCheckerImpl(new List<string> { "ignore message" });            
             var repository = Substitute.For<IDynamicRepository>();
             repository
-                .Fetch<LogEntry>(Arg.Any<LogEntryCriteria>())
-                .Returns(latestData);            
+                .Fetch<LogEntry>(new LogEntryCriteria(DateTime.Now, true))
+                .ReturnsForAnyArgs(latestData);            
 
             var logContentService = new LogMessageServiceImpl(logEntryChecker, repository);
 
-            var contentCollection = logContentService.GetLatestData(Arg.Any<DateTime>(), true);
+            var contentCollection = logContentService.GetLatestData(DateTime.Now, true);
 
             Assert.True(contentCollection.Any(content => validLogEntry.LogId == content.LogId));
         }

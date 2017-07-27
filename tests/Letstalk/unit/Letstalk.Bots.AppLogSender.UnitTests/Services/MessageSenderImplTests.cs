@@ -28,9 +28,9 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         [Fact]
         public void Run_NullOrEmptyLogData_DoNotInvokeGetGroupByCategory()
         {
-            logEntryChecker.IsOK(Arg.Any<LogEntry>()).ReturnsForAnyArgs(false);
+            logEntryChecker.IsOK(new LogEntry()).ReturnsForAnyArgs(false);
             repository
-                .Fetch<LogEntry>(Arg.Any<ICriteria>())
+                .Fetch<LogEntry>(new LogEntryCriteria(DateTime.Now, true))
                 .ReturnsForAnyArgs(Enumerable.Empty<LogEntry>());
             var logContentService = new LogMessageServiceImpl(logEntryChecker, repository);
 
@@ -39,7 +39,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
             msgSender.Run(DateTime.Now, true);
 
             // Act & Assert
-            letstalkSender.DidNotReceiveWithAnyArgs().SendAsync(Arg.Any<string>(), Arg.Any<IMessage>());
+            letstalkSender.DidNotReceiveWithAnyArgs().SendAsync(string.Empty, new Message(new LogEntry()));
         }
 
         [Fact]
@@ -48,10 +48,10 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
             var logEntry = new LogEntry { LogId = 1, Message = "IContent 1", CategoryName = "Category 1" };
             var group = "my group";
 
-            logEntryChecker.IsOK(Arg.Any<LogEntry>()).ReturnsForAnyArgs(true);
-            groupManager.GetGroupByCategory(Arg.Any<string>()).ReturnsForAnyArgs(group);
+            logEntryChecker.IsOK(new LogEntry()).ReturnsForAnyArgs(true);
+            groupManager.GetGroupByCategory("category 1").ReturnsForAnyArgs(group);
             repository
-                .Fetch<LogEntry>(Arg.Any<ICriteria>())
+                .Fetch<LogEntry>(new LogEntryCriteria(DateTime.Now, true))
                 .ReturnsForAnyArgs(new List<LogEntry> { logEntry });
 
             var logContentService = new LogMessageServiceImpl(logEntryChecker, repository);

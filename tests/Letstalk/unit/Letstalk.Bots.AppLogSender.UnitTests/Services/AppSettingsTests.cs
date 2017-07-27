@@ -1,9 +1,5 @@
-﻿using Letstalk.Bots.AppLogSender.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Letstalk.Bots.AppLogSender.Services;
 using Xunit;
 
 namespace Letstalk.Bots.AppLogSender.UnitTests.Services
@@ -15,7 +11,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         [InlineData("")]
         [InlineData("     ")]
         [InlineData(null)]
-        public void GetSettingValue_IsNullOrWhiteSpace_ThrowArgumentException(string key)
+        public void GetSettingValue_KeyIsNullOrWhiteSpace_ThrowArgumentException(string key)
         {
             Assert.Throws<ArgumentException>(() => AppSettings.GetSettingValue(key));            
         }
