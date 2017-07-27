@@ -51,7 +51,7 @@ namespace Letstalk.Bots.AppLogSender.Services
         {
             if (string.IsNullOrWhiteSpace(key))
             {
-                throw new NotImplementedException(nameof(key));
+                throw new ArgumentException(nameof(key));
             }
 
             return ConfigurationManager.AppSettings[key];

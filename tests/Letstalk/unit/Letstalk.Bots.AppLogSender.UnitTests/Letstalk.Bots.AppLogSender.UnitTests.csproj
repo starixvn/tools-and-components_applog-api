@@ -77,7 +77,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\ContentTests.cs" />
     <Compile Include="Models\LogEntryTests.cs" />
     <Compile Include="Models\MessageTests.cs" />
     <Compile Include="Services\AppSettingsTests.cs" />
