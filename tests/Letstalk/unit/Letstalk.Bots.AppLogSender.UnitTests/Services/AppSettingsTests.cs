@@ -1,6 +1,7 @@
 ﻿using Letstalk.Bots.AppLogSender.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,4 +21,5 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
             Assert.Throws<ArgumentException>(() => AppSettings.GetSettingValue(key));            
         }
     }
+    
 }
