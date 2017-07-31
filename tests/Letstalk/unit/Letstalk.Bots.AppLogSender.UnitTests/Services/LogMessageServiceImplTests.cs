@@ -18,7 +18,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         {
             latestData = new List<LogEntry>
             {
-                new LogEntry { LogId = 1, Message = "IContent 1" },
+                new LogEntry { LogId = 1, Message = "Content 1" },
                 new LogEntry { LogId = 2, Message = "Contain ignore message" },
                 new LogEntry { LogId = 3, Message = "" }
             };
@@ -39,6 +39,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
             var contentCollection = logContentService.GetLatestData(DateTime.Now, true);
 
             Assert.True(contentCollection.Any(content => validLogEntry.LogId == content.LogId));
-        }
+        }      
+
     }
 }

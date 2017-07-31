@@ -17,5 +17,28 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         {
             Assert.Throws<ArgumentNullException>(() => new Message(null));
         }
+
+        [Fact]
+        public void Content_ReturnContentDictionary_ReturnTrue()
+        {
+            var logEntry = new LogEntry()
+            {
+                Timestamp = DateTime.Now,
+                AppDomainName = "my domain name",
+                CategoryId = 1,
+                CategoryName = "my category",
+                FormattedMessage = "my formatted messsage",
+                MachineIP = "my machine ip",
+                LogId = 1,
+                Message = "my message"
+            };
+
+            var message = new Message(logEntry);
+
+            Assert.NotEmpty(message.Content);            
+            Assert.Equal($"{logEntry.Timestamp.ToShortTimeString()} (GMT-4)", message.Content["timestamp"]);
+            Assert.Equal(logEntry.CategoryName, message.Content["category"]);
+            Assert.Equal(logEntry.Message, message.Content["message"]);            
+        }
     }
 }

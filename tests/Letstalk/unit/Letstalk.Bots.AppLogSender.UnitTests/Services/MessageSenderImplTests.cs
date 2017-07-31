@@ -45,7 +45,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         [Fact]
         public void Run_ValidLogEntryHasRelationToAGroup_InvokeLetstalkSendAsync()
         {
-            var logEntry = new LogEntry { LogId = 1, Message = "IContent 1", CategoryName = "Category 1" };
+            var logEntry = new LogEntry { LogId = 1, Message = "Content 1", CategoryName = "Category 1" };
             var group = "my group";
 
             logEntryChecker.IsOK(new LogEntry()).ReturnsForAnyArgs(true);

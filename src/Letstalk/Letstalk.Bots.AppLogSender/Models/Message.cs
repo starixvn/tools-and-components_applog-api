@@ -7,7 +7,7 @@ namespace Letstalk.Bots.AppLogSender.Models
     {
         int LogId { get; }
 
-        Dictionary<string, string> IContent { get; }
+        Dictionary<string, string> Content { get; }
 
         string Category { get; }      
     }
@@ -30,7 +30,7 @@ namespace Letstalk.Bots.AppLogSender.Models
 
         public string Category => logEntry.CategoryName;
 
-        public Dictionary<string, string> IContent
+        public Dictionary<string, string> Content
                 => new Dictionary<string, string>
                 {
                     ["category"] = logEntry.CategoryName,

@@ -95,12 +95,19 @@ namespace Letstalk.Bots.AppLogSender.Models
         public bool IsValid => !string.IsNullOrWhiteSpace(Message);
 
         private static DateTime ConvertToGMT7(DateTime fromDate)
-        {
+        {          
             var toTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
             var fromTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Western Standard Time");
-            DateTime convertedTime = TimeZoneInfo.ConvertTime(fromDate, fromTimeZone, toTimeZone);
+            var localTimeZone = TimeZone.CurrentTimeZone;
 
-            return convertedTime;
+            if(localTimeZone.StandardName.Equals(fromTimeZone.StandardName))
+            {
+                DateTime convertedTime = TimeZoneInfo.ConvertTime(fromDate, fromTimeZone, toTimeZone);
+
+                return convertedTime;
+            }
+
+            return fromDate;
         }
 
         private static string GetContentFromMessage(string message, string contentKey)

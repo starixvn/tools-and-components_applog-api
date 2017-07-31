@@ -22,7 +22,7 @@ namespace Letstalk.Bots.AppLogSender.Services
 
         public void SendAsync(string group, IMessage content)
         {
-            Notification.SendAsync(group, content.IContent);
+            Notification.SendAsync(group, content.Content);
         }
     }
 }

@@ -184,16 +184,15 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
 
         }
 
-        [Theory]
-        [InlineData("07/27/2017 3:06 AM")]
-        public void LocalTime_ConvertToGMT7_ReturnTrue(DateTime localTime)
+        [Fact]
+        public void LocalTime_ConvertToGMT7_ReturnTrue()
         {
             var logEntry = new LogEntry()
             {
-                Timestamp = localTime
+                Timestamp = DateTime.Now
             };
 
-            Assert.Equal(Convert.ToDateTime("07/27/2017 2:06 PM"), logEntry.LocalTime);
+            Assert.Equal(DateTime.Now, logEntry.LocalTime);
         }
     }
 }
