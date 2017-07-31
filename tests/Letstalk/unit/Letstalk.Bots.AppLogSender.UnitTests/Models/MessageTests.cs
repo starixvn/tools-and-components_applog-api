@@ -26,8 +26,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
                 Timestamp = DateTime.Now,
                 AppDomainName = "my domain name",
                 CategoryId = 1,
-                CategoryName = "my category",
-                FormattedMessage = "my formatted messsage",
+                CategoryName = "my category",               
                 MachineIP = "my machine ip",
                 LogId = 1,
                 Message = "my message"
@@ -38,7 +37,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
             Assert.NotEmpty(message.Content);            
             Assert.Equal($"{logEntry.Timestamp.ToShortTimeString()} (GMT-4)", message.Content["timestamp"]);
             Assert.Equal(logEntry.CategoryName, message.Content["category"]);
-            Assert.Equal(logEntry.Message, message.Content["message"]);            
+            Assert.Equal(logEntry.FormattedMessage, message.Content["message"]);            
         }
     }
 }

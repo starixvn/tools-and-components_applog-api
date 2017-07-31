@@ -19,7 +19,14 @@ namespace Letstalk.Bots.AppLogSender.Models
 
         public string AppDomainName { get; set; }
 
-        public string FormattedMessage { get; set; }
+        public string FormattedMessage {
+            get
+            {
+                var formattedMessage = GetContentFromMessage(this.Message, "Message:");
+
+                return string.IsNullOrWhiteSpace(formattedMessage) ? "N/A" : formattedMessage;
+            }
+        }
 
         public string Referrer
         {

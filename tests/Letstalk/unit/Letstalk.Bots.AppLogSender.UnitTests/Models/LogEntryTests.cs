@@ -173,6 +173,33 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
 
         [Theory]
         [InlineData("Hello World")]
+        public void FormattedMessage_GetNAFromMessage_ReturnTrue(string message)
+        {
+            var logEntry = new LogEntry()
+            {
+                Message = message
+            };
+
+            Assert.Equal("N/A", logEntry.FormattedMessage);
+
+        }
+
+        [Theory]
+        [InlineData("Message: The stored procedure 'NAP_Admin_VerifySiteName' doesn't exist.\r\nSOURCE: System.Data.\r\nDOMAIN: localhost.\r\nSeverity: hello world\r\n")]
+        public void FormattedMessage_GetSeverityFromMessage_ReturnTrue(string message)
+        {
+            var logEntry = new LogEntry()
+            {
+                Message = message
+            };
+
+            Assert.Equal(" The stored procedure 'NAP_Admin_VerifySiteName' doesn't exist.", logEntry.FormattedMessage);
+
+        }
+
+
+        [Theory]
+        [InlineData("Hello World")]
         public void Severity_GetNAFromMessage_ReturnTrue(string message)
         {
             var logEntry = new LogEntry()
@@ -192,7 +219,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
                 Timestamp = DateTime.Now
             };
 
-            Assert.Equal(DateTime.Now, logEntry.LocalTime);
+            Assert.Equal(DateTime.Now.ToShortTimeString(), logEntry.LocalTime.ToShortTimeString());
         }
     }
 }

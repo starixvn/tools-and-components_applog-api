@@ -36,7 +36,7 @@ namespace Letstalk.Bots.AppLogSender.Models
                     ["category"] = logEntry.CategoryName,
                     ["timestamp"] = $"{logEntry.Timestamp.ToShortTimeString()} (GMT-4)",
                     ["localtime"] = $"{logEntry.LocalTime.ToShortTimeString()} (GMT+7)",
-                    ["message"] = logEntry.Message,
+                    ["message"] = logEntry.FormattedMessage,
                     ["url"] = logEntry.SiteAddress,
                     ["referrer"] = logEntry.Referrer,
                     ["domain"] = logEntry.AppDomainName,
