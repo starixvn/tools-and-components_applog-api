@@ -20,3 +20,8 @@ Login failed for user 'bodbDownlineNet'
 Login failed for user 'bodbLicenseeNet'
 Error on get action for logging:Object reference not set to an instance of an object
 XML parsing: line 1, character 4000, equal expected
+Error connecting to remote share with ErrCode: 1219
+Additional non-parsable characters are at the end of the string.
+Error converting data type nvarchar to bigint.
+Could not find any recognizable digits.
+communication buffer resources with another process and has been chosen as the deadlock victim. Rerun the transaction
