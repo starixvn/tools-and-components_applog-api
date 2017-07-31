@@ -121,6 +121,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="Letstalk.Bots.AppLogSender.exe.pro.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Letstalk.Bots.AppLogSender.ruleset" />
     <None Include="packages.config" />
   </ItemGroup>
