@@ -113,19 +113,18 @@ namespace Letstalk.Bots.AppLogSender.Models
         private static DateTime ConvertToGMT7(DateTime fromDate)
         {
             var toTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-            var fromTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Western Standard Time");
             var localTimeZone = TimeZoneInfo.Local;
 
-            if (localTimeZone.StandardName.Equals(fromTimeZone.StandardName))
+            if (!localTimeZone.StandardName.Equals(toTimeZone.StandardName))
             {
-                DateTime convertedTime = TimeZoneInfo.ConvertTime(fromDate, fromTimeZone, toTimeZone);
+                DateTime convertedTime = TimeZoneInfo.ConvertTime(fromDate, toTimeZone);
 
                 return convertedTime;
             }
 
             return fromDate;
-        }     
-        
+        }
+
         private static string FormattedMessages(string[] messageList, string contentKey)
         {
             if (messageList.Any())
