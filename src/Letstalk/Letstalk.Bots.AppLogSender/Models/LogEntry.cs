@@ -114,7 +114,7 @@ namespace Letstalk.Bots.AppLogSender.Models
         {
             var toTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
             var fromTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Western Standard Time");
-            var localTimeZone = TimeZone.CurrentTimeZone;
+            var localTimeZone = TimeZoneInfo.Local;
 
             if (localTimeZone.StandardName.Equals(fromTimeZone.StandardName))
             {
