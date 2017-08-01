@@ -210,17 +210,6 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
 
             Assert.Equal("N/A", logEntry.Severity);
 
-        }
-
-        [Fact]
-        public void LocalTime_ConvertToGMT7_ReturnTrue()
-        {
-            var logEntry = new LogEntry()
-            {
-                Timestamp = DateTime.Now
-            };
-
-            Assert.Equal(DateTime.Now.ToShortTimeString(), logEntry.LocalTime.ToShortTimeString());
-        }
+        }       
     }
 }
