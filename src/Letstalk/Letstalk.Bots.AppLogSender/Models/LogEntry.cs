@@ -124,42 +124,8 @@ namespace Letstalk.Bots.AppLogSender.Models
             }
 
             return fromDate;
-        }
-
-        //private static string GetContentFromMessage(string message, string contentKey)
-        //{
-        //    string resultContent = string.Empty;
-        //    int startIndex = 0;
-        //    int endIndex = 0;
-        //    int length = 0;
-
-        //    int contentIndex = message.IndexOf(contentKey, System.StringComparison.InvariantCultureIgnoreCase);
-        //    if (contentIndex != -1)
-        //    {
-        //        startIndex = contentIndex + contentKey.Length;
-        //        endIndex = message.IndexOf(Environment.NewLine, startIndex, System.StringComparison.InvariantCultureIgnoreCase);
-
-        //        if (endIndex == -1 && startIndex == contentIndex)
-        //        {
-        //            endIndex = message.IndexOf(".", startIndex, System.StringComparison.InvariantCultureIgnoreCase);
-
-        //            if (endIndex == -1)
-        //            {
-        //                resultContent = message;
-        //            }
-        //        }
-
-        //        if (endIndex != -1)
-        //        {
-        //            length = endIndex - startIndex;
-        //            resultContent = message.Substring(startIndex, length);
-        //        }
-        //    }
-
-        //    return resultContent;
-        //}
-
-
+        }     
+        
         private static string FormattedMessages(string[] messageList, string contentKey)
         {
             if (messageList.Any())
