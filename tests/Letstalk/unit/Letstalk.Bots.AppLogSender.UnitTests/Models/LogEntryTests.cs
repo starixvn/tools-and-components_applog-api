@@ -34,7 +34,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         {
             var logEntry = new LogEntry()
             {
-                Message = message
+                FormattedMessage = message
             };
 
             Assert.Equal(" hello world", logEntry.Referrer);
@@ -47,7 +47,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         {
             var logEntry = new LogEntry()
             {
-                Message = message
+                FormattedMessage = message
             };
 
             Assert.Equal("N/A", logEntry.Referrer);
@@ -55,15 +55,16 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         }
 
         [Theory]
-        [InlineData("Message: The stored procedure 'NAP_Admin_VerifySiteName' doesn't exist.\r\nSOURCE: System.Data.\r\nDOMAIN: localhost.\r\nClient Ip: hello world\r\n")]
+        [InlineData("Message: The stored procedure 'NAP_Admin_VerifySiteName' doesn't exist.\r\nSOURCE: System.Data.\r\nDOMAIN: localhost.\r\nCLIENT IP: hello world\r\n")]
         public void ClientIp_GetClientIpFromMessage_ReturnTrue(string message)
         {
+
             var logEntry = new LogEntry()
             {
-                Message = message
+                FormattedMessage = message
             };
 
-            Assert.Equal(" hello world", logEntry.ClientIp);
+            Assert.Equal(" hello world", logEntry.ClientIp, true);
 
         }
 
@@ -73,7 +74,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         {
             var logEntry = new LogEntry()
             {
-                Message = message
+                FormattedMessage = message
             };
 
             Assert.Equal("N/A", logEntry.ClientIp);
@@ -86,7 +87,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         {
             var logEntry = new LogEntry()
             {
-                Message = message
+                FormattedMessage = message
             };
 
             Assert.Equal(" hello world", logEntry.Machine);
@@ -99,7 +100,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         {
             var logEntry = new LogEntry()
             {
-                Message = message
+                FormattedMessage = message
             };
 
             Assert.Equal("N/A", logEntry.Machine);
@@ -107,15 +108,15 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         }
 
         [Theory]
-        [InlineData("Message: The stored procedure 'NAP_Admin_VerifySiteName' doesn't exist.\r\nSOURCE: System.Data.\r\nDOMAIN: localhost.\r\nCustId: hello world\r\n")]
+        [InlineData("Message: The stored procedure 'NAP_Admin_VerifySiteName' doesn't exist.\r\nSOURCE: System.Data.\r\nDOMAIN: localhost.\r\nCUSTID: hello world\r\n")]
         public void CustId_GetCustIdFromMessage_ReturnTrue(string message)
         {
             var logEntry = new LogEntry()
             {
-                Message = message
+                FormattedMessage = message
             };
 
-            Assert.Equal(" hello world", logEntry.CustId);
+            Assert.Equal(" hello world", logEntry.CustId, true);
 
         }
 
@@ -125,7 +126,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         {
             var logEntry = new LogEntry()
             {
-                Message = message
+                FormattedMessage = message
             };
 
             Assert.Equal("N/A", logEntry.CustId);
@@ -138,7 +139,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         {
             var logEntry = new LogEntry()
             {
-                Message = message
+                FormattedMessage = message
             };
 
             Assert.Equal(" hello world", logEntry.SiteAddress);
@@ -151,7 +152,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         {
             var logEntry = new LogEntry()
             {
-                Message = message
+                FormattedMessage = message
             };
 
             Assert.Equal("N/A", logEntry.SiteAddress);
@@ -164,7 +165,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         {
             var logEntry = new LogEntry()
             {
-                Message = message
+                FormattedMessage = message
             };
 
             Assert.Equal(" hello world", logEntry.Severity);
@@ -177,23 +178,23 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         {
             var logEntry = new LogEntry()
             {
-                Message = message
+                FormattedMessage = message
             };
 
-            Assert.Equal("N/A", logEntry.FormattedMessage);
+            Assert.Equal("Hello World", logEntry.FormattedMessage);
 
         }
 
         [Theory]
         [InlineData("Message: The stored procedure 'NAP_Admin_VerifySiteName' doesn't exist.\r\nSOURCE: System.Data.\r\nDOMAIN: localhost.\r\nSeverity: hello world\r\n")]
-        public void FormattedMessage_GetSeverityFromMessage_ReturnTrue(string message)
+        public void FormattedTheMessage_GetSeverityFromMessage_ReturnTrue(string message)
         {
             var logEntry = new LogEntry()
             {
-                Message = message
+                FormattedMessage = message
             };
 
-            Assert.Equal(" The stored procedure 'NAP_Admin_VerifySiteName' doesn't exist.", logEntry.FormattedMessage);
+            Assert.Equal(" The stored procedure 'NAP_Admin_VerifySiteName' doesn't exist.", logEntry.TheMessage);
 
         }
 
@@ -204,7 +205,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         {
             var logEntry = new LogEntry()
             {
-                Message = message
+                FormattedMessage = message
             };
 
             Assert.Equal("N/A", logEntry.Severity);

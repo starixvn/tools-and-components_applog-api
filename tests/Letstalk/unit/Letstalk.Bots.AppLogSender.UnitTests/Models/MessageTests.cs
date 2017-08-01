@@ -29,7 +29,8 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
                 CategoryName = "my category",               
                 MachineIP = "my machine ip",
                 LogId = 1,
-                Message = "my message"
+                Message = "Message: Additional non-parsable characters are at the end of the string. ",
+                FormattedMessage = "Message: Additional non-parsable characters are at the end of the string. "
             };
 
             var message = new Message(logEntry);
@@ -37,7 +38,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
             Assert.NotEmpty(message.Content);            
             Assert.Equal($"{logEntry.Timestamp.ToShortTimeString()} (GMT-4)", message.Content["timestamp"]);
             Assert.Equal(logEntry.CategoryName, message.Content["category"]);
-            Assert.Equal(logEntry.FormattedMessage, message.Content["message"]);            
+            Assert.Equal(logEntry.TheMessage, message.Content["message"]);            
         }
     }
 }

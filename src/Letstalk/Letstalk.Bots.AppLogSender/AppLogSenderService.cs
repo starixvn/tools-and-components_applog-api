@@ -35,6 +35,9 @@
                 .Use(new OldConnectionStringProvider())
                 .UseDefaultDbSettingProvider("~/App_Data")
                 .Run();
+
+            messageSender
+                       .Run(DateTime.Now.AddDays(-5), false);
         }
 
         protected override void OnStart(string[] args)
@@ -53,8 +56,16 @@
             {
                 if (!maintenanceService.IsUnderMaintenance())
                 {
+                    if(AppSettings.IsProduction)
+                    { 
                     messageSender                        
-                        .Run(DateTime.Now.AddSeconds(-AppSettings.Interval), AppSettings.IsProduction);
+                        .Run(DateTime.Now.AddSeconds(-AppSettings.Interval), true);
+                    }
+                    else
+                    {
+                        messageSender
+                        .Run(DateTime.Now.AddDays(-5), false);
+                    }
                 }               
             }
             catch (Exception ex)

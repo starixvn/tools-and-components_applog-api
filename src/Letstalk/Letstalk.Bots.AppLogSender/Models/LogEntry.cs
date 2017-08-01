@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -19,22 +20,13 @@ namespace Letstalk.Bots.AppLogSender.Models
 
         public string AppDomainName { get; set; }
 
-        public string FormattedMessage {
-            get
-            {
-                var formattedMessage = GetContentFromMessage(this.Message, "Message:");
-
-                return string.IsNullOrWhiteSpace(formattedMessage) ? "N/A" : formattedMessage;
-            }
-        }
+        public string FormattedMessage { get; set; }
 
         public string Referrer
         {
             get
             {
-                var referrer = GetContentFromMessage(this.Message, "REFERRER:");
-
-                return string.IsNullOrWhiteSpace(referrer) ? "N/A" : referrer;
+                return FormattedMessages(this.SplitingMessages, "REFERRER:");
             }
         }
 
@@ -42,21 +34,18 @@ namespace Letstalk.Bots.AppLogSender.Models
         {
             get
             {
-                var clientIp = GetContentFromMessage(this.Message, "CLIENT IP:");
-
-                return string.IsNullOrWhiteSpace(clientIp) ? "N/A" : clientIp;
+                return FormattedMessages(this.SplitingMessages, "CLIENT IP:");
             }
         }
 
         public string MachineIP { get; set; }
 
-        
-        public string Machine {
+
+        public string Machine
+        {
             get
             {
-                var machine = GetContentFromMessage(this.Message, "Machine:");
-
-                return string.IsNullOrWhiteSpace(machine) ? "N/A" : machine;
+                return FormattedMessages(this.SplitingMessages, "Machine:");
             }
         }
 
@@ -74,9 +63,7 @@ namespace Letstalk.Bots.AppLogSender.Models
         {
             get
             {
-                var custId = GetContentFromMessage(this.Message, "CUSTID:");
-
-                return string.IsNullOrWhiteSpace(custId) ? "N/A" : custId;
+                return FormattedMessages(this.SplitingMessages, "CUSTID:");
             }
         }
 
@@ -84,30 +71,52 @@ namespace Letstalk.Bots.AppLogSender.Models
         {
             get
             {
-                var siteAddress = GetContentFromMessage(this.Message, "Url:");
-
-                return string.IsNullOrWhiteSpace(siteAddress) ? "N/A" : siteAddress;
+                return FormattedMessages(this.SplitingMessages, "Url:");
             }
         }
 
-        public string Severity {
+        public string Severity
+        {
             get
             {
-                var severity = GetContentFromMessage(this.Message, "Severity:");
+                return FormattedMessages(this.SplitingMessages, "Severity:");
 
-                return string.IsNullOrWhiteSpace(severity) ? "N/A" : severity;
+
+            }
+        }
+
+        public string TheMessage
+        {
+            get
+            {
+                return FormattedMessages(this.SplitingMessages, "Message:");
             }
         }
 
         public bool IsValid => !string.IsNullOrWhiteSpace(Message);
 
+        private string[] SplitingMessages
+        {
+            get
+            {
+                string[] stringSeparators = new[] { "\r\n" };
+
+                if (!string.IsNullOrWhiteSpace(this.FormattedMessage))
+                {
+                    return this.FormattedMessage.Split(stringSeparators, StringSplitOptions.None);
+                }
+
+                return null;
+            }
+        }
+
         private static DateTime ConvertToGMT7(DateTime fromDate)
-        {          
+        {
             var toTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
             var fromTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Western Standard Time");
             var localTimeZone = TimeZone.CurrentTimeZone;
 
-            if(localTimeZone.StandardName.Equals(fromTimeZone.StandardName))
+            if (localTimeZone.StandardName.Equals(fromTimeZone.StandardName))
             {
                 DateTime convertedTime = TimeZoneInfo.ConvertTime(fromDate, fromTimeZone, toTimeZone);
 
@@ -117,37 +126,55 @@ namespace Letstalk.Bots.AppLogSender.Models
             return fromDate;
         }
 
-        private static string GetContentFromMessage(string message, string contentKey)
+        //private static string GetContentFromMessage(string message, string contentKey)
+        //{
+        //    string resultContent = string.Empty;
+        //    int startIndex = 0;
+        //    int endIndex = 0;
+        //    int length = 0;
+
+        //    int contentIndex = message.IndexOf(contentKey, System.StringComparison.InvariantCultureIgnoreCase);
+        //    if (contentIndex != -1)
+        //    {
+        //        startIndex = contentIndex + contentKey.Length;
+        //        endIndex = message.IndexOf(Environment.NewLine, startIndex, System.StringComparison.InvariantCultureIgnoreCase);
+
+        //        if (endIndex == -1 && startIndex == contentIndex)
+        //        {
+        //            endIndex = message.IndexOf(".", startIndex, System.StringComparison.InvariantCultureIgnoreCase);
+
+        //            if (endIndex == -1)
+        //            {
+        //                resultContent = message;
+        //            }
+        //        }
+
+        //        if (endIndex != -1)
+        //        {
+        //            length = endIndex - startIndex;
+        //            resultContent = message.Substring(startIndex, length);
+        //        }
+        //    }
+
+        //    return resultContent;
+        //}
+
+
+        private static string FormattedMessages(string[] messageList, string contentKey)
         {
-            string resultContent = string.Empty;
-            int startIndex = 0;
-            int endIndex = 0;
-            int length = 0;
-
-            int contentIndex = message.IndexOf(contentKey, System.StringComparison.InvariantCultureIgnoreCase);
-            if (contentIndex != -1)
+            if (messageList.Any())
             {
-                startIndex = contentIndex + contentKey.Length;
-                endIndex = message.IndexOf(Environment.NewLine, startIndex, System.StringComparison.InvariantCultureIgnoreCase);
+                var fomattedMessage = messageList.FirstOrDefault(item => item.IndexOf(contentKey, StringComparison.OrdinalIgnoreCase) >= 0);
 
-                if (endIndex == -1 && startIndex == contentIndex)
+                if (string.IsNullOrWhiteSpace(fomattedMessage))
                 {
-                    endIndex = message.IndexOf(".", startIndex, System.StringComparison.InvariantCultureIgnoreCase);
-
-                    if (endIndex == -1)
-                    {
-                        resultContent = message;
-                    }
+                    return "N/A";
                 }
 
-                if (endIndex != -1)
-                {
-                    length = endIndex - startIndex;
-                    resultContent = message.Substring(startIndex, length);
-                }
+                return fomattedMessage.Replace(contentKey, string.Empty);
             }
 
-            return resultContent;
+            return string.Empty;
         }
     }
 }
