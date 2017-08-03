@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Letstalk.Bots.AppLogSender.Models;
+﻿using Letstalk.Bots.AppLogSender.Models;
 using Xunit;
 using System.Collections.Immutable;
 

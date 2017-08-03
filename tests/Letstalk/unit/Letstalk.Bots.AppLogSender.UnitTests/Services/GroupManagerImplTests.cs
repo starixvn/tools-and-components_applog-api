@@ -1,7 +1,5 @@
-﻿using System.Collections.Specialized;
-using Letstalk.Bots.AppLogSender.Services;
+﻿using Letstalk.Bots.AppLogSender.Services;
 using Xunit;
-using System.Collections.Generic;
 
 namespace Letstalk.Bots.AppLogSender.UnitTests.Services
 {
