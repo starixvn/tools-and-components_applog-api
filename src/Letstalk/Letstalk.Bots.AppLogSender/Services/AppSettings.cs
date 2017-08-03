@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Letstalk.Bots.AppLogSender.Services
 {
-    public class AppSettings
+    public static class AppSettings
     {
         private static NameValueCollection NameValueCollection;
         private static string CurrentBaseDirectory;
