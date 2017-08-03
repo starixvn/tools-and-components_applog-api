@@ -22,77 +22,26 @@ namespace Letstalk.Bots.AppLogSender.Models
 
         public string FormattedMessage { get; set; }
 
-        public string Referrer
-        {
-            get
-            {
-                return FormattedMessages(this.SplitingMessages, "REFERRER:");
-            }
-        }
-
-        public string ClientIp
-        {
-            get
-            {
-                return FormattedMessages(this.SplitingMessages, "CLIENT IP:");
-            }
-        }
-
+        public string Referrer => FormattedMessages(this.SplitingMessages, "REFERRER:");
+        
+        public string ClientIp => FormattedMessages(this.SplitingMessages, "CLIENT IP:"); 
+       
         public string MachineIP { get; set; }
-
-
-        public string Machine
-        {
-            get
-            {
-                return FormattedMessages(this.SplitingMessages, "Machine:");
-            }
-        }
-
+        
+        public string Machine => FormattedMessages(this.SplitingMessages, "Machine:");
+      
         public DateTime Timestamp { get; set; }
 
-        public DateTime LocalTime
-        {
-            get
-            {
-                return ConvertToGMT7(Timestamp);
-            }
-        }
-
-        public string CustId
-        {
-            get
-            {
-                return FormattedMessages(this.SplitingMessages, "CUSTID:");
-            }
-        }
-
-        public string SiteAddress
-        {
-            get
-            {
-                return FormattedMessages(this.SplitingMessages, "Url:");
-            }
-        }
-
-        public string Severity
-        {
-            get
-            {
-                return FormattedMessages(this.SplitingMessages, "Severity:");
-
-
-            }
-        }
-
-        public string TheMessage
-        {
-            get
-            {
-                return FormattedMessages(this.SplitingMessages, "Message:");
-            }
-        }
-
+        public DateTime LocalTime => ConvertToGMT7(Timestamp);
+        
+        public string CustId => FormattedMessages(this.SplitingMessages, "CUSTID:");
+        
+        public string SiteAddress => FormattedMessages(this.SplitingMessages, "Url:");
+        
+        public string Severity => FormattedMessages(this.SplitingMessages, "Severity:");
+       
+        public string TheMessage => FormattedMessages(this.SplitingMessages, "Message:");
+       
         public bool IsValid => !string.IsNullOrWhiteSpace(Message);
 
         private string[] SplitingMessages
@@ -106,7 +55,7 @@ namespace Letstalk.Bots.AppLogSender.Models
                     return this.FormattedMessage.Split(stringSeparators, StringSplitOptions.None);
                 }
 
-                return null;
+                return new string[] { };
             }
         }
 
