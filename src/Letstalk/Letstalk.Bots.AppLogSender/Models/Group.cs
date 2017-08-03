@@ -3,6 +3,5 @@
     public interface IGroup
     {
         string GroupName { get; set; }
-
     }
 }

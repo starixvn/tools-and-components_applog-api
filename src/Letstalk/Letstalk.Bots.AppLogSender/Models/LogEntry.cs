@@ -10,6 +10,10 @@ namespace Letstalk.Bots.AppLogSender.Models
     /// </summary>
     public class LogEntry
     {
+        private readonly string[] NewLineSeperator = new[] { "\r\n" };
+        private const string AsiaStandardTime = "SE Asia Standard Time";
+        private const string NotAvaiable = "N/A";
+
         public int LogId { get; set; }
 
         public string Message { get; set; }
@@ -22,73 +26,46 @@ namespace Letstalk.Bots.AppLogSender.Models
 
         public string FormattedMessage { get; set; }
 
-        public string Referrer => FormattedMessages(this.SplitingMessages, "REFERRER:");
-        
-        public string ClientIp => FormattedMessages(this.SplitingMessages, "CLIENT IP:"); 
-       
         public string MachineIP { get; set; }
-        
-        public string Machine => FormattedMessages(this.SplitingMessages, "Machine:");
-      
+
+        public string Referrer => ExtractValue(this.SplitingMessages, "REFERRER:");
+
+        public string ClientIp => ExtractValue(this.SplitingMessages, "CLIENT IP:");
+
+        public string Machine => ExtractValue(this.SplitingMessages, "Machine:");
+
+        public string CustId => ExtractValue(this.SplitingMessages, "CUSTID:");
+
+        public string SiteAddress => ExtractValue(this.SplitingMessages, "Url:");
+
+        public string Severity => ExtractValue(this.SplitingMessages, "Severity:");
+
+        public string TheMessage => ExtractValue(this.SplitingMessages, "Message:");
+
         public DateTime Timestamp { get; set; }
 
-        public DateTime LocalTime => ConvertToGMT7(Timestamp);
-        
-        public string CustId => FormattedMessages(this.SplitingMessages, "CUSTID:");
-        
-        public string SiteAddress => FormattedMessages(this.SplitingMessages, "Url:");
-        
-        public string Severity => FormattedMessages(this.SplitingMessages, "Severity:");
-       
-        public string TheMessage => FormattedMessages(this.SplitingMessages, "Message:");
-       
+        public DateTime LocalTime => ConvertToGMT7(Timestamp, TimeZoneInfo.FindSystemTimeZoneById(AsiaStandardTime));
+
         public bool IsValid => !string.IsNullOrWhiteSpace(Message);
 
         private string[] SplitingMessages
+            => string.IsNullOrWhiteSpace(this.FormattedMessage) 
+            ? new string[] { }
+            : this.FormattedMessage.Split(NewLineSeperator, StringSplitOptions.RemoveEmptyEntries);
+
+        private static DateTime ConvertToGMT7(DateTime fromDate, TimeZoneInfo toTimeZone) =>
+             TimeZoneInfo.Local.StandardName.Equals(toTimeZone.StandardName)
+                ? fromDate
+                : TimeZoneInfo.ConvertTime(fromDate, toTimeZone);
+
+        private static string ExtractValue(string[] messageList, string key)
         {
-            get
-            {
-                string[] stringSeparators = new[] { "\r\n" };
+            var fomattedMessage = messageList
+               .FirstOrDefault(item => item.IndexOf(key, StringComparison.OrdinalIgnoreCase) >= 0);
 
-                if (!string.IsNullOrWhiteSpace(this.FormattedMessage))
-                {
-                    return this.FormattedMessage.Split(stringSeparators, StringSplitOptions.None);
-                }
-
-                return new string[] { };
-            }
-        }
-
-        private static DateTime ConvertToGMT7(DateTime fromDate)
-        {
-            var toTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-            var localTimeZone = TimeZoneInfo.Local;
-
-            if (!localTimeZone.StandardName.Equals(toTimeZone.StandardName))
-            {
-                DateTime convertedTime = TimeZoneInfo.ConvertTime(fromDate, toTimeZone);
-
-                return convertedTime;
-            }
-
-            return fromDate;
-        }
-
-        private static string FormattedMessages(string[] messageList, string contentKey)
-        {
-            if (messageList.Any())
-            {
-                var fomattedMessage = messageList.FirstOrDefault(item => item.IndexOf(contentKey, StringComparison.OrdinalIgnoreCase) >= 0);
-
-                if (string.IsNullOrWhiteSpace(fomattedMessage))
-                {
-                    return "N/A";
-                }
-
-                return fomattedMessage.Replace(contentKey, string.Empty);
-            }
-
-            return string.Empty;
+            return string.IsNullOrWhiteSpace(fomattedMessage)
+                ? NotAvaiable
+                : fomattedMessage.Replace(key, string.Empty);
         }
     }
 }

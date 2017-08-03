@@ -1,11 +1,23 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;
 
 namespace Letstalk.Bots.AppLogSender.Services
 {
-    public static class AppSettings
+    public class AppSettings
     {
+        private static NameValueCollection NameValueCollection;
+        private static string CurrentBaseDirectory;
+       
+        internal static void SetupGetConfiValueFunction(NameValueCollection nameValueCollection = null)
+            => NameValueCollection = nameValueCollection ?? ConfigurationManager.AppSettings;
+
+        internal static void SetupCurrentBaseDirectory(string path = "")
+            => CurrentBaseDirectory = string.IsNullOrWhiteSpace(path)
+                ? AppDomain.CurrentDomain.BaseDirectory
+                : path;
+
         public static bool IsProduction => Convert.ToBoolean(GetSettingValue("isProduction"));
 
         public static int Interval => Convert.ToInt32(GetSettingValue("interval"));
@@ -16,16 +28,19 @@ namespace Letstalk.Bots.AppLogSender.Services
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
         
         public static string CategoryGroupMapperFilePath =>
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, GetSettingValue("bot:CategoryGroupMapperPath"));
+            Path.Combine(CurrentBaseDirectory, GetSettingValue("bot:CategoryGroupMapperPath"));
 
         public static string IgnoreMessagesFilePath =>
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, GetSettingValue("bot:SkipTheseMessagesPath"));              
+            Path.Combine(CurrentBaseDirectory, GetSettingValue("bot:SkipTheseMessagesPath"));              
 
         /// <summary>
         /// This function must be called whenever application start
         /// </summary>
         public static void Verify()
         {
+            SetupGetConfiValueFunction();
+            SetupCurrentBaseDirectory();
+
             if (string.IsNullOrWhiteSpace(AuthKey))
             {
                 throw new InvalidDataException(nameof(AuthKey));
@@ -54,7 +69,7 @@ namespace Letstalk.Bots.AppLogSender.Services
                 throw new ArgumentException(nameof(key));
             }
 
-            return ConfigurationManager.AppSettings[key];
+            return NameValueCollection[key];
         }
     }
 }

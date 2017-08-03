@@ -1,10 +1,11 @@
-﻿using Letstalk.Bots.AppLogSender.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using Fanex.Logging;
+using Letstalk.Bots.AppLogSender.Services;
 
 namespace Letstalk.Bots.AppLogSender
 {
@@ -15,12 +16,20 @@ namespace Letstalk.Bots.AppLogSender
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
+            try
             {
+                ServiceBase[] ServicesToRun;
+                ServicesToRun = new ServiceBase[]
+                {
                 new AppLogSenderService()
-            };
-            ServiceBase.Run(ServicesToRun);            
+                };
+                ServiceBase.Run(ServicesToRun);
+
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message);
+            }
         }
     }
 }

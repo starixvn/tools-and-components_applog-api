@@ -26,8 +26,8 @@
         {
             InitializeComponent();
 
-            LogService.Info("Service is initializing at " + DateTime.Now);            
-
+            LogService.Info("Service is initializing at " + DateTime.Now);
+            
             AppSettings.Verify();            
 
             DbSettingProviderManager
