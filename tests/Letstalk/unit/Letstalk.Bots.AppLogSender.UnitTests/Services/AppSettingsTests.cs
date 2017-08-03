@@ -29,7 +29,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
                 { "isProduction", value }
             };
 
-            AppSettings.SetupGetConfiValueFunction(keyValues);
+            AppSettings.SetupConfigurationValues(keyValues);
 
             var actual = AppSettings.IsProduction;
 
@@ -46,7 +46,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
                 { "isProduction", value }
             };
 
-            AppSettings.SetupGetConfiValueFunction(keyValues);
+            AppSettings.SetupConfigurationValues(keyValues);
 
             var actual = AppSettings.IsProduction;
 
@@ -63,7 +63,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
                 { "interval", expected.ToString() }
             };
 
-            AppSettings.SetupGetConfiValueFunction(keyValues);
+            AppSettings.SetupConfigurationValues(keyValues);
 
             var actual = AppSettings.Interval;
 

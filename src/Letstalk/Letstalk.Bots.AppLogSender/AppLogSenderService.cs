@@ -21,14 +21,16 @@
     {
         private readonly MessageSender messageSender = new MessageSenderImpl();
         private readonly MaintenanceService maintenanceService = new MaintenanceService();
-      
+
         public AppLogSenderService()
         {
             InitializeComponent();
 
             LogService.Info("Service is initializing at " + DateTime.Now);
-            
-            AppSettings.Verify();            
+
+            AppSettings.SetupCurrentBaseDirectory();
+            AppSettings.SetupConfigurationValues();
+            AppSettings.Verify();
 
             DbSettingProviderManager
                 .StartNewSession()
@@ -52,31 +54,24 @@
 
         private void Ontimer(object sender, ElapsedEventArgs e)
         {
-            try
+            if (!maintenanceService.IsUnderMaintenance())
             {
-                if (!maintenanceService.IsUnderMaintenance())
+                if (AppSettings.IsProduction)
                 {
-                    if(AppSettings.IsProduction)
-                    { 
-                    messageSender                        
+                    messageSender
                         .Run(DateTime.Now.AddSeconds(-AppSettings.Interval), true);
-                    }
-                    else
-                    {
-                        messageSender
-                        .Run(DateTime.Now.AddDays(-5), false);
-                    }
-                }               
-            }
-            catch (Exception ex)
-            {
-                LogService.Error(ex.Message);
+                }
+                else
+                {
+                    messageSender
+                    .Run(DateTime.Now.AddDays(-5), false);
+                }
             }
         }
 
         protected override void OnStop()
         {
             LogService.Info("Service is stopped " + DateTime.Now);
-        }       
+        }
     }
 }

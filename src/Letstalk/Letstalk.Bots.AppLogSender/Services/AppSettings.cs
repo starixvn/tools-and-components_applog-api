@@ -10,7 +10,7 @@ namespace Letstalk.Bots.AppLogSender.Services
         private static NameValueCollection NameValueCollection;
         private static string CurrentBaseDirectory;
        
-        internal static void SetupGetConfiValueFunction(NameValueCollection nameValueCollection = null)
+        internal static void SetupConfigurationValues(NameValueCollection nameValueCollection = null)
             => NameValueCollection = nameValueCollection ?? ConfigurationManager.AppSettings;
 
         internal static void SetupCurrentBaseDirectory(string path = "")
@@ -38,7 +38,7 @@ namespace Letstalk.Bots.AppLogSender.Services
         /// </summary>
         public static void Verify()
         {
-            SetupGetConfiValueFunction();
+            SetupConfigurationValues();
             SetupCurrentBaseDirectory();
 
             if (string.IsNullOrWhiteSpace(AuthKey))
