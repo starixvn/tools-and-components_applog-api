@@ -9,7 +9,7 @@ namespace Letstalk.Bots.AppLogSender.Services
     {
         private static NameValueCollection NameValueCollection;
         private static string CurrentBaseDirectory;
-       
+
         internal static void SetupConfigurationValues(NameValueCollection nameValueCollection = null)
             => NameValueCollection = nameValueCollection ?? ConfigurationManager.AppSettings;
 
@@ -22,16 +22,16 @@ namespace Letstalk.Bots.AppLogSender.Services
 
         public static int Interval => Convert.ToInt32(GetSettingValue("interval"));
 
-        public static string AuthKey => GetSettingValue("letstalk:AuthKey");        
+        public static string AuthKey => GetSettingValue("letstalk:AuthKey");
 
         public static string[] ServiceUri => GetSettingValue("letstalk:Service")
-            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-        
+            .Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+
         public static string CategoryGroupMapperFilePath =>
             Path.Combine(CurrentBaseDirectory, GetSettingValue("bot:CategoryGroupMapperPath"));
 
         public static string IgnoreMessagesFilePath =>
-            Path.Combine(CurrentBaseDirectory, GetSettingValue("bot:SkipTheseMessagesPath"));              
+            Path.Combine(CurrentBaseDirectory, GetSettingValue("bot:SkipTheseMessagesPath"));
 
         /// <summary>
         /// This function must be called whenever application start
