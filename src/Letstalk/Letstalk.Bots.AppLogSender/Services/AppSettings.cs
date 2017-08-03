@@ -38,9 +38,6 @@ namespace Letstalk.Bots.AppLogSender.Services
         /// </summary>
         public static void Verify()
         {
-            SetupConfigurationValues();
-            SetupCurrentBaseDirectory();
-
             if (string.IsNullOrWhiteSpace(AuthKey))
             {
                 throw new InvalidDataException(nameof(AuthKey));
