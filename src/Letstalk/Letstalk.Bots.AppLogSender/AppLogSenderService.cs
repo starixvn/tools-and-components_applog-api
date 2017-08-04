@@ -69,12 +69,12 @@
                     if (AppSettings.IsProduction)
                     {
                         messageSender
-                            .Run(DateTime.Now.AddSeconds(-AppSettings.Interval), true);
+                            .Run(DateTime.Now.AddSeconds(-AppSettings.Interval), AppSettings.IsProduction);
                     }
                     else
                     {
                         messageSender
-                        .Run(DateTime.Now.AddDays(-5), false);
+                        .Run(DateTime.Now.AddDays(-5), AppSettings.IsProduction);
                     }
                 }
             }
