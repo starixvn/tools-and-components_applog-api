@@ -26,17 +26,24 @@
         {
             InitializeComponent();
 
-            LogService.Info("Service is initializing at " + DateTime.Now);
+            try
+            {
+                LogService.Info("Service is initializing at " + DateTime.Now);
 
-            AppSettings.SetupCurrentBaseDirectory();
-            AppSettings.SetupConfigurationValues();
-            AppSettings.Verify();
+                AppSettings.SetupCurrentBaseDirectory();
+                AppSettings.SetupConfigurationValues();
+                AppSettings.Verify();
 
-            DbSettingProviderManager
-                .StartNewSession()
-                .Use(new OldConnectionStringProvider())
-                .UseDefaultDbSettingProvider("~/App_Data")
-                .Run();           
+                DbSettingProviderManager
+                    .StartNewSession()
+                    .Use(new OldConnectionStringProvider())
+                    .UseDefaultDbSettingProvider("~/App_Data")
+                    .Run();
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message);
+            }           
         }
 
         protected override void OnStart(string[] args)
@@ -51,18 +58,25 @@
 
         private void Ontimer(object sender, ElapsedEventArgs e)
         {
-            if (!maintenanceService.IsUnderMaintenance())
+            try
             {
-                if (AppSettings.IsProduction)
+                if (!maintenanceService.IsUnderMaintenance())
                 {
-                    messageSender
-                        .Run(DateTime.Now.AddSeconds(-AppSettings.Interval), true);
+                    if (AppSettings.IsProduction)
+                    {
+                        messageSender
+                            .Run(DateTime.Now.AddSeconds(-AppSettings.Interval), true);
+                    }
+                    else
+                    {
+                        messageSender
+                        .Run(DateTime.Now.AddDays(-5), false);
+                    }
                 }
-                else
-                {
-                    messageSender
-                    .Run(DateTime.Now.AddDays(-5), false);
-                }
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message);
             }
         }
 
