@@ -36,10 +36,7 @@
                 .StartNewSession()
                 .Use(new OldConnectionStringProvider())
                 .UseDefaultDbSettingProvider("~/App_Data")
-                .Run();
-
-            messageSender
-                       .Run(DateTime.Now.AddDays(-5), false);
+                .Run();           
         }
 
         protected override void OnStart(string[] args)
