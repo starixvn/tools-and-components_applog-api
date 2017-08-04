@@ -19,8 +19,8 @@
 
     public partial class AppLogSenderService : ServiceBase
     {
-        private readonly MessageSender messageSender = new MessageSenderImpl();
-        private readonly MaintenanceService maintenanceService = new MaintenanceService();
+        private readonly MessageSender messageSender;
+        private readonly MaintenanceService maintenanceService;
 
         public AppLogSenderService()
         {
@@ -30,15 +30,19 @@
             {
                 LogService.Info("Service is initializing at " + DateTime.Now);
 
-                AppSettings.SetupCurrentBaseDirectory();
-                AppSettings.SetupConfigurationValues();
-                AppSettings.Verify();
-
                 DbSettingProviderManager
                     .StartNewSession()
                     .Use(new OldConnectionStringProvider())
                     .UseDefaultDbSettingProvider("~/App_Data")
                     .Run();
+
+                AppSettings.SetupCurrentBaseDirectory();
+                AppSettings.SetupConfigurationValues();
+                AppSettings.Verify();
+
+                messageSender = new MessageSenderImpl();
+                maintenanceService = new MaintenanceService();
+
             }
             catch (Exception ex)
             {
