@@ -42,8 +42,8 @@
             }
             catch (Exception ex)
             {
-                LogService.Error(ex.Message);
-            }           
+                LogService.Error("initializing: " + ex.Message);
+            }
         }
 
         protected override void OnStart(string[] args)
