@@ -172,7 +172,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         }
 
         [Fact]
-        public void Verify_AuthKey_ReturnInvalidDataException()
+        public void Verify_AuthKey_MissingKey_ReturnInvalidDataException()
         {
             var keyValues = new NameValueCollection
             {
@@ -187,7 +187,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         }
 
         [Fact]
-        public void Verify_ServiceUri_ReturnInvalidDataException()
+        public void Verify_ServiceUri_MissingKey_ReturnInvalidDataException()
         {
             var keyValues = new NameValueCollection
             {
@@ -204,7 +204,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         }
 
         [Fact]
-        public void Verify_CategoryGroupMapperFilePath_ReturnFileNotFoundException()
+        public void Verify_CategoryGroupMapperFilePath_NotFoundPath_ReturnFileNotFoundException()
         {
             var keyValues = new NameValueCollection
             {
@@ -224,7 +224,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         }
 
         [Fact]
-        public void Verify_IgnoreMessagesFilePath_ReturnFileNotFoundException()
+        public void Verify_IgnoreMessagesFilePath_NotFoundPath_ReturnFileNotFoundException()
         {
             var keyValues = new NameValueCollection
             {
