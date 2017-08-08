@@ -6,12 +6,12 @@ using Letstalk.Bots.AppLogSender.Models;
 
 namespace Letstalk.Bots.AppLogSender.Services
 {
-    public interface LogEntryChecker
+    public interface ILogEntryChecker
     {
         bool IsOK(LogEntry entry);
     }
 
-    public class LogEntryCheckerImpl : LogEntryChecker
+    public class LogEntryCheckerImpl : ILogEntryChecker
     {
         private readonly IEnumerable<string> ignoreTextList;
 

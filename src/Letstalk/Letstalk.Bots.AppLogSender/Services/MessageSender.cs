@@ -2,20 +2,20 @@
 
 namespace Letstalk.Bots.AppLogSender.Services
 {
-    public interface MessageSender
+    public interface IMessageSender
     {
         void Run(DateTime fromDate, bool isProduction);
     }
 
-    public class MessageSenderImpl : MessageSender
+    public class MessageSenderImpl : IMessageSender
     {
-        private readonly GroupManager groupManager;
-        private readonly LogMessageService logContentService;
-        private readonly LetstalkSender sender;
+        private readonly IGroupManager groupManager;
+        private readonly ILogMessageService logContentService;
+        private readonly ILetstalkSender sender;
 
-        public MessageSenderImpl(GroupManager groupManager = null,
-            LogMessageService logContentService = null,
-            LetstalkSender sender = null)
+        public MessageSenderImpl(IGroupManager groupManager = null,
+            ILogMessageService logContentService = null,
+            ILetstalkSender sender = null)
         {
             this.groupManager = groupManager ?? new GroupManagerImpl();
             this.logContentService = logContentService ?? new LogMessageServiceImpl();

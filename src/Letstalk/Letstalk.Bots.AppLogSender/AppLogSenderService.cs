@@ -11,7 +11,7 @@
 
     public partial class AppLogSenderService : ServiceBase
     {
-        private readonly MessageSender messageSender;
+        private readonly IMessageSender messageSender;
         private readonly MaintenanceService maintenanceService;
 
         public AppLogSenderService()
@@ -20,15 +20,15 @@
 
             LogService.Info("Service is initializing at " + DateTime.Now);
 
+            AppSettings.SetupCurrentBaseDirectory();
+            AppSettings.SetupConfigurationValues();
+            AppSettings.Verify();
+
             DbSettingProviderManager
                 .StartNewSession()
                 .Use(new OldConnectionStringProvider())
                 .UseDefaultDbSettingProvider(AppSettings.FanexDbSettingPath)
-                .Run();
-
-            AppSettings.SetupCurrentBaseDirectory();
-            AppSettings.SetupConfigurationValues();
-            AppSettings.Verify();
+                .Run();            
 
             messageSender = new MessageSenderImpl();
             maintenanceService = new MaintenanceService();

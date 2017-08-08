@@ -12,17 +12,17 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
     [Trait("Service", "MessageSende")]
     public class MessageSenderImplTests
     {
-        LogEntryChecker logEntryChecker;
+        ILogEntryChecker logEntryChecker;
         IDynamicRepository repository;
-        LetstalkSender letstalkSender;
-        GroupManager groupManager;
+        ILetstalkSender letstalkSender;
+        IGroupManager groupManager;
 
         public MessageSenderImplTests()
         {
-            logEntryChecker = Substitute.For<LogEntryChecker>();
+            logEntryChecker = Substitute.For<ILogEntryChecker>();
             repository = Substitute.For<IDynamicRepository>();
-            letstalkSender = Substitute.For<LetstalkSender>();
-            groupManager = Substitute.For<GroupManager>();            
+            letstalkSender = Substitute.For<ILetstalkSender>();
+            groupManager = Substitute.For<IGroupManager>();            
         }
 
         [Fact]

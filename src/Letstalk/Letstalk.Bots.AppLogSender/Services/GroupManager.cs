@@ -4,12 +4,12 @@ using Newtonsoft.Json;
 
 namespace Letstalk.Bots.AppLogSender.Services
 {
-    public interface GroupManager
+    public interface IGroupManager
     {
         string GetGroupByCategory(string category);
     }
 
-    public class GroupManagerImpl : GroupManager
+    public class GroupManagerImpl : IGroupManager
     {
         private readonly Dictionary<string, string> categoryGroupDictionary;
 

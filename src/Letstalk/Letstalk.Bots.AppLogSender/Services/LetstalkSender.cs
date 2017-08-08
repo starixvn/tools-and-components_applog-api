@@ -3,12 +3,12 @@ using ONEbook.NotificationService;
 
 namespace Letstalk.Bots.AppLogSender.Services
 {
-    public interface LetstalkSender
+    public interface ILetstalkSender
     {
         void SendAsync(string group, IMessage content);
     }
 
-    public class LetstalkSenderImpl : LetstalkSender
+    public class LetstalkSenderImpl : ILetstalkSender
     {
         public LetstalkSenderImpl(string[] serviceUri = null)
         {

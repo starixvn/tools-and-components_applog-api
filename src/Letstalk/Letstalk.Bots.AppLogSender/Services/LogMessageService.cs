@@ -6,18 +6,18 @@ using Letstalk.Bots.AppLogSender.Models;
 
 namespace Letstalk.Bots.AppLogSender.Services
 {
-    public interface LogMessageService
+    public interface ILogMessageService
     {
         IEnumerable<IMessage> GetLatestData(DateTime fromDate, bool isProduction);
     }
 
-    public class LogMessageServiceImpl : LogMessageService
+    public class LogMessageServiceImpl : ILogMessageService
     {
-        private readonly LogEntryChecker checker;
+        private readonly ILogEntryChecker checker;
         private readonly IDynamicRepository repository;
 
         public LogMessageServiceImpl(
-            LogEntryChecker checker = null,
+            ILogEntryChecker checker = null,
             IDynamicRepository repository = null)
         {
             this.checker = checker ?? new LogEntryCheckerImpl();
