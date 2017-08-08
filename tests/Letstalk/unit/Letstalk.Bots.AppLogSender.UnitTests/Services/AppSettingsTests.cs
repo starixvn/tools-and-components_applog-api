@@ -171,6 +171,23 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
             Assert.Equal(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, expected), actual);
         }
 
+        [Theory]
+        [InlineData("~/App_Data")]
+        public void FanexDbSettingPath_Always_ReturnRightValueFromSetting(string expected)
+        {
+            var keyValues = new NameValueCollection
+            {
+                { "fanex:dbsettingpath", expected }
+            };
+
+            AppSettings.SetupConfigurationValues(keyValues);            
+
+            var actual = AppSettings.FanexDbSettingPath;
+
+            Assert.Equal(expected, actual);
+        }
+
+
         [Fact]
         public void Verify_AuthKey_MissingKey_ReturnInvalidDataException()
         {
@@ -185,6 +202,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
 
             Assert.Throws<InvalidDataException>(()=> AppSettings.Verify());            
         }
+
 
         [Fact]
         public void Verify_ServiceUri_MissingKey_ReturnInvalidDataException()
