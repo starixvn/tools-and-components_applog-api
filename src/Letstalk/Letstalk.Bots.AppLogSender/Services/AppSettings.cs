@@ -24,6 +24,8 @@ namespace Letstalk.Bots.AppLogSender.Services
 
         public static string AuthKey => GetSettingValue("letstalk:AuthKey");
 
+        public static string FanexDbSettingPath => GetSettingValue("fanex:dbsettingpath");
+
         public static string[] ServiceUri => GetSettingValue("letstalk:Service")
             .Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
 

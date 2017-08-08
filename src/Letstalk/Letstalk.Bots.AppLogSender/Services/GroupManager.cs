@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Letstalk.Bots.AppLogSender.Models;
 using Newtonsoft.Json;
 
 namespace Letstalk.Bots.AppLogSender.Services
@@ -17,15 +11,15 @@ namespace Letstalk.Bots.AppLogSender.Services
 
     public class GroupManagerImpl : GroupManager
     {
-        private readonly Dictionary<string, string> categoryGroupDictionary;        
+        private readonly Dictionary<string, string> categoryGroupDictionary;
 
         public GroupManagerImpl(string jsonContent = null)
         {
-            var categoryContentJsonContent = string.IsNullOrWhiteSpace(jsonContent) 
-                ? File.ReadAllText(AppSettings.CategoryGroupMapperFilePath) 
-                : jsonContent;            
+            var categoryContentJsonContent = string.IsNullOrWhiteSpace(jsonContent)
+                ? File.ReadAllText(AppSettings.CategoryGroupMapperFilePath)
+                : jsonContent;
 
-            this.categoryGroupDictionary = JsonConvert
+            categoryGroupDictionary = JsonConvert
                 .DeserializeObject<Dictionary<string, string>>(categoryContentJsonContent);
         }
 
@@ -36,8 +30,8 @@ namespace Letstalk.Bots.AppLogSender.Services
                 return string.Empty;
             }
 
-            return categoryGroupDictionary.ContainsKey(category) 
-                ? categoryGroupDictionary[category] 
+            return categoryGroupDictionary.ContainsKey(category)
+                ? categoryGroupDictionary[category]
                 : string.Empty;
         }
     }

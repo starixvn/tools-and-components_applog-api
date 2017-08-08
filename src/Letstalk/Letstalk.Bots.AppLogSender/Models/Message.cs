@@ -9,21 +9,16 @@ namespace Letstalk.Bots.AppLogSender.Models
 
         Dictionary<string, string> Content { get; }
 
-        string Category { get; }      
+        string Category { get; }
     }
 
-    public class Message : IMessage, IEquatable<Message>
+    public sealed class Message : IMessage, IEqualityComparer<IMessage>, IEquatable<IMessage>
     {
         private readonly LogEntry logEntry;
 
         public Message(LogEntry logEntry)
         {
-            if (logEntry == null)
-            {
-                throw new ArgumentNullException(nameof(logEntry));
-            }
-
-            this.logEntry = logEntry;
+            this.logEntry = logEntry ?? throw new ArgumentNullException(nameof(logEntry));
         }
 
         public int LogId => logEntry.LogId;
@@ -47,12 +42,18 @@ namespace Letstalk.Bots.AppLogSender.Models
                 };
 
         public override bool Equals(object obj)
-            => (obj is Message) && Equals(obj as Message);     
+            => (obj is Message) && Equals(obj as Message);
 
-        public bool Equals(Message other) 
-            => this.LogId == other.LogId;
+        public bool Equals(IMessage other)
+            => LogId == other.LogId;
 
-        public override int GetHashCode() 
-            => this.logEntry.GetHashCode();
+        public bool Equals(IMessage x, IMessage y)
+         => x.LogId == y.LogId;
+
+        public int GetHashCode(IMessage obj)
+         => logEntry.GetHashCode();
+
+        public override int GetHashCode()
+        => logEntry.GetHashCode();
     }
 }

@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Fanex.Data;
 using Fanex.Data.Repository;
 using Letstalk.Bots.AppLogSender.Models;
 
@@ -43,7 +39,7 @@ namespace Letstalk.Bots.AppLogSender.Services
             IsProduction = isProduction;
         }
 
-        public DateTime FromDate { get; } 
+        public DateTime FromDate { get; }
 
         public bool IsProduction { get; }
 

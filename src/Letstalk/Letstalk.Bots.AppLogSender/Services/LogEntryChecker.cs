@@ -20,16 +20,16 @@ namespace Letstalk.Bots.AppLogSender.Services
             this.ignoreTextList = ignoreTextList ?? GetIgnoreTextList();
         }
 
-        public bool IsOK(LogEntry logEntry)
+        public bool IsOK(LogEntry entry)
         {
-            if (logEntry == null)
+            if (entry == null)
             {
-                throw new ArgumentNullException(nameof(logEntry));
+                throw new ArgumentNullException(nameof(entry));
             }
 
-            return logEntry.IsValid
+            return entry.IsValid
                 && (ignoreTextList == null
-                || !ignoreTextList.Any(ingoreText => logEntry.Message.Contains(ingoreText)));
+                || !ignoreTextList.Any(ingoreText => entry.Message.Contains(ingoreText)));
         }
 
         private static IEnumerable<string> GetIgnoreTextList()

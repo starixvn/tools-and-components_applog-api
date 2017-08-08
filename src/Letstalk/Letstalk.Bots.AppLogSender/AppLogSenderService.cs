@@ -1,15 +1,7 @@
 ﻿namespace Letstalk.Bots.AppLogSender
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Configuration;
-    using System.Data;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
     using System.ServiceProcess;
-    using System.Text;
     using System.Timers;
     using Fanex.Data;
     using Fanex.Data.OldConnectionStringProvider;
@@ -31,7 +23,7 @@
             DbSettingProviderManager
                 .StartNewSession()
                 .Use(new OldConnectionStringProvider())
-                .UseDefaultDbSettingProvider("~/App_Data")
+                .UseDefaultDbSettingProvider(AppSettings.FanexDbSettingPath)
                 .Run();
 
             AppSettings.SetupCurrentBaseDirectory();
@@ -46,9 +38,11 @@
         {
             LogService.Info("Service is starting...");
 
-            var timer = new Timer();
-            timer.Interval = AppSettings.Interval * 1000;
-            timer.Elapsed += this.Ontimer;
+            var timer = new Timer
+            {
+                Interval = AppSettings.Interval * 1000
+            };
+            timer.Elapsed += Ontimer;
             timer.Start();
         }
 
