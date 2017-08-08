@@ -48,12 +48,12 @@ namespace Letstalk.Bots.AppLogSender.Models
             => LogId == other.LogId;
 
         public bool Equals(IMessage x, IMessage y)
-         => x.LogId == y.LogId;
+            => x.LogId == y.LogId;
 
         public int GetHashCode(IMessage obj)
-         => logEntry.GetHashCode();
+            => logEntry.GetHashCode();
 
         public override int GetHashCode()
-        => logEntry.GetHashCode();
+            => logEntry.GetHashCode();
     }
 }
