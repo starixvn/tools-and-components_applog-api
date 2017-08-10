@@ -27,3 +27,6 @@ Could not find any recognizable digits.
 communication buffer resources with another process and has been chosen as the deadlock victim. Rerun the transaction
 Length of argument 'String' must be greater than zero.
 Min Bet cannot be greater than Max Bet.
+The operation was canceled.
+Exception in main thread -
+Timeout expired.  The timeout period elapsed prior to obtaining a connection from the pool.  This may have occurred because all pooled connections were in use and max pool size was reached.
