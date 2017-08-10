@@ -29,7 +29,7 @@ namespace Letstalk.Bots.AppLogSender.Services
 
             return entry.IsValid
                 && (ignoreTextList == null
-                || !ignoreTextList.Any(ingoreText => entry.Message.Contains(ingoreText)));
+                || !ignoreTextList.Any(ingoreText => entry.TheMessage.Contains(ingoreText)));
         }
 
         private static IEnumerable<string> GetIgnoreTextList()
