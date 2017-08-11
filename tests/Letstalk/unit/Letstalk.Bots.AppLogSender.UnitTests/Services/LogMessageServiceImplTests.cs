@@ -18,9 +18,9 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         {
             latestData = new List<LogEntry>
             {
-                new LogEntry { LogId = 1, Message = "Content 1" },
-                new LogEntry { LogId = 2, Message = "Contain ignore message" },
-                new LogEntry { LogId = 3, Message = "" }
+                new LogEntry { LogId = 1, FormattedMessage = "Content 1" },
+                new LogEntry { LogId = 2, FormattedMessage = "Contain ignore message" },
+                new LogEntry { LogId = 3, FormattedMessage = "" }
             };
         }
 

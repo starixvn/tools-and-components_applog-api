@@ -41,7 +41,7 @@ namespace Letstalk.Bots.AppLogSender.Models
 
         public DateTime LocalTime => ConvertToGMT7(Timestamp, TimeZoneInfo.FindSystemTimeZoneById(AsiaStandardTime));
 
-        public bool IsValid => !string.IsNullOrWhiteSpace(Message);
+        public bool IsValid => !string.IsNullOrWhiteSpace(FormattedMessage);
 
         private string[] GetSplitingMessages()
         {

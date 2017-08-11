@@ -14,7 +14,6 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Services
         private readonly IEnumerable<string> EmptyIgnoreList = Enumerable.Empty<string>();
         public LogEntry logEntry = new LogEntry { FormattedMessage = "Message: Content contains ignore text" };
               
-
         [Fact]
         public void IsOK_LogEntryContainsAnyIgnoredText_ReturnFalse()
         {
