@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 
 namespace Letstalk.Bots.AppLogSender.Services
@@ -18,9 +19,9 @@ namespace Letstalk.Bots.AppLogSender.Services
                 ? AppDomain.CurrentDomain.BaseDirectory
                 : path;
 
-        public static bool IsProduction => Convert.ToBoolean(GetSettingValue("isProduction"));
+        public static bool IsProduction => Convert.ToBoolean(GetSettingValue("isProduction"), CultureInfo.CurrentCulture);
 
-        public static int Interval => Convert.ToInt32(GetSettingValue("interval"));
+        public static int Interval => Convert.ToInt32(GetSettingValue("interval"), CultureInfo.CurrentCulture);
 
         public static string AuthKey => GetSettingValue("letstalk:AuthKey");
 

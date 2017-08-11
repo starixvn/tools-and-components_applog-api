@@ -52,7 +52,7 @@ namespace Letstalk.Bots.AppLogSender.Models
 
         private static DateTime ConvertToGMT7(DateTime fromDate, TimeZoneInfo toTimeZone)
         {
-            return TimeZoneInfo.Local.StandardName.Equals(toTimeZone.StandardName)
+            return TimeZoneInfo.Local.StandardName.Equals(toTimeZone.StandardName, StringComparison.OrdinalIgnoreCase)
                            ? fromDate
                            : TimeZoneInfo.ConvertTime(fromDate, toTimeZone);
         }

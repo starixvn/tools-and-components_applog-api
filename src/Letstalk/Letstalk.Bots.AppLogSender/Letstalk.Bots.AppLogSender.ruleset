@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="SonarQube - NexOps / Auto Bot Chat Sonar way" ToolsVersion="15.0">
-  <Include Path="D:\GitSCM\NexOps\applog-api\sonarqube\autobotchatcsharp.ruleset" Action="Default" />
+  <Include Path="..\..\..\sonarqube\autobotchatcsharp.ruleset" Action="Default" />
+  <Include Path="d:\gitscm\nexops\applog-api\sonarqube\autobotchatcsharp.ruleset" Action="Default" />
   <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.EditorFeatures" RuleNamespace="Microsoft.CodeAnalysis.CSharp.EditorFeatures">
     <Rule Id="IDE0032" Action="None" />
     <Rule Id="IDE0032WithoutSuggestion" Action="None" />

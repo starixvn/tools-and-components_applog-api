@@ -36,7 +36,7 @@
 
         protected override void OnStart(string[] args)
         {
-            LogService.Info("Service is starting...");
+            LogService.Info("Service is started at " + DateTime.Now);
 
             var timer = new Timer
             {
