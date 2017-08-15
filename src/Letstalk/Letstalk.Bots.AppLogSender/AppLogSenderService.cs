@@ -50,7 +50,7 @@
         {
             if (!maintenanceService.IsUnderMaintenance())
             {
-                var fromDate = DateTime.Now.ToUniversalTime();
+                var fromDate = DateTime.Now;
 
                 messageSender
                         .Run(AppSettings.IsProduction ? fromDate.AddSeconds(-AppSettings.Interval) : fromDate.AddDays(-5), AppSettings.IsProduction);
