@@ -50,10 +50,8 @@
         {
             if (!maintenanceService.IsUnderMaintenance())
             {
-                var fromDate = DateTime.Now;
-
                 messageSender
-                        .Run(AppSettings.IsProduction ? fromDate.AddSeconds(-AppSettings.Interval) : fromDate.AddDays(-5), AppSettings.IsProduction);
+                        .Run(AppSettings.IsProduction ? DateTime.Now.AddSeconds(-AppSettings.Interval) : DateTime.Now.AddDays(-5), AppSettings.IsProduction);
             }
         }
 
