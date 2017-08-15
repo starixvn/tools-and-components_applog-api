@@ -31,3 +31,6 @@ Min Bet cannot be greater than Max Bet.
 The operation was canceled.
 Exception in main thread -
 Timeout expired.  The timeout period elapsed prior to obtaining a connection from the pool.  This may have occurred because all pooled connections were in use and max pool size was reached.
+SqlDateTime overflow.
+Exception of type 'System.OutOfMemoryException' was thrown.
+The conversion of the varchar value
