@@ -19,7 +19,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         {
             var logEntry = new LogEntry()
             {
-                Timestamp = DateTime.Now,
+                Timestamp = DateTime.UtcNow,
                 AppDomainName = "my domain name",
                 CategoryId = 1,
                 CategoryName = "my category",               
@@ -32,7 +32,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
             var message = new Message(logEntry);
 
             Assert.NotEmpty(message.Content);            
-            Assert.Equal($"{logEntry.Timestamp.ToShortTimeString()} (GMT-4)", message.Content["timestamp"]);
+            Assert.Equal($"{logEntry.ServerTime.ToShortTimeString()} (GMT-4)", message.Content["timestamp"]);
             Assert.Equal(logEntry.CategoryName, message.Content["category"]);
             Assert.Equal(logEntry.TheMessage, message.Content["message"]);            
         }
@@ -42,7 +42,7 @@ namespace Letstalk.Bots.AppLogSender.UnitTests.Models
         {
             var logEntry = new LogEntry()
             {
-                Timestamp = DateTime.Now,
+                Timestamp = DateTime.UtcNow,
                 AppDomainName = "my domain name",
                 CategoryId = 1,
                 CategoryName = "my category",
