@@ -5,8 +5,7 @@ namespace Letstalk.Bots.AppLogSender.Models
 {
     public class LogEntry
     {
-        private readonly string[] NewLineSeperator = new[] { "\r\n" };
-        private const string AsiaStandardTime = "SE Asia Standard Time";
+        private readonly string[] NewLineSeperator = new[] { "\r\n" };        
         private const string NotAvaiable = "N/A";
 
         public int LogId { get; set; }
@@ -39,7 +38,9 @@ namespace Letstalk.Bots.AppLogSender.Models
 
         public DateTime Timestamp { get; set; }
 
-        public DateTime LocalTime => ConvertToGMT7(Timestamp, TimeZoneInfo.FindSystemTimeZoneById(AsiaStandardTime));
+        public DateTime LocalTime => ConvertToGMT7(Timestamp);
+
+        public DateTime ServerTime => ConvertToGMTMinus4(Timestamp);
 
         public bool IsValid => !string.IsNullOrWhiteSpace(FormattedMessage);
 
@@ -50,11 +51,14 @@ namespace Letstalk.Bots.AppLogSender.Models
             : FormattedMessage.Split(NewLineSeperator, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        private static DateTime ConvertToGMT7(DateTime fromDate, TimeZoneInfo toTimeZone)
+        private static DateTime ConvertToGMT7(DateTime fromDate)
         {
-            return TimeZoneInfo.Local.StandardName.Equals(toTimeZone.StandardName, StringComparison.OrdinalIgnoreCase)
-                           ? fromDate
-                           : TimeZoneInfo.ConvertTime(fromDate, toTimeZone);
+            return fromDate.AddHours(7);
+        }
+
+        private static DateTime ConvertToGMTMinus4(DateTime fromDate)
+        {
+            return fromDate.AddHours(-4);
         }
 
         private static string ExtractValue(string[] messageList, string key)

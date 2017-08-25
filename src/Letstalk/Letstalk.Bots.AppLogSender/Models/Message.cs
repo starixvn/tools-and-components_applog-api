@@ -29,7 +29,7 @@ namespace Letstalk.Bots.AppLogSender.Models
                 => new Dictionary<string, string>
                 {
                     ["category"] = logEntry.CategoryName,
-                    ["timestamp"] = $"{logEntry.Timestamp.ToShortTimeString()} (GMT-4)",
+                    ["timestamp"] = $"{logEntry.ServerTime.ToShortTimeString()} (GMT-4)",
                     ["localtime"] = $"{logEntry.LocalTime.ToShortTimeString()} (GMT+7)",
                     ["message"] = logEntry.TheMessage,
                     ["url"] = logEntry.SiteAddress,
