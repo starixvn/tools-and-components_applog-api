@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ChannelAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="ConversationEvents">
+          <Key>
+            <PropertyRef Name="ConversationId" />
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="ConversationId" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="EventId" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Conversations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SenderId" Type="nvarchar" MaxLength="100" />
+          <Property Name="RecipientId" Type="nvarchar" MaxLength="100" />
+          <Property Name="ServiceUrl" Type="nvarchar" MaxLength="200" />
+          <Property Name="ChannelId" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsGroup" Type="bit" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Events">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Start" Type="datetime" />
+          <Property Name="End" Type="datetime" />
+          <Property Name="Message" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityContainer Name="DBModelStoreContainer">
+          <EntitySet Name="ChannelAccount" EntityType="Self.ChannelAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConversationEvents" EntityType="Self.ConversationEvents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Conversations" EntityType="Self.Conversations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ChannelAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Conversation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SenderId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RecipientId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ChannelId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsGroup" Type="Boolean" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ChannelAccounts" EntityType="Self.ChannelAccount" />
+          <EntitySet Name="Conversations" EntityType="Self.Conversation" />
+          <EntitySet Name="ConversationEvents" EntityType="DBModel.ConversationEvent" />
+          <EntitySet Name="Events" EntityType="DBModel.Event" />
+        </EntityContainer>
+        <EntityType Name="ConversationEvent">
+          <Key>
+            <PropertyRef Name="ConversationId" />
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="ConversationId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EventId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Start" Type="DateTime" Precision="3" />
+          <Property Name="End" Type="DateTime" Precision="3" />
+          <Property Name="Message" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="DBEntities">
+          <EntitySetMapping Name="ChannelAccounts">
+            <EntityTypeMapping TypeName="DBModel.ChannelAccount">
+              <MappingFragment StoreEntitySet="ChannelAccount">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conversations">
+            <EntityTypeMapping TypeName="DBModel.Conversation">
+              <MappingFragment StoreEntitySet="Conversations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+                <ScalarProperty Name="RecipientId" ColumnName="RecipientId" />
+                <ScalarProperty Name="ServiceUrl" ColumnName="ServiceUrl" />
+                <ScalarProperty Name="ChannelId" ColumnName="ChannelId" />
+                <ScalarProperty Name="IsGroup" ColumnName="IsGroup" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConversationEvents">
+            <EntityTypeMapping TypeName="DBModel.ConversationEvent">
+              <MappingFragment StoreEntitySet="ConversationEvents">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="DBModel.Event">
+              <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="End" ColumnName="End" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

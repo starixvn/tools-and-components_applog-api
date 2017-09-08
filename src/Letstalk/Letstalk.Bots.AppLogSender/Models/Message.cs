@@ -18,7 +18,7 @@ namespace Letstalk.Bots.AppLogSender.Models
 
         public Message(LogEntry logEntry)
         {
-            this.logEntry = logEntry ?? throw new ArgumentNullException(nameof(logEntry));
+            this.logEntry = logEntry;
         }
 
         public int LogId => logEntry.LogId;
