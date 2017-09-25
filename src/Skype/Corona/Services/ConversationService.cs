@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Corona.EntityModel;
 using Corona.Models;
 using Microsoft.Bot.Connector;
 
@@ -22,72 +24,92 @@ namespace Corona.Services
 
         IList<ConversationModel> Conversations { get; }
 
-    }
-    public class ConversationService : BaseService, IConversationService
-    {
-        ChannelAccountService channelAccountService;
+        ConversationModel Conversation(string id);
 
-        public ConversationService() {
+        void UpdateMemberInfo(ConversationModel conversation);
+
+    }
+    public class ConversationService : QueryService, IConversationService
+    {
+        readonly IChannelAccountService channelAccountService;
+
+        public ConversationService()
+        {
             channelAccountService = new ChannelAccountService();
         }
         public IList<ConversationModel> Conversations
         {
             get
             {
-                return entities.Conversations.Select(x => new ConversationModel
+                if (Entities.Conversations.Any())
                 {
-                    Id = x.Id,
-                    ChannelId = x.ChannelId,
-                    IsGroup = x.IsGroup.Value,
-                    Name = x.Name,
-                    Sender = channelAccountService.ChannelAccount(x.SenderId),
-                    Recipient = channelAccountService.ChannelAccount(x.RecipientId),
-                    ServiceUrl = new Uri(x.ServiceUrl)
-                }).ToList();
+                    var conversations = new List<ConversationModel>();
+                    Entities.Conversations.ToList().ForEach(x =>
+                    conversations.Add(new ConversationModel
+                    {
+                        Id = x.Id,
+                        ChannelId = x.ChannelId,
+                        IsGroup = x.IsGroup ?? false,
+                        Name = x.Name,
+                        Sender = channelAccountService.ChannelAccount(x.SenderId),
+                        Recipient = channelAccountService.ChannelAccount(x.RecipientId),
+                        ServiceUrl = new Uri(x.ServiceUrl)
+                    }));
+
+                    return conversations;
+                }
+
+                return new List<ConversationModel>();
             }
+        }
+
+        public ConversationModel Conversation(string id)
+        {
+            return Conversations.First(x => x.Id == id);
         }
 
         public void Delete(string id)
         {
-            var entity = entities.Conversations.Find(id);
-
-            entities.Conversations.Remove(entity);
-            entities.SaveChanges();
+            var entity = Entities.Conversations.Find(id);
+            Entities.Entry(entity).State = EntityState.Deleted;
+            Entities.Conversations.Remove(entity);
+            Entities.SaveChanges();
         }
 
         public bool Existing(string id)
         {
-            return entities.Conversations.Any(x => x.Id == id);            
+            return Entities.Conversations.Any(x => x.Id == id);
         }
 
         public void Insert(ConversationModel conversation)
         {
-            entities.Conversations.Add(
-                new EntityModel.Conversation
-                {
-                    ChannelId = conversation.ChannelId,
-                    Id = conversation.Id,
-                    IsGroup = conversation.IsGroup,
-                    Name = conversation.Name,
-                    RecipientId = conversation.Recipient.Id,
-                    SenderId = conversation.Sender.Id,
-                    ServiceUrl = conversation.ServiceUrl.ToString()
-                });                        
+            var entityConversation = new EntityModel.Conversation
+            {
+                ChannelId = conversation.ChannelId,
+                Id = conversation.Id,
+                IsGroup = conversation.IsGroup,
+                Name = conversation.Name,
+                RecipientId = conversation.Recipient.Id,
+                SenderId = conversation.Sender.Id,
+                ServiceUrl = conversation.ServiceUrl.ToString()
+            };
 
-            entities.SaveChanges();
+            Entities.Entry(entityConversation).State = EntityState.Modified;
+            Entities.Conversations.Add(entityConversation);
+            Entities.SaveChanges();
         }
 
         public async Task Resume(ConversationModel conversation, string message)
         {
             if (conversation.IsGroup)
             {
-                var userAccount = new ChannelAccount
+                var userAccount = new Microsoft.Bot.Connector.ChannelAccount
                 {
                     Id = conversation.Sender.Id,
                     Name = conversation.Sender.Name
                 };
 
-                var botAccount = new ChannelAccount
+                var botAccount = new Microsoft.Bot.Connector.ChannelAccount
                 {
                     Id = conversation.Recipient.Id,
                     Name = conversation.Recipient.Name
@@ -119,18 +141,33 @@ namespace Corona.Services
 
         public void Update(string id, ConversationModel conversation)
         {
-            var entity = entities.Conversations.Find(id);
+            var entity = Entities.Conversations.Find(id);
 
-            entity.ChannelId = conversation.ChannelId;
-            entity.IsGroup = conversation.IsGroup;
-            entity.RecipientId = conversation.Recipient.Id;
-            entity.SenderId = conversation.Sender.Id;
-            entity.Name = conversation.Name;
-            entity.ServiceUrl = conversation.ServiceUrl.ToString();
+            if (entity != null)
+            {
+                Entities.Entry(entity).State = EntityState.Modified;
 
-            entities.SaveChanges();
+                entity.ChannelId = conversation.ChannelId;
+                entity.IsGroup = conversation.IsGroup;
+                entity.RecipientId = conversation.Recipient.Id;
+                entity.SenderId = conversation.Sender.Id;
+                entity.Name = conversation.Name;
+                entity.ServiceUrl = conversation.ServiceUrl.ToString();
+
+                Entities.SaveChanges();
+            }
         }
 
-
+        public void UpdateMemberInfo(ConversationModel conversation)
+        {
+            var connector = new ConnectorClient(conversation.ServiceUrl);
+            var conversationMembers = connector.Conversations.GetConversationMembers(conversation.Id);
+            // conversationMembers.ToList().ForEach(x => channelAccountService.Update(x.Id, new ChannelAccountModel { Name = x.Name }));
+            foreach (var conMember in conversationMembers)
+            {
+                CoreService.WriteLog(conMember.Id + " - " + conMember.Name);
+                channelAccountService.Update(conMember.Id, new ChannelAccountModel { Name = conMember.Name });
+            }
+        }
     }
 }

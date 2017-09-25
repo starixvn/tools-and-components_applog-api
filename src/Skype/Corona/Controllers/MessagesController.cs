@@ -13,6 +13,7 @@ using Corona.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using System;
 using System.Text;
+using System.IO;
 
 namespace Corona
 {
@@ -22,12 +23,14 @@ namespace Corona
 
         private readonly IConversationService conversationService;
         private readonly IChannelAccountService channelAccountService;
+        private readonly IConversationEventService conversationEventService;
         private readonly IList<string> HelloCollection;
 
         public MessagesController()
         {
             conversationService = new ConversationService();
             channelAccountService = new ChannelAccountService();
+            conversationEventService = new ConversationEventService();
             HelloCollection = new List<string> {
                 "Hi",
                 "Hi Bot",
@@ -43,27 +46,38 @@ namespace Corona
         /// </summary>
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
-            if (activity.Type == ActivityTypes.Message)
+            try
             {
-                var isSayHello = HelloCollection.Any(x => x.Equals(activity.Text, StringComparison.OrdinalIgnoreCase));
-                if (isSayHello)
-                {
-                    Activity reply = activity.CreateReply("Hi! " + activity.From.Name);
-                    var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+                if (activity.Type == ActivityTypes.Message)
+                {                    
+                    activity.Text = CoreService.FormatMessage(activity.Text);
+                                        
+                    var isSayHello = HelloCollection.Any(x => x.Equals(activity.Text, StringComparison.OrdinalIgnoreCase));
+                    if (isSayHello)
+                    {
+                        Activity reply = activity.CreateReply("Hi! " + activity.From.Name);
+                        var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
 
-                    await connector.Conversations.ReplyToActivityAsync(reply);
+                        await connector.Conversations.ReplyToActivityAsync(reply);
+                    }
+
+                    await Conversation.SendAsync(activity, () => new RootDialog());
+                }
+                else
+                {
+                    HandleSystemMessage(activity);
                 }
 
-                await Conversation.SendAsync(activity, () => new RootDialog());
+             
             }
-            else
+            catch (Exception ex)
             {
-                HandleSystemMessage(activity);
+                CoreService.WriteLog(ex.Message);
             }
 
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
-        }       
+        }
 
         private Activity HandleSystemMessage(Activity message)
         {
@@ -79,12 +93,14 @@ namespace Corona
                 // Not available in all channels
 
                 if (message.MembersAdded.Any(x => x.Id == message.Recipient.Id))
-                {
-                    InsertConversation(message);
-
+                {                   
                     var replyMessage = new StringBuilder();
+
+                    InsertConversation(message);                    
+
                     replyMessage.Append("Hi colleagues! \n\n");
-                    replyMessage.Append("I'm Corona. Let's say 'Hi' or 'Help' to me to get the answer. Thanks \n\n");
+                    replyMessage.Append("I'm Corona. Let's say 'Hi' or 'Help' to get the support from me. Thanks \n\n");
+
                     Activity reply = message.CreateReply(replyMessage.ToString());
                     var connector = new ConnectorClient(new Uri(message.ServiceUrl));
 
@@ -116,8 +132,8 @@ namespace Corona
 
         private void InsertConversation(Activity activity)
         {
-            if (activity.Conversation.IsGroup.HasValue)
-            {
+            if (activity.Conversation.IsGroup.HasValue && activity.Conversation.IsGroup.Value)            
+            {  
                 var conversationModel = new ConversationModel
                 {
                     ChannelId = activity.ChannelId,
@@ -133,7 +149,8 @@ namespace Corona
                         Id = activity.From.Id,
                         Name = activity.From.Name
                     },
-                    IsGroup = activity.Conversation.IsGroup.Value
+                    IsGroup = activity.Conversation.IsGroup ?? false,
+                    ServiceUrl = new Uri(activity.ServiceUrl)
                 };
 
                 var isExisting = conversationService.Existing(activity.Conversation.Id);
@@ -151,6 +168,8 @@ namespace Corona
                     {
                         channelAccountService.Insert(new ChannelAccountModel { Id = conversationModel.Sender.Id, Name = conversationModel.Sender.Name });
                     }
+
+                    conversationService.UpdateMemberInfo(conversationModel);
                 }
             }
         }
@@ -162,6 +181,7 @@ namespace Corona
             if (isExisting)
             {
                 conversationService.Delete(activity.Conversation.Id);
+                conversationEventService.DeleteConversation(activity.Conversation.Id);
             }
         }
     }

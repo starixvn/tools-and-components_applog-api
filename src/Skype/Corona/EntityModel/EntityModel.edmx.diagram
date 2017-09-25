@@ -5,9 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a3d30c7a4e3248e99929411988849a34" Name="Diagram1">
-        <EntityTypeShape EntityType="DBModel.ChannelAccount" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBModel.Conversation" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBModel.ConversationEvent" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DBModel.ChannelAccount" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="DBModel.Event" Width="1.5" PointX="3.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>

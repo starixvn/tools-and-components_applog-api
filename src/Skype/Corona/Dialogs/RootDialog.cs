@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Corona.Services;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Connector;
@@ -16,6 +17,10 @@ namespace Corona.Dialogs
 
         private const string ServerInfo = "I would like to get the server info.";
 
+        // private const string UpdateEvent = "I want to update event tasks.";
+
+        private const string SetSchedule = "I want to set schedule for Event.";
+
         public async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
@@ -23,7 +28,7 @@ namespace Corona.Dialogs
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
-            var activity = await result as Activity;                        
+            var activity = await result as Activity;
 
             if (activity.Text.ToLower().Contains("help") || activity.Text.ToLower().Contains("support") || activity.Text.ToLower().Contains("problem"))
             {
@@ -36,7 +41,7 @@ namespace Corona.Dialogs
         }
 
         private async Task ResumeAfterSupportDialog(IDialogContext context, IAwaitable<object> result)
-        {            
+        {
             await context.PostAsync($"Thanks for contacting our support team. We will response to you later. Bye!");
 
             context.Wait(this.MessageReceivedAsync);
@@ -44,7 +49,7 @@ namespace Corona.Dialogs
 
         private void ShowOptions(IDialogContext context)
         {
-            PromptDialog.Choice(context, this.OnOptionSelected, new List<string> { UMNotification, ServerInfo }, "I'm Corona. May I help you ?", "Sorry, I didn't get what you say.", 3);
+            PromptDialog.Choice(context, this.OnOptionSelected, new List<string> { UMNotification, ServerInfo, SetSchedule }, "I'm Corona. May I help you ?", "Sorry, I didn't get what you say.", 3);
         }
 
         private async Task OnOptionSelected(IDialogContext context, IAwaitable<string> result)
@@ -62,6 +67,18 @@ namespace Corona.Dialogs
                     case ServerInfo:
                         context.Call(new ServerInfoDialog(), this.ResumeAfterOptionDialog);
                         break;
+                    case SetSchedule:
+                        {                            
+                            if (context.Activity.From.Id == "29:1l9jv1sTy5SGpPfSM0Ksj0GLWxsFv2nx8_8cVzMwKsyU")
+                            {
+                                context.Call(new UpdateConversationEventDialog(), this.ResumeAfterOptionDialog);
+                            }
+                            else
+                            {
+                                context.PostAsync($"Sorry! You are not Terry.Nguyen. So you cannot select this option. Please choose other options. Thanks");                               
+                            }
+                            break;
+                        }
                 }
             }
             catch (TooManyAttemptsException ex)
@@ -69,7 +86,7 @@ namespace Corona.Dialogs
                 await context.PostAsync($"Ooops! Too many attemps :(. But don't worry, I'm handling that exception and you can try again!");
 
                 context.Wait(this.MessageReceivedAsync);
-            }          
+            }
         }
 
         private async Task ResumeAfterOptionDialog(IDialogContext context, IAwaitable<object> result)

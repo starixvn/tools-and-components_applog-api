@@ -11,7 +11,7 @@ namespace Corona.Models
 
         public string Name { get; set; }
 
-        public ChannelAccountModel Sender { get; set; }
+        public ChannelAccountModel Sender { get; set; }                
 
         public ChannelAccountModel Recipient { get; set; }
 

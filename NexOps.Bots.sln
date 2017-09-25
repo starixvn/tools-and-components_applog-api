@@ -3,29 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeAnalysis", "CodeAnalysis", "{BFFD65BB-F186-4DEF-8225-42EA19A6FFE6}"
-	ProjectSection(SolutionItems) = preProject
-		CodeAnalysis\CodeAnalysisConfiguration.xml = CodeAnalysis\CodeAnalysisConfiguration.xml
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6D9FF50D-05BE-4766-B1C3-D8066EE45B95}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{B99F24E7-4307-47CC-A3D2-9FA48998137E}"
-	ProjectSection(SolutionItems) = preProject
-		SonarQube\AutoBotChatCSharp.ruleset = SonarQube\AutoBotChatCSharp.ruleset
-		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A043D0A5-3893-4309-95E5-F80ED7B7F1FD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3EB38406-1C42-4DC2-9036-A22F2BA43DC6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skype", "Skype", "{AB279804-125F-47A6-A648-691E657413CF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Letstalk", "Letstalk", "{65DB34C0-CE38-4A4C-8FD6-22488B7431A7}"
 EndProject
@@ -43,7 +23,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skype", "Skype", "{6E55522F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Letstalk.Bots.AppLogSender.UnitTests", "tests\Letstalk\unit\Letstalk.Bots.AppLogSender.UnitTests\Letstalk.Bots.AppLogSender.UnitTests.csproj", "{3B226016-65E6-4DD0-BC1A-E544DC0C7609}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skype", "Skype", "{5DB011F3-267D-423E-9011-363B870199CB}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corona", "src\Skype\Corona\Corona.csproj", "{B3F521A9-1DF7-4BFD-8395-438740C3427B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corona.Models", "src\Skype\Corona.Model\Corona.Models.csproj", "{C9DE5C8A-DD9B-4092-A91A-F48E4FB48360}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corona.UM.WindowService", "src\Skype\Corona.UM.Service\Corona.UM.WindowService.csproj", "{A527B59A-ECF2-4340-9C70-8405062543CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,12 +53,19 @@ Global
 		{B3F521A9-1DF7-4BFD-8395-438740C3427B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3F521A9-1DF7-4BFD-8395-438740C3427B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3F521A9-1DF7-4BFD-8395-438740C3427B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9DE5C8A-DD9B-4092-A91A-F48E4FB48360}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9DE5C8A-DD9B-4092-A91A-F48E4FB48360}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9DE5C8A-DD9B-4092-A91A-F48E4FB48360}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9DE5C8A-DD9B-4092-A91A-F48E4FB48360}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A527B59A-ECF2-4340-9C70-8405062543CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A527B59A-ECF2-4340-9C70-8405062543CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A527B59A-ECF2-4340-9C70-8405062543CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A527B59A-ECF2-4340-9C70-8405062543CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{AB279804-125F-47A6-A648-691E657413CF} = {A043D0A5-3893-4309-95E5-F80ED7B7F1FD}
 		{65DB34C0-CE38-4A4C-8FD6-22488B7431A7} = {A043D0A5-3893-4309-95E5-F80ED7B7F1FD}
 		{19037DA8-5DD3-45DC-8510-FA590A5A6302} = {65DB34C0-CE38-4A4C-8FD6-22488B7431A7}
 		{DAD2825B-73CF-4FFC-A486-6109328339EA} = {65DB34C0-CE38-4A4C-8FD6-22488B7431A7}
@@ -81,9 +74,13 @@ Global
 		{4BF9169B-F701-4ECB-9D4C-07C14C5A8A3C} = {3EB38406-1C42-4DC2-9036-A22F2BA43DC6}
 		{6E55522F-3B57-4F51-922A-B04A24389371} = {3EB38406-1C42-4DC2-9036-A22F2BA43DC6}
 		{3B226016-65E6-4DD0-BC1A-E544DC0C7609} = {51D52E75-97D3-4986-B3AA-9A7248088381}
-		{B3F521A9-1DF7-4BFD-8395-438740C3427B} = {AB279804-125F-47A6-A648-691E657413CF}
+		{5DB011F3-267D-423E-9011-363B870199CB} = {A043D0A5-3893-4309-95E5-F80ED7B7F1FD}
+		{B3F521A9-1DF7-4BFD-8395-438740C3427B} = {5DB011F3-267D-423E-9011-363B870199CB}
+		{C9DE5C8A-DD9B-4092-A91A-F48E4FB48360} = {5DB011F3-267D-423E-9011-363B870199CB}
+		{A527B59A-ECF2-4340-9C70-8405062543CB} = {5DB011F3-267D-423E-9011-363B870199CB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Logging.5.0.505.1\lib\NET35
 	EndGlobalSection
 EndGlobal

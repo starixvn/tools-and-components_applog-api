@@ -1,5 +1,5 @@
 {
-  "ServerUri": "http://sonarqube.nexdev.net",
+  "ServerUri": "http://sonarqube.nexdev.net/",
   "Organization": null,
   "ProjectKey": "AutoBotChat",
   "Profiles": {

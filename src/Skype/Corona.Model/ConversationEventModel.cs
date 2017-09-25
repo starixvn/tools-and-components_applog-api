@@ -9,7 +9,7 @@ namespace Corona.Models
     {
         public string ConversationId { get; set; }
 
-        public string EventId { get; set; }
+        public int EventId { get; set; }
 
         public string Name { get; set; }
     }

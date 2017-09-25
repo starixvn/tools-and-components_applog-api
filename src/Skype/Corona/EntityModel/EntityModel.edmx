@@ -10,7 +10,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Name" Type="nchar" MaxLength="10" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="ConversationEvents">
           <Key>
@@ -18,7 +18,7 @@
             <PropertyRef Name="EventId" />
           </Key>
           <Property Name="ConversationId" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="EventId" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="EventId" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="Conversations">
@@ -37,10 +37,13 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Start" Type="datetime" />
-          <Property Name="End" Type="datetime" />
           <Property Name="Message" Type="varchar" MaxLength="250" />
+          <Property Name="Repeat" Type="tinyint" />
+          <Property Name="End" Type="datetime" />
+          <Property Name="IsUM" Type="bit" />
+          <Property Name="IsSent" Type="bit" />
         </EntityType>
         <EntityContainer Name="DBModelStoreContainer">
           <EntitySet Name="ChannelAccount" EntityType="Self.ChannelAccount" Schema="dbo" store:Type="Tables" />
@@ -52,13 +55,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="ChannelAccount">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-        </EntityType>
         <EntityType Name="Conversation">
           <Key>
             <PropertyRef Name="Id" />
@@ -72,9 +68,9 @@
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ChannelAccounts" EntityType="Self.ChannelAccount" />
           <EntitySet Name="Conversations" EntityType="Self.Conversation" />
           <EntitySet Name="ConversationEvents" EntityType="DBModel.ConversationEvent" />
+          <EntitySet Name="ChannelAccounts" EntityType="DBModel.ChannelAccount" />
           <EntitySet Name="Events" EntityType="DBModel.Event" />
         </EntityContainer>
         <EntityType Name="ConversationEvent">
@@ -83,17 +79,27 @@
             <PropertyRef Name="EventId" />
           </Key>
           <Property Name="ConversationId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="EventId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EventId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ChannelAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Event">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Start" Type="DateTime" Precision="3" />
-          <Property Name="End" Type="DateTime" Precision="3" />
           <Property Name="Message" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Repeat" Type="Byte" />
+          <Property Name="End" Type="DateTime" Precision="3" />
+          <Property Name="IsUM" Type="Boolean" />
+          <Property Name="IsSent" Type="Boolean" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -101,14 +107,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="DBEntities">
-          <EntitySetMapping Name="ChannelAccounts">
-            <EntityTypeMapping TypeName="DBModel.ChannelAccount">
-              <MappingFragment StoreEntitySet="ChannelAccount">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Conversations">
             <EntityTypeMapping TypeName="DBModel.Conversation">
               <MappingFragment StoreEntitySet="Conversations">
@@ -131,11 +129,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ChannelAccounts">
+            <EntityTypeMapping TypeName="DBModel.ChannelAccount">
+              <MappingFragment StoreEntitySet="ChannelAccount">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="DBModel.Event">
               <MappingFragment StoreEntitySet="Events">
-                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="IsSent" ColumnName="IsSent" />
+                <ScalarProperty Name="IsUM" ColumnName="IsUM" />
                 <ScalarProperty Name="End" ColumnName="End" />
+                <ScalarProperty Name="Repeat" ColumnName="Repeat" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="Start" ColumnName="Start" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

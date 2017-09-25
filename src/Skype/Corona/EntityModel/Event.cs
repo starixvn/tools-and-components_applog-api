@@ -16,7 +16,10 @@ namespace Corona.EntityModel
     {
         public int Id { get; set; }
         public Nullable<System.DateTime> Start { get; set; }
-        public Nullable<System.DateTime> End { get; set; }
         public string Message { get; set; }
+        public Nullable<byte> Repeat { get; set; }
+        public Nullable<System.DateTime> End { get; set; }
+        public Nullable<bool> IsUM { get; set; }
+        public Nullable<bool> IsSent { get; set; }
     }
 }
