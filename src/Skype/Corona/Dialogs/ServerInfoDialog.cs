@@ -22,7 +22,6 @@ namespace Corona.Dialogs
 
         private IForm<EnvironmentSelectorModel> BuildEnvironmentsForm()
         {
-
             OnCompletionAsyncDelegate<EnvironmentSelectorModel> processEnvironmentSelected = async (context, state) =>
             {
                 await context.PostAsync($"Ok. You are selected {state.Environment}");

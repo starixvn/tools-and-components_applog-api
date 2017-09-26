@@ -11,6 +11,8 @@ namespace Corona.Model
     {
         public bool IsNotification { get; set; }
 
+        public bool IsUM { get; set; }
+
         public EventModel Events { get; set; }
     }
 }

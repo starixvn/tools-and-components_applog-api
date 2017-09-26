@@ -39,7 +39,7 @@ namespace Corona.UM.Service
 
         private void Ontimer(object sender, ElapsedEventArgs e)
         {
-            SenderService.Send();
+            SenderService.Run();
         }
     }
 }

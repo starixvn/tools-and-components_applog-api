@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 using Corona.Model;
 using Corona.Models;
 using Newtonsoft.Json;
-using ONEbook.UM.Models;
-using ONEbook.UM.Services.Impl;
 using RestSharp;
+using Sunplus.UMControllerLibrary;
 
 namespace Corona.UM.Service
 {
@@ -32,28 +31,7 @@ namespace Corona.UM.Service
             request.Resource = AppSettingService.BotAPIResource + "/" + "UMEvents/";
 
             return client.Execute<List<EventModel>>(request).Data;
-        }
-
-        public static bool UpdateEvent(EventModel model)
-        {
-            var client = new RestClient(AppSettingService.BotAPIBaseUrl);
-            var request = new RestRequest(Method.POST);
-            request.Resource = AppSettingService.BotAPIResource + "/" + "UpdateEvent/";
-
-            request.AddHeader("Accept", "application/json");
-            request.Parameters.Clear();
-            request.AddParameter("model", model, ParameterType.QueryString);
-            request.JsonSerializer.ContentType = "application/json; charset=utf-8";
-
-            var response = client.Execute(request);
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return true;
-            }
-
-            return false;
-        }
+        }       
 
         public static bool SendMessage(RequestModel parameters, string actionName)
         {
@@ -75,31 +53,37 @@ namespace Corona.UM.Service
             return false;
         }
 
-        public static void Send()
+        public static void Run()
         {
-            var events = Events();
-            var um = UMTime();
-            var isUm = um.IsUnderMaintenanceTime;
-            var umFrom = new DateTime();
-            var umTo = new DateTime();
-            var umConfig = ReadUMConfig();
-            var currentDate = DateTime.UtcNow.AddHours(AppSettingService.TimeZone);
+            var isUm = false;
+            var umConfigFrom = string.Empty;
+            var umConfigTo = string.Empty;
 
-            currentDate = Convert.ToDateTime(currentDate.ToString("MM/dd/yyyy HH:mm"));
+            var umConfig = ReadUMConfig();            
+            var umService = UMTime();                        
 
             if (umConfig.Any())
             {
-                umFrom = Convert.ToDateTime(umConfig["from"].ToString("MM/dd/yyyy HH:mm"));
-                umTo = Convert.ToDateTime(umConfig["to"].ToString("MM/dd/yyyy HH:mm"));
+                umConfigFrom = Convert.ToDateTime(umConfig["from"]).ToString("MM/dd/yyyy HH:mm");
+                umConfigTo = Convert.ToDateTime(umConfig["to"]).ToString("MM/dd/yyyy HH:mm");
+
+                isUm = umConfig.Count > 2 ? Convert.ToBoolean(umConfig["isum"]) : umService.IsUM;
             }
             else
             {
-                umFrom = Convert.ToDateTime(DateTime.Now.ToString("MM/dd/yyyy HH:mm"));
-                umTo = Convert.ToDateTime(DateTime.Now.ToString("MM/dd/yyyy HH:mm"));
+                umConfigFrom = umService.From.ToString("MM/dd/yyyy HH:mm");
+                umConfigTo = umService.To.ToString("MM/dd/yyyy HH:mm");
+
+                isUm = umService.IsUM;
             }
+
+            var events = Events();
 
             if (events != null)
             {
+                var umFrom = Convert.ToDateTime(umConfigFrom);
+                var umTo = Convert.ToDateTime(umConfigTo);
+
                 var notifyEvent = events.First(x => x.Start.HasValue && x.End.HasValue);
                 if (!notifyEvent.IsSent)
                 {
@@ -110,12 +94,12 @@ namespace Corona.UM.Service
                 }
 
                 if (!isUm)
-                {                    
-                    var startUmEvents = events.First(x => !x.Start.HasValue);
+                {
+                    var startUmEvents = events.First(x => x.Start.HasValue && !x.End.HasValue);
 
                     if (startUmEvents.IsSent)
                     {
-                        var endUmEvents = events.First(x => !x.End.HasValue);
+                        var endUmEvents = events.First(x => x.End.HasValue && !x.Start.HasValue);
 
                         UnderMaintenanceStatus(new EventModel
                         {
@@ -126,14 +110,14 @@ namespace Corona.UM.Service
                             IsUM = endUmEvents.IsUM,
                             Message = endUmEvents.Message,
                             Repeat = endUmEvents.Repeat
-                        });
+                        }, isUm);
                     }
                 }
                 else
                 {
-                    var startUmEvents = events.First(x => !x.Start.HasValue);
+                    var startUmEvents = events.First(x => x.Start.HasValue && !x.End.HasValue);
 
-                    if (startUmEvents.Start <= currentDate)
+                    if (!startUmEvents.IsSent)
                     {
                         UnderMaintenanceStatus(new EventModel
                         {
@@ -144,34 +128,56 @@ namespace Corona.UM.Service
                             IsUM = startUmEvents.IsUM,
                             Message = startUmEvents.Message,
                             Repeat = startUmEvents.Repeat
-                        });
+                        }, isUm);
                     }
                 }
             }
         }
 
-        private static Dictionary<string, DateTime> ReadUMConfig()
+        private static Dictionary<string, object> ReadUMConfig()
         {
             var umPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\UM.txt");
             var data = File.ReadAllLines(umPath);
 
             if (data.Any())
             {
-                var result = new Dictionary<string, DateTime>();
+                var result = new Dictionary<string, object>();
                 result.Add("from", Convert.ToDateTime(data[0]));
                 result.Add("to", Convert.ToDateTime(data[1]));
+
+                if (data.Count() > 2)
+                {
+                    result.Add("isum", data[2] == "1");
+                }
 
                 return result;
             }
 
-            return new Dictionary<string, DateTime>();
+            return new Dictionary<string, object>();
         }
 
-        private static UnderMaintenanceTime UMTime()
+        private static UnderMaintenanceModel UMTime()
         {
-            var maintenanceService = new MaintenanceService();
+            try
+            {
+                var umController = new UMBusiness();
+                var umFrom = string.Empty;
+                var umTo = string.Empty;
+                var currentDate = DateTime.UtcNow.AddHours(AppSettingService.TimeZone);
 
-            return maintenanceService.GetUnderMaintenanceTime();
+                var isUM = umController.isUnderMaintainence(Sites.Agency, AppSettingService.UMServiceUrl, ref umFrom, ref umTo);
+
+                return new UnderMaintenanceModel
+                {
+                    From = Convert.ToDateTime(currentDate.ToString("MM/dd/yyyy") + " " + umFrom),
+                    To = Convert.ToDateTime(currentDate.ToString("MM/dd/yyyy") + " " + umTo),
+                    IsUM = isUM
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private static void UMNotification(IList<EventModel> events, DateTime from, DateTime to)
@@ -194,6 +200,7 @@ namespace Corona.UM.Service
                         var param = new RequestModel
                         {
                             IsNotification = true,
+                            IsUM = false,
                             Events = new EventModel
                             {
                                 Start = from,
@@ -217,7 +224,7 @@ namespace Corona.UM.Service
             return string.Empty;
         }
 
-        private static void UnderMaintenanceStatus(EventModel model)
+        private static void UnderMaintenanceStatus(EventModel model, bool isUM = false)
         {
             if (!model.IsSent)
             {
@@ -230,6 +237,7 @@ namespace Corona.UM.Service
                 var param = new RequestModel
                 {
                     IsNotification = false,
+                    IsUM = isUM,
                     Events = new EventModel
                     {
                         Start = model.Start,

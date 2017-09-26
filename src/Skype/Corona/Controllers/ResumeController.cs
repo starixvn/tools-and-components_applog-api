@@ -101,7 +101,8 @@ namespace Corona.Controllers
                             else
                             {
                                 eventService.UpdateMessageSent(requestModel.Events.Id, true);
-                                if(requestModel.Events.IsUM)
+
+                                if(!requestModel.IsUM)
                                 {
                                     UMEvents().ToList().ForEach(x => eventService.UpdateMessageSent(x.Id, false));
                                 }

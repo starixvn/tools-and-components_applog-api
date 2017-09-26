@@ -98,8 +98,8 @@ namespace Corona
 
                     InsertConversation(message);                    
 
-                    replyMessage.Append("Hi colleagues! \n\n");
-                    replyMessage.Append("I'm Corona. Let's say 'Hi' or 'Help' to get the support from me. Thanks \n\n");
+                    replyMessage.Append("Hi anh chị! \n\n");
+                    replyMessage.Append("Em tên là Corona. Em là con gái. Em rất vui được support mấy anh chị. Thanks \n\n");
 
                     Activity reply = message.CreateReply(replyMessage.ToString());
                     var connector = new ConnectorClient(new Uri(message.ServiceUrl));

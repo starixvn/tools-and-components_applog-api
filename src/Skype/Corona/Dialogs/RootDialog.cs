@@ -61,11 +61,14 @@ namespace Corona.Dialogs
                 switch (optionSelected)
                 {
                     case UMNotification:
-                        context.Call(new UMTaskDialog(), this.ResumeAfterOptionDialog);
+                        // context.Call(new UMTaskDialog(), this.ResumeAfterOptionDialog);
+                        
+                        context.PostAsync("Em đang được phát triển nha mấy anh chị. Em sẽ sớm hoàn thành trong thời gian sớm nhất. Thanks");
                         break;
 
                     case ServerInfo:
-                        context.Call(new ServerInfoDialog(), this.ResumeAfterOptionDialog);
+                        // context.Call(new ServerInfoDialog(), this.ResumeAfterOptionDialog);
+                        context.PostAsync("Em đang được phát triển nha mấy anh chị. Em sẽ sớm hoàn thiện trong thời gian sớm nhất. Thanks");
                         break;
                     case SetSchedule:
                         {                            
@@ -75,7 +78,7 @@ namespace Corona.Dialogs
                             }
                             else
                             {
-                                context.PostAsync($"Sorry! You are not Terry.Nguyen. So you cannot select this option. Please choose other options. Thanks");                               
+                                context.PostAsync($"Anh chị không phải là anh Terry nên em không cho dùng chức năng này nha. Anh chị thông cảm. Thanks");                               
                             }
                             break;
                         }

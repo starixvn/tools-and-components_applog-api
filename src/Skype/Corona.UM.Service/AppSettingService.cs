@@ -16,5 +16,7 @@ namespace Corona.UM.Service
         public static int Interval => Convert.ToInt16(ConfigurationManager.AppSettings["BotApi.Interval"]);
 
         public static int TimeZone => Convert.ToInt16(ConfigurationManager.AppSettings["BotApi.TimeZone"]);
+
+        public static string  UMServiceUrl => ConfigurationManager.AppSettings["UMServiceURL"];
     }
 }
