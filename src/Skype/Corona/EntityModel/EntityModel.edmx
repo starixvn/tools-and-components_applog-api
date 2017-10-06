@@ -44,6 +44,7 @@
           <Property Name="End" Type="datetime" />
           <Property Name="IsUM" Type="bit" />
           <Property Name="IsSent" Type="bit" />
+          <Property Name="GMT" Type="int" />
         </EntityType>
         <EntityContainer Name="DBModelStoreContainer">
           <EntitySet Name="ChannelAccount" EntityType="Self.ChannelAccount" Schema="dbo" store:Type="Tables" />
@@ -100,6 +101,7 @@
           <Property Name="End" Type="DateTime" Precision="3" />
           <Property Name="IsUM" Type="Boolean" />
           <Property Name="IsSent" Type="Boolean" />
+          <Property Name="GMT" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -140,6 +142,7 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="DBModel.Event">
               <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="GMT" ColumnName="GMT" />
                 <ScalarProperty Name="IsSent" ColumnName="IsSent" />
                 <ScalarProperty Name="IsUM" ColumnName="IsUM" />
                 <ScalarProperty Name="End" ColumnName="End" />

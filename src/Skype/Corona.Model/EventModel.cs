@@ -8,34 +8,7 @@ namespace Corona.Models
 {  
     public class EventModel
     {
-        private DateTime? startTimeValue;
-
-        private DateTime? endTimeValue;
-        
-        public int Id { get; set; }
-
-        //public DateTime? Start {
-        //    get
-        //    {
-        //        return startTimeValue.HasValue ? startTimeValue.Value.AddHours(AppSettingModel.TimeZone) : startTimeValue;
-        //    }
-
-        //    set {
-        //        startTimeValue = value;
-        //    }
-        //}
-
-        //public DateTime? End {
-        //    get
-        //    {
-        //        return endTimeValue.HasValue ? endTimeValue.Value.AddHours(AppSettingModel.TimeZone) : endTimeValue;
-        //    }
-
-        //    set
-        //    {
-        //        endTimeValue = value;
-        //    }
-        //}
+        public int Id { get; set; }               
 
         public DateTime? Start { get; set; }
 
@@ -49,5 +22,6 @@ namespace Corona.Models
 
         public bool  IsSent { get; set; }
 
+        public int GMT { get; set; }
     }
 }

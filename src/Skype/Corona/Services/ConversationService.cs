@@ -20,7 +20,7 @@ namespace Corona.Services
 
         bool Existing(string id);
 
-        Task Resume(ConversationModel conversation, string message);
+        bool Resume(ConversationModel conversation, string message);
 
         IList<ConversationModel> Conversations { get; }
 
@@ -99,7 +99,7 @@ namespace Corona.Services
             Entities.SaveChanges();
         }
 
-        public async Task Resume(ConversationModel conversation, string message)
+        public bool Resume(ConversationModel conversation, string message)
         {
             if (conversation.IsGroup)
             {
@@ -118,15 +118,7 @@ namespace Corona.Services
                 var connector = new ConnectorClient(conversation.ServiceUrl);
                 IMessageActivity activityMessage = Activity.CreateMessageActivity();
 
-                if (!string.IsNullOrEmpty(conversation.Id) && !string.IsNullOrEmpty(conversation.ChannelId))
-                {
-                    activityMessage.ChannelId = conversation.ChannelId;
-                }
-                else
-                {
-                    conversation.Id = (await connector.Conversations.CreateDirectConversationAsync(botAccount, userAccount)).Id;
-                }
-
+                activityMessage.ChannelId = conversation.ChannelId;
                 activityMessage.From = botAccount;
                 activityMessage.Recipient = userAccount;
                 activityMessage.Conversation = new ConversationAccount(id: conversation.Id);
@@ -135,8 +127,12 @@ namespace Corona.Services
 
                 Microsoft​App​Credentials.TrustServiceUrl(conversation.ServiceUrl.ToString());
 
-                await connector.Conversations.SendToConversationAsync((Activity)activityMessage);
+                var result = connector.Conversations.SendToConversationAsync((Activity)activityMessage);
+
+                return result.Exception == null;
             }
+
+            return false;
         }
 
         public void Update(string id, ConversationModel conversation)
@@ -162,7 +158,7 @@ namespace Corona.Services
         {
             var connector = new ConnectorClient(conversation.ServiceUrl);
             var conversationMembers = connector.Conversations.GetConversationMembers(conversation.Id);
-            // conversationMembers.ToList().ForEach(x => channelAccountService.Update(x.Id, new ChannelAccountModel { Name = x.Name }));
+            
             foreach (var conMember in conversationMembers)
             {
                 CoreService.WriteLog(conMember.Id + " - " + conMember.Name);

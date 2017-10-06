@@ -101,6 +101,7 @@
     <Compile Include="EventSelectorModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestModel.cs" />
+    <Compile Include="UMRequestModel.cs" />
     <Compile Include="UMTaskModel.cs" />
     <Compile Include="UnderMaintenanceModel.cs" />
   </ItemGroup>

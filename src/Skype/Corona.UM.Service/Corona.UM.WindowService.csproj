@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>..\Corona\Corona.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Corona.UM.WindowService.Debug.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -101,7 +101,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettingService.cs" />
-    <Compile Include="SenderService.cs" />
+    <Compile Include="BaseService.cs" />
+    <Compile Include="UMSenderService.cs" />
     <Compile Include="UMService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -114,9 +115,14 @@
   <ItemGroup>
     <None Include="App.config" />
     <Content Include="Corona.UM.WindowService.ruleset" />
+    <None Include="Corona.UM.WindowService.Debug.ruleset" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Corona.Core\Corona.Core.csproj">
+      <Project>{7ca56f13-da28-41eb-a3e2-53fc86bd6970}</Project>
+      <Name>Corona.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Corona.Model\Corona.Models.csproj">
       <Project>{c9de5c8a-dd9b-4092-a91a-f48e4fb48360}</Project>
       <Name>Corona.Models</Name>
@@ -128,9 +134,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\..\..\packages\SonarAnalyzer.CSharp.6.4.1.3596\analyzers\Google.Protobuf.dll" />
-    <Analyzer Include="..\..\..\packages\SonarAnalyzer.CSharp.6.4.1.3596\analyzers\SonarAnalyzer.CSharp.dll" />
-    <Analyzer Include="..\..\..\packages\SonarAnalyzer.CSharp.6.4.1.3596\analyzers\SonarAnalyzer.dll" />
+    <Analyzer Include="..\..\..\packages\SonarAnalyzer.CSharp.6.3.0.2862\analyzers\Google.Protobuf.dll" />
+    <Analyzer Include="..\..\..\packages\SonarAnalyzer.CSharp.6.3.0.2862\analyzers\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\..\..\packages\SonarAnalyzer.CSharp.6.3.0.2862\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

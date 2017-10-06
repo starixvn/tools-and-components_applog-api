@@ -21,5 +21,6 @@ namespace Corona.EntityModel
         public Nullable<System.DateTime> End { get; set; }
         public Nullable<bool> IsUM { get; set; }
         public Nullable<bool> IsSent { get; set; }
+        public Nullable<int> GMT { get; set; }
     }
 }

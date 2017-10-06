@@ -40,7 +40,8 @@ namespace Corona.Services
                     Repeat = (Repeat)x.Repeat.Value,
                     End = x.End.Value,
                     IsUM = x.IsUM.Value,
-                    IsSent = x.IsSent.Value
+                    IsSent = x.IsSent.Value,
+                    GMT = x.GMT.Value
                 }).ToList();
             }
         }
@@ -72,7 +73,8 @@ namespace Corona.Services
                 Repeat = (byte)model.Repeat,
                 End = model.End,
                 IsUM = model.IsUM,
-                IsSent = model.IsSent
+                IsSent = model.IsSent,
+                GMT = model.GMT
             };
 
             Entities.Entry(eventModel).State = EntityState.Modified;
@@ -97,6 +99,7 @@ namespace Corona.Services
                 entity.End = model.End;
                 entity.IsUM = model.IsUM;
                 entity.IsSent = model.IsSent;
+                entity.GMT = model.GMT;
 
                 Entities.SaveChanges();
             }

@@ -34,3 +34,5 @@ Timeout expired.  The timeout period elapsed prior to obtaining a connection fro
 SqlDateTime overflow.
 Exception of type 'System.OutOfMemoryException' was thrown.
 The conversion of the varchar value
+The remote host closed the connection.
+System_Error,{"status":"ERROR","error":"key_not_exist"}

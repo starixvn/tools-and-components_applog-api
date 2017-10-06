@@ -34,12 +34,23 @@ namespace Corona.UM.Service
 
         protected override void OnStop()
         {
-
+            // Method intentionally left empty.
         }
 
-        private void Ontimer(object sender, ElapsedEventArgs e)
+        private static void Ontimer(object sender, ElapsedEventArgs e)
         {
-            SenderService.Run();
+            try
+            {
+                UMSenderService.RunService();
+            }
+            catch (Exception ex)
+            {
+                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\log.txt");
+                using (StreamWriter sw = File.AppendText(path))
+                {
+                    sw.WriteLine(ex.Message);                    
+                }                
+            }
         }
     }
 }

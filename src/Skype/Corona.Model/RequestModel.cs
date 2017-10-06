@@ -7,12 +7,10 @@ using Corona.Models;
 
 namespace Corona.Model
 {
-   public class RequestModel
-    {
-        public bool IsNotification { get; set; }
+    public class RequestModel
+    {        
+        public IList<EventModel> Events { get; set; }
 
-        public bool IsUM { get; set; }
-
-        public EventModel Events { get; set; }
+        public string Message { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,8 +17,6 @@ namespace Corona.Dialogs
         private const string UMNotification = "I want to run UM tasks.";
 
         private const string ServerInfo = "I would like to get the server info.";
-
-        // private const string UpdateEvent = "I want to update event tasks.";
 
         private const string SetSchedule = "I want to set schedule for Event.";
 
@@ -49,7 +48,11 @@ namespace Corona.Dialogs
 
         private void ShowOptions(IDialogContext context)
         {
-            PromptDialog.Choice(context, this.OnOptionSelected, new List<string> { UMNotification, ServerInfo, SetSchedule }, "I'm Corona. May I help you ?", "Sorry, I didn't get what you say.", 3);
+            var ran = new Random();
+            var messages = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + "/App_Data/FunnyMessages.txt");
+            var messageIndex = ran.Next(0, messages.Length);
+            context.PostAsync(messages[messageIndex]);
+            // PromptDialog.Choice(context, this.OnOptionSelected, new List<string> { UMNotification, ServerInfo, SetSchedule }, "I'm Corona. May I help you ?", "Sorry, I didn't get what you say.", 3);
         }
 
         private async Task OnOptionSelected(IDialogContext context, IAwaitable<string> result)
