@@ -1,0 +1,3 @@
+﻿Planned maintenance was Started at {0}. We will get back at {1}  (GMT+8).
+System is currently under maintenance and be back at {1} (GMT+8).
+System is currently undergoing scheduled maintenance and will return at {1} (GMT+8).

@@ -22,5 +22,6 @@ namespace Corona.EntityModel
         public Nullable<bool> IsUM { get; set; }
         public Nullable<bool> IsSent { get; set; }
         public Nullable<int> GMT { get; set; }
+        public string MessageFile { get; set; }
     }
 }

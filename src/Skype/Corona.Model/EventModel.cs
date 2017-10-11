@@ -23,5 +23,7 @@ namespace Corona.Models
         public bool  IsSent { get; set; }
 
         public int GMT { get; set; }
+
+        public string MessageFile { get; set; }
     }
 }

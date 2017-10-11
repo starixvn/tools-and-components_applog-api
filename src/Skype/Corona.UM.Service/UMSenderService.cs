@@ -82,7 +82,8 @@ namespace Corona.UM.Service
                     IsSent = startUmEvents.IsSent,
                     IsUM = startUmEvents.IsUM,
                     Message = startUmEvents.Message,
-                    Repeat = startUmEvents.Repeat
+                    Repeat = startUmEvents.Repeat,
+                    MessageFile = startUmEvents.MessageFile
                 }, isUm);
             }
             else
@@ -107,7 +108,8 @@ namespace Corona.UM.Service
                     IsSent = endUmEvents.IsSent,
                     IsUM = endUmEvents.IsUM,
                     Message = endUmEvents.Message,
-                    Repeat = endUmEvents.Repeat
+                    Repeat = endUmEvents.Repeat,
+                    MessageFile = endUmEvents.MessageFile
                 }, isUm);
             }
         }
@@ -124,7 +126,7 @@ namespace Corona.UM.Service
 
         private static Dictionary<string, object> ReadUMConfig()
         {
-            var umPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\UM.txt");
+            var umPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\UMConfig.txt");
             var data = File.ReadAllLines(umPath);
 
             if (data.Any())
@@ -159,16 +161,9 @@ namespace Corona.UM.Service
 
                     if (!model.IsSent && oldStart != currentUMStart && oldEnd != currentUMEnd)
                     {
-                        var messages = new[] {
-                            "Scheduled Maintenance on {2}, {0} - {1} (GMT+8)",
-                            "Scheduled Maintenance, {0} - {1} on {2} (GMT+8)",
-                            "Maintenance is planned for {2}, {0} - {1} (GMT+8)",
-                            "System will be under maintenance between {0} and {1} on {2} (GMT+8).",
-                            "Please be informed that the server will be carried out on {2} from {0} to {1} (GMT+8).",
-                            model.Message
-                        };
-                        var randomMessage = Utilities.RandomMessage(messages);
-                        var message = string.Format(randomMessage, from.ToString("HH:mm"), to.ToString("HH:mm"), from.ToString("MM/dd/yyyy"));
+                        var messages = Utilities.ReadMessage(model.MessageFile);                                                    
+                        var randomMessage = messages.Any() ? Utilities.RandomMessage(messages) : model.Message;
+                        var message = string.Format(randomMessage, from.ToString("HH:mm"), to.ToString("HH:mm"), from.ToString("dddd, MM/dd/yyyy"));
 
                         var param = new UMRequestModel
                         {
@@ -183,7 +178,8 @@ namespace Corona.UM.Service
                                 IsSent = model.IsSent,
                                 IsUM = model.IsUM,
                                 Message = message,
-                                Repeat = model.Repeat
+                                Repeat = model.Repeat,
+                                MessageFile = model.MessageFile
                             }
                         };
 
@@ -217,7 +213,8 @@ namespace Corona.UM.Service
                             IsSent = true,
                             IsUM = extendUM.IsUM,
                             Message = message,
-                            Repeat = extendUM.Repeat
+                            Repeat = extendUM.Repeat,
+                            MessageFile = extendUM.MessageFile
                         }
                     };
 
@@ -232,20 +229,9 @@ namespace Corona.UM.Service
             {
                 var from = model.Start.Value.ToString("HH:mm");
                 var to = model.End.Value.ToString("HH:mm");
-                var umDate = model.Start.Value.ToString("MM/dd/yyyy");                
-                var messages = isUM ? new[] {
-                    "Planned maintenance was Started at {0}. We will get back at {1}  (GMT+8).",
-                    "System is currently under maintenance and be back at {1} (GMT+8).",
-                    "System is currently undergoing scheduled maintenance and will return at {1} (GMT+8).",
-                    model.Message
-                    } : new[] {
-                    "System is UP now.",
-                    "System is back to normal.",
-                    "System is back.",
-                    model.Message
-                    };
-
-                var randomMessage = Utilities.RandomMessage(messages);
+                var umDate = model.Start.Value.ToString("MMMM/dd/yyyy");
+                var messages = Utilities.ReadMessage(model.MessageFile);
+                var randomMessage = messages.Any() ? Utilities.RandomMessage(messages) : model.Message;
                 var message = string.Format(randomMessage, from, to, umDate);
                 var param = new UMRequestModel
                 {
@@ -259,7 +245,8 @@ namespace Corona.UM.Service
                         IsSent = true,
                         IsUM = model.IsUM,
                         Message = message,
-                        Repeat = model.Repeat
+                        Repeat = model.Repeat,
+                        MessageFile = model.MessageFile
                     }
                 };
 

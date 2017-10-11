@@ -45,6 +45,7 @@
           <Property Name="IsUM" Type="bit" />
           <Property Name="IsSent" Type="bit" />
           <Property Name="GMT" Type="int" />
+          <Property Name="MessageFile" Type="varchar" MaxLength="250" />
         </EntityType>
         <EntityContainer Name="DBModelStoreContainer">
           <EntitySet Name="ChannelAccount" EntityType="Self.ChannelAccount" Schema="dbo" store:Type="Tables" />
@@ -102,6 +103,7 @@
           <Property Name="IsUM" Type="Boolean" />
           <Property Name="IsSent" Type="Boolean" />
           <Property Name="GMT" Type="Int32" />
+          <Property Name="MessageFile" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -142,6 +144,7 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="DBModel.Event">
               <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="MessageFile" ColumnName="MessageFile" />
                 <ScalarProperty Name="GMT" ColumnName="GMT" />
                 <ScalarProperty Name="IsSent" ColumnName="IsSent" />
                 <ScalarProperty Name="IsUM" ColumnName="IsUM" />

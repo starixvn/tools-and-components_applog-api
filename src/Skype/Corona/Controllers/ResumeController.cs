@@ -106,7 +106,8 @@ namespace Corona.Controllers
                         IsUM = x.IsUM,
                         Message = x.Message,
                         Repeat = x.Repeat,
-                        GMT = x.GMT
+                        GMT = x.GMT,
+                        MessageFile = x.MessageFile
                     }));
             }
             else

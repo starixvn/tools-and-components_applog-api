@@ -41,7 +41,8 @@ namespace Corona.Services
                     End = x.End.Value,
                     IsUM = x.IsUM.Value,
                     IsSent = x.IsSent.Value,
-                    GMT = x.GMT.Value
+                    GMT = x.GMT.Value,
+                    MessageFile = x.MessageFile
                 }).ToList();
             }
         }
@@ -74,7 +75,8 @@ namespace Corona.Services
                 End = model.End,
                 IsUM = model.IsUM,
                 IsSent = model.IsSent,
-                GMT = model.GMT
+                GMT = model.GMT,
+                MessageFile = model.MessageFile
             };
 
             Entities.Entry(eventModel).State = EntityState.Modified;
@@ -100,6 +102,7 @@ namespace Corona.Services
                 entity.IsUM = model.IsUM;
                 entity.IsSent = model.IsSent;
                 entity.GMT = model.GMT;
+                entity.MessageFile = model.MessageFile;
 
                 Entities.SaveChanges();
             }

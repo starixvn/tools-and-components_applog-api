@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +39,17 @@ namespace Corona.Core
             var messageIndex = ran.Next(0, messages.Length);
 
             return messages[messageIndex];
+        }
+
+        public static string[] ReadMessage(string fileName)
+        {
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\App_Data", fileName); 
+            if(File.Exists(filePath))
+            {
+                return File.ReadAllLines(filePath);
+            }
+
+            return null;
         }
     }
 }

@@ -20,8 +20,7 @@ namespace Corona.ScheduleTask.WindownService
 
             events.ForEach(x =>
             {
-                var currentTime = DateTime.UtcNow.AddHours(x.GMT);
-                var message = x.Message;
+                var currentTime = DateTime.UtcNow.AddHours(x.GMT);                               
 
                 if (Utilities.DatetimeComparer(currentTime, x.Start.Value) >= 0 && Utilities.DatetimeComparer(currentTime, x.End.Value) <=0)
                 {
@@ -42,6 +41,13 @@ namespace Corona.ScheduleTask.WindownService
                     {
                         startDate = startDate.Value.AddYears(1);
                         endDate = endDate.Value.AddYears(1);
+                    }
+
+                    var message = x.Message;
+                    if (!string.IsNullOrWhiteSpace(x.MessageFile))
+                    {
+                        var messages = Utilities.ReadMessage(x.MessageFile);
+                        message = Utilities.RandomMessage(messages);
                     }
 
                     newEvents.Add(new EventModel
