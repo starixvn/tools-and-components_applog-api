@@ -15,6 +15,8 @@ namespace Corona.Controllers
         readonly IConversationEventService conversationEventService;
         readonly IEventService eventService;
         readonly IChannelAccountService channelAccountService;
+        readonly IFunctionService functionService;
+        readonly IScheduleService scheduleService;
 
         public DataController()
         {
@@ -22,6 +24,8 @@ namespace Corona.Controllers
             conversationEventService = new ConversationEventService();
             eventService = new EventService();
             channelAccountService = new ChannelAccountService();
+            functionService = new FunctionService();
+            scheduleService = new ScheduleService();
         }
 
         [HttpGet]
@@ -44,5 +48,17 @@ namespace Corona.Controllers
 
         [HttpGet]
         public IList<ConversationEventModel> ConversationEvents() => conversationEventService.ConversationEvents;
+
+        [HttpGet]
+        public IList<EventModel2> Events2() => eventService.Events2();
+
+        [HttpGet]
+        public EventModel2 ParentEvent2(int ParentId) => eventService.GetDirectParent(ParentId);
+        
+        [HttpGet]
+        public IList<FunctionModel> Functions() => functionService.Functions;
+
+        [HttpGet]
+        public IList<ScheduleModel> Schedules() => scheduleService.Schedules;
     }
 }

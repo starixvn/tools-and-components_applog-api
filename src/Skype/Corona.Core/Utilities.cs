@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,13 +12,11 @@ namespace Corona.Core
     {
         public static DateTime DatetimeConverter(DateTime date)
         {
-            var convertedDatetime = date.ToString("MM/dd/yyyy hh:mm tt");
-
-            return Convert.ToDateTime(convertedDatetime);
+            return Convert.ToDateTime(date.ToString("MM/dd/yyyy HH:mm"));
         }
 
         /// <summary>
-        /// >0 : date1 > date 2
+        /// >0 : date1 > date2
         /// =0 : date1 = date2
         /// <0 : date1 < date2
         /// </summary>

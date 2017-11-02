@@ -41,7 +41,7 @@ namespace Corona.ScheduleStask.WindownService
         {
             try
             {
-                senderService.Run();
+                senderService.Run2();                
             }
             catch (Exception ex)
             {

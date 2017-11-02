@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Corona.Model
+namespace Corona.Models
 {
     public class UnderMaintenanceModel
     {
-        public bool IsUM { get; set; }
+        public int IsUM { get; set; }
 
         public DateTime From { get; set; }
 

@@ -36,3 +36,5 @@ Exception of type 'System.OutOfMemoryException' was thrown.
 The conversion of the varchar value
 The remote host closed the connection.
 System_Error,{"status":"ERROR","error":"key_not_exist"}
+The view 'Error' or its master was not found or no view engine supports the searched locations.
+A network-related or instance-spcific error accurred while establishing a connection to SQL Server.

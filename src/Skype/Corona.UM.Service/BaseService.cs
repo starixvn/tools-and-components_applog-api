@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Corona.Model;
+using Corona.Models;
 using Newtonsoft.Json;
 using RestSharp;
 using Sunplus.UMControllerLibrary;
@@ -44,7 +44,7 @@ namespace Corona.UM.Service
             {
                 From = Convert.ToDateTime(currentDate.ToString("MM/dd/yyyy") + " " + umFrom),
                 To = Convert.ToDateTime(currentDate.ToString("MM/dd/yyyy") + " " + umTo),
-                IsUM = isUM
+                IsUM = isUM ? 1 : 0
             };
         }
 

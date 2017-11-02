@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Corona.Models;
 
-namespace Corona.Model
+namespace Corona.Models
 {
     public class UMRequestModel
     {

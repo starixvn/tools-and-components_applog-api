@@ -223,6 +223,15 @@
     <Compile Include="EntityModel\Event.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityModel\Event2.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Function.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Schedule.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -232,7 +241,9 @@
     <Compile Include="Services\ConversationService.cs" />
     <Compile Include="Services\CoreService.cs" />
     <Compile Include="Services\EventService.cs" />
+    <Compile Include="Services\FunctionService.cs" />
     <Compile Include="Services\QueryService.cs" />
+    <Compile Include="Services\ScheduleService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -263,6 +274,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Corona.Core\Corona.Core.csproj">
+      <Project>{7ca56f13-da28-41eb-a3e2-53fc86bd6970}</Project>
+      <Name>Corona.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Corona.Model\Corona.Models.csproj">
       <Project>{c9de5c8a-dd9b-4092-a91a-f48e4fb48360}</Project>
       <Name>Corona.Models</Name>

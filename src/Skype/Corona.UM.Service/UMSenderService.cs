@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Corona.Core;
-using Corona.Model;
 using Corona.Models;
 using Corona.UM.Service;
 using Newtonsoft.Json;
@@ -41,14 +40,14 @@ namespace Corona.UM.Service
                 umConfigFrom = Utilities.DatetimeConverter(Convert.ToDateTime(umConfig["from"]));                    
                 umConfigTo = Utilities.DatetimeConverter(Convert.ToDateTime(umConfig["to"]));                
 
-                isUm = umConfig.Count > 2 ? Convert.ToBoolean(umConfig["isum"]) : umService.IsUM;
+                isUm = umConfig.Count > 2 ? Convert.ToBoolean(umConfig["isum"]) : umService.IsUM == 1;
             }
             else
             {
                 umConfigFrom = Utilities.DatetimeConverter(umService.From);
                 umConfigTo = Utilities.DatetimeConverter(umService.To);
 
-                isUm = umService.IsUM;
+                isUm = umService.IsUM == 1;
             }
 
             var events = Events();

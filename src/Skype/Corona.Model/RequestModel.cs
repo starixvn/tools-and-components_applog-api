@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Corona.Models;
 
-namespace Corona.Model
+namespace Corona.Models
 {
     public class RequestModel
     {        
         public IList<EventModel> Events { get; set; }
 
-        public string Message { get; set; }
+        public EventModel2 Event2 { get; set; }
+
+        public string Message { get; set; }     
     }
 }

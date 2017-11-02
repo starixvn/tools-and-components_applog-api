@@ -7,8 +7,8 @@
     <ProjectGuid>{C9DE5C8A-DD9B-4092-A91A-F48E4FB48360}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Corona.Model</RootNamespace>
-    <AssemblyName>Corona.Model</AssemblyName>
+    <RootNamespace>Corona.Models</RootNamespace>
+    <AssemblyName>Corona.Models</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -98,9 +98,13 @@
     <Compile Include="ConversationModel.cs" />
     <Compile Include="EnvironmentSelectorModel.cs" />
     <Compile Include="EventModel.cs" />
+    <Compile Include="EventModel2.cs" />
     <Compile Include="EventSelectorModel.cs" />
+    <Compile Include="KeyNameModel.cs" />
+    <Compile Include="FunctionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestModel.cs" />
+    <Compile Include="ScheduleModel.cs" />
     <Compile Include="UMRequestModel.cs" />
     <Compile Include="UMTaskModel.cs" />
     <Compile Include="UnderMaintenanceModel.cs" />
