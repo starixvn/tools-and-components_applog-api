@@ -57,7 +57,7 @@ namespace Corona.Dialogs
                         Value = value
                     };
 
-                    if (!conversationService.Existing(value.ToString()))
+                    if (!conversationService.Existing(Convert.ToInt32(value)))
                     {
                         validateResult.IsValid = false;
                         validateResult.Feedback = "Not found the Conversation Id. Please input other one.";

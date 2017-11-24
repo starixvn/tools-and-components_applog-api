@@ -7,7 +7,7 @@ namespace Corona.Models
 {
     public class ConversationEventModel
     {
-        public string ConversationId { get; set; }
+        public int ConversationId { get; set; }
 
         public int EventId { get; set; }
 

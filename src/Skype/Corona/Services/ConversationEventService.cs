@@ -12,13 +12,13 @@ namespace Corona.Services
     {
         void Insert(ConversationEventModel conversationEvent);
 
-        void Update(string conversationId, int eventId, ConversationEventModel conversationEvent);
+        void Update(int conversationId, int eventId, ConversationEventModel conversationEvent);
 
-        void Delete(string conversationId, int eventId);
+        void Delete(int conversationId, int eventId);
 
-        void DeleteConversation(string conversationId);
+        void DeleteConversation(int conversationId);
 
-        bool Existing(string conversationId, int eventId);
+        bool Existing(int conversationId, int eventId);
 
         IList<ConversationEventModel> ConversationEvents { get; }
     }
@@ -37,9 +37,9 @@ namespace Corona.Services
             }
         }
 
-        public void Delete(string conversationId, int eventId)
+        public void Delete(int conversationId, int eventId)
         {
-            var entity = Entities.ConversationEvents.First(x => x.ConversationId == conversationId && x.EventId == eventId);
+            var entity = Entities.ConversationEvents.First(x => x.Id == conversationId && x.EventId == eventId);
             if (entity != null)
             {
                 Entities.Entry(entity).State = EntityState.Deleted;
@@ -48,7 +48,7 @@ namespace Corona.Services
             }
         }
 
-        public void DeleteConversation(string conversationId)
+        public void DeleteConversation(int conversationId)
         {
             var conversationEvents = Entities.ConversationEvents.Where(x => x.ConversationId == conversationId);
             if (conversationEvents.Any())
@@ -60,7 +60,7 @@ namespace Corona.Services
             }
         }
 
-        public bool Existing(string conversationId, int eventId)
+        public bool Existing(int conversationId, int eventId)
         {
             return Entities.ConversationEvents.Any(x => x.ConversationId == conversationId && x.EventId == eventId);
         }
@@ -79,7 +79,7 @@ namespace Corona.Services
             Entities.SaveChanges();
         }
 
-        public void Update(string conversationId, int eventId, ConversationEventModel conversationEvent)
+        public void Update(int conversationId, int eventId, ConversationEventModel conversationEvent)
         {
             var entity = Entities.ConversationEvents.Where(x => x.ConversationId == conversationId && x.EventId == eventId).First();
 

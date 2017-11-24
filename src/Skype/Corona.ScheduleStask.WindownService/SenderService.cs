@@ -11,13 +11,12 @@ namespace Corona.ScheduleTask.WindownService
 {
     public class SenderService : BaseService
     {
-        private List<EventModel> GetEvent() => GetDataList<EventModel>("Events").Where(x => !x.IsUM).ToList();
+        private readonly UnderMaintenanceService underMaintenanceService;
 
-        private List<EventModel2> GetEvents2() => GetDataList<EventModel2>("Events2").ToList();
-
-        private List<ScheduleModel> GetSchedules() => GetDataList<ScheduleModel>("Schedules").ToList();
-
-        private List<FunctionModel> GetFunctions() => GetDataList<FunctionModel>("Functions").ToList();
+        public SenderService()
+        {
+            underMaintenanceService = new UnderMaintenanceService();
+        }
 
         public void Run2()
         {
@@ -32,7 +31,7 @@ namespace Corona.ScheduleTask.WindownService
                 {
                     case FunctionKeyModel.UnderMaintenace:
                         {
-                            ExecuteUMTask(model);
+                            underMaintenanceService.ExecuteUMTask(model);
 
                             break;
                         }
@@ -44,107 +43,7 @@ namespace Corona.ScheduleTask.WindownService
                 }
 
             });
-        }
-
-        private void Send(EventModel2 model, DateTime startDate, DateTime endDate, bool isSent)
-        {
-            var randomMessage = model.Message;
-
-            if (!string.IsNullOrWhiteSpace(model.MessageFile))
-            {
-                var messages = Utilities.ReadMessage(model.MessageFile);
-                randomMessage = messages.Any() ? Utilities.RandomMessage(messages) : model.Message;
-            }
-
-            SendMessage(new RequestModel
-            {
-                Event2 = new EventModel2
-                {
-                    Id = model.Id,
-                    IsSent = isSent,
-                    ParentId = model.ParentId,
-                    Functions = model.Functions,
-                    KeyName = model.KeyName,
-                    Schedule = new ScheduleModel
-                    {
-                        StartDate = startDate,
-                        EndDate = endDate,
-                        Id = model.Schedule.Id
-                    },
-                    Message =string.Format(randomMessage, startDate.ToString("HH:mm"), endDate.ToString("HH:mm"), endDate.ToString("dddd, MM/dd/yyyy"))
-                },
-            }, "SendMessage2");
-        }
-
-        private void ExecuteUMTask(EventModel2 model)
-        {
-
-            if (model != null)
-            {
-                var umConfig = BaseService.UMConfig();
-                var schedules = GetSchedules();
-
-                if (model.IsSent)
-                {
-                    if (model.Child.Any())
-                    {
-                        model.Child.ToList().ForEach(c =>
-                        {
-                            ExecuteUMTask(c);
-                        });
-                    }
-                }
-                else
-                {
-                    var schedule = schedules.First(x => x.Id == model.Schedule.Id);
-                    var oldStartTime = Utilities.DatetimeConverter(schedule.StartDate);
-                    var oldEndTime = Utilities.DatetimeConverter(schedule.EndDate);
-                    var newStarttime = Utilities.DatetimeConverter(umConfig.From);
-                    var newEndTime = Utilities.DatetimeConverter(umConfig.To);
-                    var isUM = umConfig.IsUM != -1 ? umConfig.IsUM == 1 : UnderMaintenance().IsUM == 1;
-                   
-                    switch (model.KeyName)
-                    {
-                        case EventKeyModel.UMNotified:
-                            {
-                                if (!isUM && oldStartTime != newStarttime && oldEndTime != newEndTime)
-                                {
-                                    Send(model, newStarttime, newEndTime, true);
-                                }
-
-                                break;
-                            }
-                        case EventKeyModel.UMStarted:
-                            {
-                                if (isUM)
-                                {
-                                    Send(model, oldStartTime, oldEndTime, true);
-                                }
-
-                                break;
-                            }
-                        case EventKeyModel.UMExtended:
-                            {
-                                if (isUM && oldEndTime != newEndTime)
-                                {
-                                    Send(model, oldStartTime, newEndTime, true);
-                                }
-
-                                break;
-                            }
-                        default:
-                            {
-                                if (!isUM)
-                                {
-                                    Send(model, oldStartTime, oldEndTime, true);
-                                }
-
-                                break;
-                            }
-                    }
-                }
-            }
-        }
+        }        
 
         private void ExecuteTask(EventModel2 model)
         {
@@ -169,10 +68,10 @@ namespace Corona.ScheduleTask.WindownService
                 {
                     startDate = startDate.AddYears(1);
                     endDate = endDate.AddYears(1);
-                }            
+                }
 
                 Send(model, startDate, endDate, false);
-                
+
                 if (model.Child.Any())
                 {
                     model.Child.ToList().ForEach(c =>

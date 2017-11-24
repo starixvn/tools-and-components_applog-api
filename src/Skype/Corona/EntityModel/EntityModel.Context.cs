@@ -25,12 +25,12 @@ namespace Corona.EntityModel
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Conversation> Conversations { get; set; }
         public virtual DbSet<ChannelAccount> ChannelAccounts { get; set; }
-        public virtual DbSet<ConversationEvent> ConversationEvents { get; set; }
         public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<Function> Functions { get; set; }
         public virtual DbSet<Schedule> Schedules { get; set; }
         public virtual DbSet<Event2> Event2 { get; set; }
+        public virtual DbSet<ConversationEvent> ConversationEvents { get; set; }
+        public virtual DbSet<Conversation> Conversations { get; set; }
     }
 }

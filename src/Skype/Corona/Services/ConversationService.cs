@@ -14,17 +14,21 @@ namespace Corona.Services
     {
         void Insert(ConversationModel conversation);
 
-        void Update(string id, ConversationModel conversation);
+        void Update(int id, ConversationModel conversation);
 
-        void Delete(string id);
+        void Delete(int id);
 
-        bool Existing(string id);
+        bool ExistingConversation(string conversationId);
+
+        bool Existing(int id);
 
         bool Resume(ConversationModel conversation, string message);
 
         IList<ConversationModel> Conversations { get; }
 
-        ConversationModel Conversation(string id);
+        ConversationModel Conversation(int id);
+
+        ConversationModel Conversation(string conversationId);
 
         void UpdateMemberInfo(ConversationModel conversation);
 
@@ -48,6 +52,7 @@ namespace Corona.Services
                     conversations.Add(new ConversationModel
                     {
                         Id = x.Id,
+                        ConversationId = x.ConversationId,
                         ChannelId = x.ChannelId,
                         IsGroup = x.IsGroup ?? false,
                         Name = x.Name,
@@ -63,12 +68,17 @@ namespace Corona.Services
             }
         }
 
-        public ConversationModel Conversation(string id)
+        public ConversationModel Conversation(string conversationId)
+        {
+            return Conversations.First(x => x.ConversationId == conversationId);
+        }
+
+        public ConversationModel Conversation(int id)
         {
             return Conversations.First(x => x.Id == id);
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             var entity = Entities.Conversations.Find(id);
             Entities.Entry(entity).State = EntityState.Deleted;
@@ -76,17 +86,22 @@ namespace Corona.Services
             Entities.SaveChanges();
         }
 
-        public bool Existing(string id)
+        public bool Existing(int id)
         {
             return Entities.Conversations.Any(x => x.Id == id);
+        }
+
+        public bool ExistingConversation(string conversationId)
+        {
+            return Entities.Conversations.Any(x => x.ConversationId == conversationId);
         }
 
         public void Insert(ConversationModel conversation)
         {
             var entityConversation = new EntityModel.Conversation
             {
-                ChannelId = conversation.ChannelId,
-                Id = conversation.Id,
+                ChannelId = conversation.ChannelId,                
+                ConversationId = conversation.ConversationId,
                 IsGroup = conversation.IsGroup,
                 Name = conversation.Name,
                 RecipientId = conversation.Recipient.Id,
@@ -121,7 +136,7 @@ namespace Corona.Services
                 activityMessage.ChannelId = conversation.ChannelId;
                 activityMessage.From = botAccount;
                 activityMessage.Recipient = userAccount;
-                activityMessage.Conversation = new ConversationAccount(id: conversation.Id);
+                activityMessage.Conversation = new ConversationAccount(id: conversation.ConversationId);
                 activityMessage.Text = message;
                 activityMessage.Locale = "en-Us";
 
@@ -135,7 +150,7 @@ namespace Corona.Services
             return false;
         }
 
-        public void Update(string id, ConversationModel conversation)
+        public void Update(int id, ConversationModel conversation)
         {
             var entity = Entities.Conversations.Find(id);
 
@@ -144,6 +159,7 @@ namespace Corona.Services
                 Entities.Entry(entity).State = EntityState.Modified;
 
                 entity.ChannelId = conversation.ChannelId;
+                entity.ConversationId = conversation.ConversationId;
                 entity.IsGroup = conversation.IsGroup;
                 entity.RecipientId = conversation.Recipient.Id;
                 entity.SenderId = conversation.Sender.Id;
@@ -157,7 +173,7 @@ namespace Corona.Services
         public void UpdateMemberInfo(ConversationModel conversation)
         {
             var connector = new ConnectorClient(conversation.ServiceUrl);
-            var conversationMembers = connector.Conversations.GetConversationMembers(conversation.Id);
+            var conversationMembers = connector.Conversations.GetConversationMembers(conversation.ConversationId);
             
             foreach (var conMember in conversationMembers)
             {

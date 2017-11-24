@@ -14,7 +14,8 @@ namespace Corona.EntityModel
     
     public partial class Conversation
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
+        public string ConversationId { get; set; }
         public string SenderId { get; set; }
         public string RecipientId { get; set; }
         public string ServiceUrl { get; set; }

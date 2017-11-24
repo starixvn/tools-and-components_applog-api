@@ -95,5 +95,43 @@ namespace Corona.ScheduleTask.WindownService
                 IsUM = isUM ? 1 : 0
             };
         }
+
+        public static List<EventModel> GetEvent() => GetDataList<EventModel>("Events").Where(x => !x.IsUM).ToList();
+
+        public static List<EventModel2> GetEvents2() => GetDataList<EventModel2>("Events2").ToList();
+
+        public static List<ScheduleModel> GetSchedules() => GetDataList<ScheduleModel>("Schedules").ToList();
+
+        public static List<FunctionModel> GetFunctions() => GetDataList<FunctionModel>("Functions").ToList();
+
+        public void Send(EventModel2 model, DateTime startDate, DateTime endDate, bool isSent)
+        {
+            var randomMessage = model.Message;
+
+            if (!string.IsNullOrWhiteSpace(model.MessageFile))
+            {
+                var messages = Utilities.ReadMessage(model.MessageFile);
+                randomMessage = messages.Any() ? Utilities.RandomMessage(messages) : model.Message;
+            }
+
+            SendMessage(new RequestModel
+            {
+                Event2 = new EventModel2
+                {
+                    Id = model.Id,
+                    IsSent = isSent,
+                    ParentId = model.ParentId,
+                    Functions = model.Functions,
+                    KeyName = model.KeyName,
+                    Schedule = new ScheduleModel
+                    {
+                        StartDate = startDate,
+                        EndDate = endDate,
+                        Id = model.Schedule.Id
+                    },
+                    Message = string.Format(randomMessage, startDate.ToString("HH:mm"), endDate.ToString("HH:mm"), endDate.ToString("dddd, MM/dd/yyyy"))
+                },
+            }, "SendMessage2");
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Corona.Models
     public class ConversationEventSelectorModel
     {
         [Prompt("Your Conversation ID is: ")]
-        public string ConversationId { get; set; }
+        public int ConversationId { get; set; }
 
         [Prompt("Your Event ID is: ")]
         public int EventId { get; set; }

@@ -14,7 +14,7 @@ namespace Corona.EntityModel
     
     public partial class ConversationEvent
     {
-        public string ConversationId { get; set; }
+        public int ConversationId { get; set; }
         public int EventId { get; set; }
         public string Name { get; set; }
         public int Id { get; set; }

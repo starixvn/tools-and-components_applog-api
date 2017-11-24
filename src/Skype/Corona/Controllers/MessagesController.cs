@@ -137,7 +137,7 @@ namespace Corona
                 var conversationModel = new ConversationModel
                 {
                     ChannelId = activity.ChannelId,
-                    Id = activity.Conversation.Id,
+                    ConversationId = activity.Conversation.Id,
                     Name = activity.TopicName,
                     Recipient = new ChannelAccountModel
                     {
@@ -153,7 +153,7 @@ namespace Corona
                     ServiceUrl = new Uri(activity.ServiceUrl)
                 };
 
-                var isExisting = conversationService.Existing(activity.Conversation.Id);
+                var isExisting = conversationService.ExistingConversation(activity.Conversation.Id);
 
                 if (!isExisting)
                 {
@@ -176,12 +176,12 @@ namespace Corona
 
         private void DeleteConversation(Activity activity)
         {
-            var isExisting = conversationService.Existing(activity.Conversation.Id);
+            var conversation = conversationService.Conversation(activity.Conversation.Id);
 
-            if (isExisting)
-            {
-                conversationService.Delete(activity.Conversation.Id);
-                conversationEventService.DeleteConversation(activity.Conversation.Id);
+            if (conversation.Id != 0)
+            {                
+                conversationService.Delete(conversation.Id);
+                conversationEventService.DeleteConversation(conversation.Id);
             }
         }
     }
