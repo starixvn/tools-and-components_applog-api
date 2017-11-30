@@ -14,7 +14,8 @@ namespace Corona.UM.Service
     {
         public static bool SendMessage(UMRequestModel parameters, string actionName)
         {
-            var client = new RestClient(AppSettingService.BotAPIBaseUrl);
+            var baseUrl = new Uri(AppSettingService.BotAPIBasePath);
+            var client = new RestClient(baseUrl);
             var request = new RestRequest(Method.POST);
 
             request.RequestFormat = DataFormat.Json;
@@ -31,14 +32,14 @@ namespace Corona.UM.Service
             return false;
         }
 
-        public static UnderMaintenanceModel UnderMaintenance()
+        public UnderMaintenanceModel UnderMaintenance()
         {
             var umController = new UMBusiness();
             var umFrom = string.Empty;
             var umTo = string.Empty;
             var currentDate = DateTime.UtcNow.AddHours(AppSettingService.TimeZone);
 
-            var isUM = !AppSettingService.IsLocal && umController.isUnderMaintainence(Sites.Agency, AppSettingService.UMServiceUrl, ref umFrom, ref umTo);
+            var isUM = !AppSettingService.IsLocal && umController.isUnderMaintainence(Sites.Agency, AppSettingService.UMServicePath, ref umFrom, ref umTo);
 
             return new UnderMaintenanceModel
             {
@@ -48,10 +49,11 @@ namespace Corona.UM.Service
             };
         }
 
-        public static IList<T> GetData<T>(string actionName)
+        public IList<T> GetData<T>(string actionName)
         {
             RestRequest request = new RestRequest(Method.GET);
-            var client = new RestClient(AppSettingService.BotAPIBaseUrl);
+            var baseUrl = new Uri(AppSettingService.BotAPIBasePath);
+            var client = new RestClient(baseUrl);
             request.Resource = string.Format(AppSettingService.BotAPIData + "/{0}/", actionName);
 
             return client.Execute<List<T>>(request).Data;

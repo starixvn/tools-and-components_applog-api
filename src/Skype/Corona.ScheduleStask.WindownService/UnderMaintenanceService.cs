@@ -50,46 +50,51 @@ namespace Corona.ScheduleTask.WindownService
                     var newEndTime = Utilities.DatetimeConverter(umConfig.To);
                     var isUM = umConfig.IsUM != -1 ? umConfig.IsUM == 1 : UnderMaintenance().IsUM == 1;
 
-                    switch (model.KeyName)
-                    {
-                        case EventKeyModel.UMNotified:
-                            {
-                                if (!isUM && oldStartTime != newStarttime && oldEndTime != newEndTime)
-                                {
-                                    Send(model, newStarttime, newEndTime, true);
-                                }
-
-                                break;
-                            }
-                        case EventKeyModel.UMStarted:
-                            {
-                                if (isUM)
-                                {
-                                    Send(model, oldStartTime, oldEndTime, true);
-                                }
-
-                                break;
-                            }
-                        case EventKeyModel.UMExtended:
-                            {
-                                if (isUM && oldEndTime != newEndTime)
-                                {
-                                    Send(model, oldStartTime, newEndTime, true);
-                                }
-
-                                break;
-                            }
-                        default:
-                            {
-                                if (!isUM)
-                                {
-                                    Send(model, oldStartTime, oldEndTime, true);
-                                }
-
-                                break;
-                            }
-                    }
+                    UMProcessing(model, oldStartTime, oldEndTime, newStarttime, newEndTime, isUM);
                 }
+            }
+        }
+
+        private void UMProcessing(EventModel2 model, DateTime oldStartTime, DateTime oldEndTime, DateTime newStarttime, DateTime newEndTime, bool isUM)
+        {
+            switch (model.KeyName)
+            {
+                case EventKeyModel.UMNotified:
+                    {
+                        if (!isUM && oldStartTime != newStarttime && oldEndTime != newEndTime)
+                        {
+                            Send(model, newStarttime, newEndTime, true);
+                        }
+
+                        break;
+                    }
+                case EventKeyModel.UMStarted:
+                    {
+                        if (isUM)
+                        {
+                            Send(model, oldStartTime, oldEndTime, true);
+                        }
+
+                        break;
+                    }
+                case EventKeyModel.UMExtended:
+                    {
+                        if (isUM && oldEndTime != newEndTime)
+                        {
+                            Send(model, oldStartTime, newEndTime, true);
+                        }
+
+                        break;
+                    }
+                default:
+                    {
+                        if (!isUM)
+                        {
+                            Send(model, oldStartTime, oldEndTime, true);
+                        }
+
+                        break;
+                    }
             }
         }
 

@@ -16,21 +16,21 @@ namespace Corona.UM.Service
 {
     public class UMSenderService : BaseService
     {
-        public static IList<ConversationModel> Conversations()
+        public IList<ConversationModel> Conversations()
         {
             return GetData<ConversationModel>("Conversations");
         }
 
-        public static IList<EventModel> Events()
+        public IList<EventModel> Events()
         {       
             return GetData<EventModel>("UMEvents");
         }
 
-        public static void RunService()
+        public void RunService()
         {
             var isUm = false;
-            var umConfigFrom = DateTime.Now;
-            var umConfigTo = DateTime.Now;
+            DateTime umConfigFrom;
+            DateTime umConfigTo;
 
             var umConfig = ReadUMConfig();
             var umService = UnderMaintenance();
@@ -67,7 +67,7 @@ namespace Corona.UM.Service
             }
         }
 
-        private static void RunUMStartAndExtend(bool isUm, IList<EventModel> events, DateTime umFrom, DateTime umTo)
+        private void RunUMStartAndExtend(bool isUm, IList<EventModel> events, DateTime umFrom, DateTime umTo)
         {
             var startUmEvents = events.First(x => x.Start.HasValue && !x.End.HasValue);
 
@@ -91,7 +91,7 @@ namespace Corona.UM.Service
             }
         }
 
-        private static void RunUMStoped(bool isUm, IList<EventModel> events, DateTime umFrom, DateTime umTo)
+        private void RunUMStoped(bool isUm, IList<EventModel> events, DateTime umFrom, DateTime umTo)
         {
             var startUmEvents = events.First(x => x.Start.HasValue && !x.End.HasValue);
 
@@ -113,7 +113,7 @@ namespace Corona.UM.Service
             }
         }
 
-        private static void RunUMNotification(IList<EventModel> events, DateTime umFrom, DateTime umTo)
+        private void RunUMNotification(IList<EventModel> events, DateTime umFrom, DateTime umTo)
         {
             var notifyEvent = events.First(x => x.Start.HasValue && x.End.HasValue);
 
@@ -145,7 +145,7 @@ namespace Corona.UM.Service
             return new Dictionary<string, object>();
         }        
 
-        private static void UMNotification(IList<EventModel> events, DateTime from, DateTime to)
+        private void UMNotification(IList<EventModel> events, DateTime from, DateTime to)
         {
             if (events != null)
             {
@@ -188,7 +188,7 @@ namespace Corona.UM.Service
             }
         }
 
-        private static void ExtendUMNofitication(IList<EventModel> events, DateTime umTo, bool isUM = false)
+        private void ExtendUMNofitication(IList<EventModel> events, DateTime umTo, bool isUM = false)
         {
             if (isUM)
             {
@@ -222,7 +222,7 @@ namespace Corona.UM.Service
             }
         }
 
-        private static void UnderMaintenanceStatus(EventModel model, bool isUM = false)
+        private void UnderMaintenanceStatus(EventModel model, bool isUM = false)
         {
             if (!model.IsSent)
             {
