@@ -16,11 +16,9 @@ namespace Corona.UM.Service
 {
     public partial class UMService : ServiceBase
     {
-        UMSenderService umSenderService;
         public UMService()
         {
             InitializeComponent();
-            umSenderService = new UMSenderService();
         }
 
         protected override void OnStart(string[] args)
@@ -39,11 +37,11 @@ namespace Corona.UM.Service
             // Method intentionally left empty.
         }
 
-        private void Ontimer(object sender, ElapsedEventArgs e)
+        private static void Ontimer(object sender, ElapsedEventArgs e)
         {
             try
             {
-                umSenderService.RunService();
+                UMSenderService.RunService();
             }
             catch (Exception ex)
             {

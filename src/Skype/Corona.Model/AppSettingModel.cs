@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Corona.Models
 {
-    public static class AppSettingModel
+   public class AppSettingModel
     {
         public static int TimeZone => Convert.ToInt32(ConfigurationManager.AppSettings["TimeZone"]);
     }
