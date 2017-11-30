@@ -12,9 +12,12 @@ namespace Corona.UM.Service
 {
     public class BaseService
     {
+        protected BaseService() { }
+
         public static bool SendMessage(UMRequestModel parameters, string actionName)
         {
-            var client = new RestClient(AppSettingService.BotAPIBaseUrl);
+            var basePath = new Uri(AppSettingService.BotAPIBaseUrl);
+            var client = new RestClient(basePath);
             var request = new RestRequest(Method.POST);
 
             request.RequestFormat = DataFormat.Json;
@@ -51,7 +54,8 @@ namespace Corona.UM.Service
         public static IList<T> GetData<T>(string actionName)
         {
             RestRequest request = new RestRequest(Method.GET);
-            var client = new RestClient(AppSettingService.BotAPIBaseUrl);
+            var basePath = new Uri(AppSettingService.BotAPIBaseUrl);
+            var client = new RestClient(basePath);
             request.Resource = string.Format(AppSettingService.BotAPIData + "/{0}/", actionName);
 
             return client.Execute<List<T>>(request).Data;

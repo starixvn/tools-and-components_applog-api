@@ -29,8 +29,8 @@ namespace Corona.UM.Service
         public static void RunService()
         {
             var isUm = false;
-            var umConfigFrom = DateTime.Now;
-            var umConfigTo = DateTime.Now;
+            DateTime umConfigFrom;
+            DateTime umConfigTo;
 
             var umConfig = ReadUMConfig();
             var umService = UnderMaintenance();

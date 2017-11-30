@@ -99,7 +99,7 @@ namespace Corona.Dialogs
 
         private async Task ResumeAfterFormDialog(IDialogContext context, IAwaitable<EventSelectorModel> result)
         {
-            var selected = await result;
+            ////var selected = await result;
 
             context.Done<object>("Bye!");
         }

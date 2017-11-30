@@ -58,10 +58,10 @@ namespace Corona
                         Activity reply = activity.CreateReply("Hi! " + activity.From.Name);
                         var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
 
-                        await connector.Conversations.ReplyToActivityAsync(reply);
+                        await connector.Conversations.ReplyToActivityAsync(reply).ConfigureAwait(false);
                     }
 
-                    await Conversation.SendAsync(activity, () => new RootDialog());
+                    await Conversation.SendAsync(activity, () => new RootDialog()).ConfigureAwait(false);
                 }
                 else
                 {
@@ -79,14 +79,9 @@ namespace Corona
             return response;
         }
 
-        private Activity HandleSystemMessage(Activity message)
+        private void HandleSystemMessage(Activity message)
         {
-            if (message.Type == ActivityTypes.DeleteUserData)
-            {
-                // Implement user deletion here
-                // If we handle user deletion, return a real message
-            }
-            else if (message.Type == ActivityTypes.ConversationUpdate)
+            if (message.Type == ActivityTypes.ConversationUpdate)
             {
                 // Handle conversation state changes, like members being added and removed
                 // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
@@ -111,23 +106,7 @@ namespace Corona
                 {
                     DeleteConversation(message);
                 }
-
-            }
-            else if (message.Type == ActivityTypes.ContactRelationUpdate)
-            {
-                // Handle add/remove from contact lists
-                // Activity.From + Activity.Action represent what happened
-            }
-            else if (message.Type == ActivityTypes.Typing)
-            {
-                // Handle knowing tha the user is typing
-            }
-            else if (message.Type == ActivityTypes.Ping)
-            {
-
-            }
-
-            return null;
+            }        
         }
 
         private void InsertConversation(Activity activity)

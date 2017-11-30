@@ -24,16 +24,26 @@ namespace Corona.Services
     }
     public class ConversationEventService : QueryService, IConversationEventService
     {
+        private ConversationEventModel TransformConversationEventModel(ConversationEvent model)
+        {
+            return new ConversationEventModel {
+                ConversationId = model.ConversationId,
+                EventId = model.EventId,
+                Name = model.Name
+            };
+        }
+
         public IList<ConversationEventModel> ConversationEvents
         {
             get
             {
-                return Entities.ConversationEvents.Select(x => new ConversationEventModel
-                {
-                    ConversationId = x.ConversationId,
-                    EventId = x.EventId,
-                    Name = x.Name
-                }).ToList();
+                var conversationEvents = new List<ConversationEventModel>();
+
+                Entities.ConversationEvents.ToList().ForEach(x => {
+                    conversationEvents.Add(TransformConversationEventModel(x));
+                });
+
+                return conversationEvents;
             }
         }
 

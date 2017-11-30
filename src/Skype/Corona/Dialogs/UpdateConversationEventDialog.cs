@@ -39,11 +39,11 @@ namespace Corona.Dialogs
                         Name = state.Name
                     });
 
-                    await context.PostAsync($"Event is setted the schedule.");
+                    await context.PostAsync($"Event is setted the schedule.").ConfigureAwait(false);
                 }
                 else
                 {
-                    await context.PostAsync($"The schedule is setted already. So you cannot add more schedule.");
+                    await context.PostAsync($"The schedule is setted already. So you cannot add more schedule.").ConfigureAwait(false);
                 }
             };
 
@@ -89,7 +89,7 @@ namespace Corona.Dialogs
 
         private async Task ResumeAfterFormDialog(IDialogContext context, IAwaitable<ConversationEventSelectorModel> result)
         {
-            var selected = await result;
+           //// var selected = await result;
 
             context.Done<object>("Bye!");
         }

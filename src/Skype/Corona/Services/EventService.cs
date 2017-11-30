@@ -52,18 +52,24 @@ namespace Corona.Services
         {
             get
             {
-                return Entities.Events.Select(x => new EventModel
-                {
-                    Id = x.Id,
-                    Start = x.Start.Value,
-                    Message = x.Message,
-                    Repeat = (Repeat)x.Repeat.Value,
-                    End = x.End.Value,
-                    IsUM = x.IsUM.Value,
-                    IsSent = x.IsSent.Value,
-                    GMT = x.GMT.Value,
-                    MessageFile = x.MessageFile
-                }).ToList();
+                var events = new List<EventModel>();
+
+                Entities.Events.ToList().ForEach(x => {
+                    events.Add(new EventModel
+                    {
+                        Id = x.Id,
+                        Start = x.Start.Value,
+                        Message = x.Message,
+                        Repeat = (Repeat)x.Repeat.Value,
+                        End = x.End.Value,
+                        IsUM = x.IsUM.Value,
+                        IsSent = x.IsSent.Value,
+                        GMT = x.GMT.Value,
+                        MessageFile = x.MessageFile
+                    });
+                });
+
+                return events;                
             }
         }
 

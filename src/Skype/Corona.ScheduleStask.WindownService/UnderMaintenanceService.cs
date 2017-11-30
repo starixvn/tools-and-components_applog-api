@@ -43,53 +43,58 @@ namespace Corona.ScheduleTask.WindownService
                 }
                 else
                 {
-                    var schedule = schedules.First(x => x.Id == model.Schedule.Id);
-                    var oldStartTime = Utilities.DatetimeConverter(schedule.StartDate);
-                    var oldEndTime = Utilities.DatetimeConverter(schedule.EndDate);
-                    var newStarttime = Utilities.DatetimeConverter(umConfig.From);
-                    var newEndTime = Utilities.DatetimeConverter(umConfig.To);
-                    var isUM = umConfig.IsUM != -1 ? umConfig.IsUM == 1 : UnderMaintenance().IsUM == 1;
-
-                    switch (model.KeyName)
-                    {
-                        case EventKeyModel.UMNotified:
-                            {
-                                if (!isUM && oldStartTime != newStarttime && oldEndTime != newEndTime)
-                                {
-                                    Send(model, newStarttime, newEndTime, true);
-                                }
-
-                                break;
-                            }
-                        case EventKeyModel.UMStarted:
-                            {
-                                if (isUM)
-                                {
-                                    Send(model, oldStartTime, oldEndTime, true);
-                                }
-
-                                break;
-                            }
-                        case EventKeyModel.UMExtended:
-                            {
-                                if (isUM && oldEndTime != newEndTime)
-                                {
-                                    Send(model, oldStartTime, newEndTime, true);
-                                }
-
-                                break;
-                            }
-                        default:
-                            {
-                                if (!isUM)
-                                {
-                                    Send(model, oldStartTime, oldEndTime, true);
-                                }
-
-                                break;
-                            }
-                    }
+                    UMProcessing(model, umConfig, schedules);
                 }
+            }
+        }
+
+        private void UMProcessing(EventModel2 model, UnderMaintenanceModel umConfig, List<ScheduleModel> schedules)
+        {
+            var schedule = schedules.First(x => x.Id == model.Schedule.Id);
+            var oldStartTime = Utilities.DatetimeConverter(schedule.StartDate);
+            var oldEndTime = Utilities.DatetimeConverter(schedule.EndDate);
+            var newStarttime = Utilities.DatetimeConverter(umConfig.From);
+            var newEndTime = Utilities.DatetimeConverter(umConfig.To);
+            var isUM = umConfig.IsUM != -1 ? umConfig.IsUM == 1 : UnderMaintenance().IsUM == 1;
+
+            switch (model.KeyName)
+            {
+                case EventKeyModel.UMNotified:
+                    {
+                        if (!isUM && oldStartTime != newStarttime && oldEndTime != newEndTime)
+                        {
+                            Send(model, newStarttime, newEndTime, true);
+                        }
+
+                        break;
+                    }
+                case EventKeyModel.UMStarted:
+                    {
+                        if (isUM)
+                        {
+                            Send(model, oldStartTime, oldEndTime, true);
+                        }
+
+                        break;
+                    }
+                case EventKeyModel.UMExtended:
+                    {
+                        if (isUM && oldEndTime != newEndTime)
+                        {
+                            Send(model, oldStartTime, newEndTime, true);
+                        }
+
+                        break;
+                    }
+                default:
+                    {
+                        if (!isUM)
+                        {
+                            Send(model, oldStartTime, oldEndTime, true);
+                        }
+
+                        break;
+                    }
             }
         }
 

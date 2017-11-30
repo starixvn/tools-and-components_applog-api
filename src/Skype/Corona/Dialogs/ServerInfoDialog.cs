@@ -24,7 +24,7 @@ namespace Corona.Dialogs
         {
             OnCompletionAsyncDelegate<EnvironmentSelectorModel> processEnvironmentSelected = async (context, state) =>
             {
-                await context.PostAsync($"Ok. You are selected {state.Environment}");
+                await context.PostAsync($"Ok. You are selected {state.Environment}").ConfigureAwait(false);
             };
 
             return new FormBuilder<EnvironmentSelectorModel>()
@@ -35,7 +35,7 @@ namespace Corona.Dialogs
 
         private async Task ResumeAfterEnvironmentFormDialog(IDialogContext context, IAwaitable<EnvironmentSelectorModel> result)
         {
-            var selected = await result;
+           //// var selected = await result;
 
             context.Done<object>("Bye!");
         }

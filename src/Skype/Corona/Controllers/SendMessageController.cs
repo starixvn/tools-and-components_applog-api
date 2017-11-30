@@ -10,7 +10,7 @@ using Corona.Services;
 
 namespace Corona.Controllers
 {
-    [HMACAuthentication]
+    [HMACAuthenticationAttribute]
     [RoutePrefix("api/SendMessage")]
     public class SendMessageController : ApiController
     {

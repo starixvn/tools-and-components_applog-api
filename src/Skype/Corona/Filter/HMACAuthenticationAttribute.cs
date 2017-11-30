@@ -16,6 +16,7 @@ using System.Web.Http.Results;
 
 namespace Corona.Filters
 {
+    [System.AttributeUsage(System.AttributeTargets.All)]
     public class HMACAuthenticationAttribute : Attribute, IAuthenticationFilter
     {
         private static Dictionary<string, string> allowedApps = new Dictionary<string, string>();
@@ -84,20 +85,12 @@ namespace Corona.Filters
             get { return false; }
         }
 
-        private string[] GetAutherizationHeaderValues(string rawAuthzHeader)
+        private static string[] GetAutherizationHeaderValues(string rawAuthzHeader)
         {
 
             var credArray = rawAuthzHeader.Split(':');
 
-            if (credArray.Length == 4)
-            {
-                return credArray;
-            }
-            else
-            {
-                return null;
-            }
-
+            return credArray.Length == 4 ? credArray : null;           
         }
 
         private async Task<bool> isValidRequest(HttpRequestMessage req, string APPId, string incomingBase64Signature, string nonce, string requestTimeStamp)
@@ -118,7 +111,7 @@ namespace Corona.Filters
                 return false;
             }
 
-            byte[] hash = await ComputeHash(req.Content);
+            byte[] hash = await ComputeHash(req.Content).ConfigureAwait(false);
 
             if (hash != null)
             {
@@ -168,7 +161,7 @@ namespace Corona.Filters
             using (MD5 md5 = MD5.Create())
             {
                 byte[] hash = null;
-                var content = await httpContent.ReadAsByteArrayAsync();
+                var content = await httpContent.ReadAsByteArrayAsync().ConfigureAwait(false);
                 if (content.Length != 0)
                 {
                     hash = md5.ComputeHash(content);
@@ -190,7 +183,7 @@ namespace Corona.Filters
 
         public async Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
-            var response = await next.ExecuteAsync(cancellationToken);
+            var response = await next.ExecuteAsync(cancellationToken).ConfigureAwait(false);
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {

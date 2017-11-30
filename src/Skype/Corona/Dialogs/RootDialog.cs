@@ -31,7 +31,7 @@ namespace Corona.Dialogs
 
             if (activity.Text.ToLower().Contains("help") || activity.Text.ToLower().Contains("support") || activity.Text.ToLower().Contains("problem"))
             {
-                await context.Forward(new SupportDialog(), this.ResumeAfterSupportDialog, activity, CancellationToken.None);
+                await context.Forward(new SupportDialog(), this.ResumeAfterSupportDialog, activity, CancellationToken.None).ConfigureAwait(false);
             }
             else
             {
@@ -89,7 +89,7 @@ namespace Corona.Dialogs
             }
             catch (TooManyAttemptsException ex)
             {
-                await context.PostAsync($"Ooops! Too many attemps :(. But don't worry, I'm handling that exception and you can try again!");
+                await context.PostAsync($"Ooops! Too many attemps :(. But don't worry, I'm handling that exception and you can try again!").ConfigureAwait(false);
 
                 context.Wait(this.MessageReceivedAsync);
             }
@@ -101,7 +101,7 @@ namespace Corona.Dialogs
             {
                 var message = await result;
 
-                await context.PostAsync(message.ToString());
+                await context.PostAsync(message.ToString()).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

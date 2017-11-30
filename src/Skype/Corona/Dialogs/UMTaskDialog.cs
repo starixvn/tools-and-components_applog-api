@@ -24,7 +24,7 @@ namespace Corona.Dialogs
         {
             OnCompletionAsyncDelegate<UMTaskModel> processSelected = async (context, state) =>
             {
-                await context.PostAsync($"Ok. You are selected option {state.UMTaskList}");
+                await context.PostAsync($"Ok. You are selected option {state.UMTaskList}").ConfigureAwait(false);
             };
 
             return new FormBuilder<UMTaskModel>()                
@@ -34,7 +34,7 @@ namespace Corona.Dialogs
 
         private async Task ResumeAfterFormDialog(IDialogContext context, IAwaitable<UMTaskModel> result)
         {
-            var selected = await result;
+          //  var selected = await result;
 
             context.Done<object>("Bye!");
         }

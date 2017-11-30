@@ -27,20 +27,14 @@ namespace Corona.ScheduleTask.WindownService
             {
                 var model = events.First(x => x.Functions.Id == f.Id);
 
-                switch (f.Key)
+                if (f.Key == FunctionKeyModel.UnderMaintenace)
                 {
-                    case FunctionKeyModel.UnderMaintenace:
-                        {
-                            underMaintenanceService.ExecuteUMTask(model);
-
-                            break;
-                        }
-                    case FunctionKeyModel.Morning:
-                        {
-                            ExecuteTask(model);
-                            break;
-                        }
+                    underMaintenanceService.ExecuteUMTask(model);
                 }
+                else
+                {
+                    ExecuteTask(model);
+                }                
 
             });
         }        

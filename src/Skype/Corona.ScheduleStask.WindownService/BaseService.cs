@@ -15,7 +15,7 @@ namespace Corona.ScheduleTask.WindownService
 {
     public class BaseService
     {
-        public static string BotAPIBaseUrl => ConfigurationManager.AppSettings["BotApi.BaseUrl"];
+        public static string BotAPIBasePath => ConfigurationManager.AppSettings["BotApi.BaseUrl"];
         public static string BotAPIData => ConfigurationManager.AppSettings["BotApi.Data"];
         public static string BotAPIResume => ConfigurationManager.AppSettings["BotApi.Resume"];
         public static int TaskInterval => Convert.ToInt32(ConfigurationManager.AppSettings["TaskInterval"]);
@@ -23,7 +23,8 @@ namespace Corona.ScheduleTask.WindownService
         public static IList<T> GetDataList<T>(string actionName)
         {
             var request = new RestRequest(Method.GET);
-            var client = new RestClient(BotAPIBaseUrl);
+            var basePath = new Uri(BotAPIBasePath);
+            var client = new RestClient(basePath);
             request.Resource = string.Format(BotAPIData + "/{0}/", actionName);
             var result = client.Execute<List<T>>(request);
 
@@ -33,7 +34,8 @@ namespace Corona.ScheduleTask.WindownService
         public static T GetData<T>(string actionName, int parentId)
         {
             var request = new RestRequest(Method.GET);
-            var client = new RestClient(BotAPIBaseUrl);
+            var basePath = new Uri(BotAPIBasePath);
+            var client = new RestClient(basePath);
             request.Resource = string.Format(BotAPIData + "/{0}/", actionName);
             request.AddParameter("ParentId", parentId);
 
@@ -44,7 +46,9 @@ namespace Corona.ScheduleTask.WindownService
 
         public static bool SendMessage(RequestModel parameters, string actionName)
         {
-            var client = new RestClient(BotAPIBaseUrl);
+            var basePath = new Uri(BotAPIBasePath);
+            var client = new RestClient(basePath);
+            
             var request = new RestRequest(Method.POST);
 
             request.RequestFormat = DataFormat.Json;
