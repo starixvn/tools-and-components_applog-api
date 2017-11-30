@@ -13,8 +13,8 @@ namespace Corona.Console
 {
     class CustomDelegatingHandler : DelegatingHandler
     {
-        private string APIKey = ConfigurationManager.AppSettings["API.Key"];
-        private string APPId = "4pq96pj25ymbbyp6sju29433zz9eurek";
+        private readonly string APIKey = ConfigurationManager.AppSettings["API.Key"];
+        private readonly string APPId = "4pq96pj25ymbbyp6sju29433zz9eurek";
 
         protected async override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
@@ -38,7 +38,8 @@ namespace Corona.Console
             if (request.Content != null)
             {
                 byte[] content = await request.Content.ReadAsByteArrayAsync();
-                MD5 md5 = MD5.Create();
+                //MD5 md5 = MD5.Create();
+                var md5 = new MD5CryptoServiceProvider();
                 //Hashing the request body, any change in request body will result in different hash, we'll incure message integrity
                 byte[] requestContentHash = md5.ComputeHash(content);
                 requestContentBase64String = Convert.ToBase64String(requestContentHash);
