@@ -38,8 +38,8 @@ namespace Corona.Console
             if (request.Content != null)
             {
                 byte[] content = await request.Content.ReadAsByteArrayAsync();
-                //MD5 md5 = MD5.Create();
-                var md5 = new MD5CryptoServiceProvider();
+                MD5 md5 = MD5.Create();
+                //var md5 = new MD5CryptoServiceProvider();
                 //Hashing the request body, any change in request body will result in different hash, we'll incure message integrity
                 byte[] requestContentHash = md5.ComputeHash(content);
                 requestContentBase64String = Convert.ToBase64String(requestContentHash);

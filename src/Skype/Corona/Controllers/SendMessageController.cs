@@ -24,7 +24,6 @@ namespace Corona.Controllers
         [Route("")]
         public IHttpActionResult Post(MessageModel messageModel)
         {
-
             var conversationModel = conversationService.Conversation(messageModel.ConversationId);
 
             if (conversationModel != null)

@@ -11,21 +11,16 @@ using Newtonsoft.Json;
 using RestSharp;
 using Sunplus.UMControllerLibrary;
 
-namespace Corona.ScheduleTask.WindownService
+namespace Corona.ScheduleTask.WindowService
 {
     public class BaseService
-    {
-        public static string BotAPIBasePath => ConfigurationManager.AppSettings["BotApi.BaseUrl"];
-        public static string BotAPIData => ConfigurationManager.AppSettings["BotApi.Data"];
-        public static string BotAPIResume => ConfigurationManager.AppSettings["BotApi.Resume"];
-        public static int TaskInterval => Convert.ToInt32(ConfigurationManager.AppSettings["TaskInterval"]);
-
+    {   
         public static IList<T> GetDataList<T>(string actionName)
         {
             var request = new RestRequest(Method.GET);
-            var basePath = new Uri(BotAPIBasePath);
+            var basePath = new Uri(AppSetting.BotAPIBaseUrl);
             var client = new RestClient(basePath);
-            request.Resource = string.Format(BotAPIData + "/{0}/", actionName);
+            request.Resource = string.Format(AppSetting.BotAPIData + "/{0}/", actionName);
             var result = client.Execute<List<T>>(request);
 
             return JsonConvert.DeserializeObject<List<T>>(result.Content);
@@ -34,9 +29,9 @@ namespace Corona.ScheduleTask.WindownService
         public static T GetData<T>(string actionName, int parentId)
         {
             var request = new RestRequest(Method.GET);
-            var basePath = new Uri(BotAPIBasePath);
+            var basePath = new Uri(AppSetting.BotAPIBaseUrl);
             var client = new RestClient(basePath);
-            request.Resource = string.Format(BotAPIData + "/{0}/", actionName);
+            request.Resource = string.Format(AppSetting.BotAPIData + "/{0}/", actionName);
             request.AddParameter("ParentId", parentId);
 
             var result = client.Execute(request);
@@ -46,13 +41,13 @@ namespace Corona.ScheduleTask.WindownService
 
         public static bool SendMessage(RequestModel parameters, string actionName)
         {
-            var basePath = new Uri(BotAPIBasePath);
+            var basePath = new Uri(AppSetting.BotAPIBaseUrl);
             var client = new RestClient(basePath);
-            
+
             var request = new RestRequest(Method.POST);
 
             request.RequestFormat = DataFormat.Json;
-            request.Resource = string.Format(BotAPIResume + "/{0}/", actionName);
+            request.Resource = string.Format(AppSetting.BotAPIResume + "/{0}/", actionName);
             request.AddParameter("application/json", JsonConvert.SerializeObject(parameters), ParameterType.RequestBody);
 
             var response = client.Execute<RequestModel>(request);
@@ -83,12 +78,12 @@ namespace Corona.ScheduleTask.WindownService
             return new UnderMaintenanceModel();
         }
 
-        public static UnderMaintenanceModel UnderMaintenance()
+        public static UnderMaintenanceModel UnderMaintenance(int timeZone)
         {
             var umController = new UMBusiness();
             var umFrom = string.Empty;
             var umTo = string.Empty;
-            var currentDate = DateTime.UtcNow.AddHours(AppSetting.TimeZone);
+            var currentDate = DateTime.UtcNow.AddHours(timeZone);
 
             var isUM = !AppSetting.IsLocal && umController.isUnderMaintainence(Sites.Agency, AppSetting.UMServiceUrl, ref umFrom, ref umTo);
 
@@ -108,7 +103,7 @@ namespace Corona.ScheduleTask.WindownService
 
         public static List<FunctionModel> GetFunctions() => GetDataList<FunctionModel>("Functions").ToList();
 
-        public void Send(EventModel2 model, DateTime startDate, DateTime endDate, bool isSent)
+        public void Send(EventModel2 model, DateTime startDate, DateTime endDate, bool isSent = true, bool isUpdateData = true)
         {
             var randomMessage = model.Message;
 
@@ -135,6 +130,7 @@ namespace Corona.ScheduleTask.WindownService
                     },
                     Message = string.Format(randomMessage, startDate.ToString("HH:mm"), endDate.ToString("HH:mm"), endDate.ToString("dddd, MM/dd/yyyy"))
                 },
+                IsUpdateData = isUpdateData
             }, "SendMessage2");
         }
     }

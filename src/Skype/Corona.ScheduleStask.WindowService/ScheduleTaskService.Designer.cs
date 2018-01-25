@@ -1,4 +1,4 @@
-﻿namespace Corona.ScheduleStask.WindownService
+﻿namespace Corona.ScheduleStask.WindowService
 {
     partial class ScheduleTaskService
     {

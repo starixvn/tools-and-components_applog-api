@@ -4,8 +4,9 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using Corona.ScheduleTask.WindowService;
 
-namespace Corona.ScheduleStask.WindownService
+namespace Corona.ScheduleStask.WindowService
 {
     static class Program
     {
@@ -19,6 +20,7 @@ namespace Corona.ScheduleStask.WindownService
             {
                 new ScheduleTaskService()
             };
+
             ServiceBase.Run(ServicesToRun);
         }
     }

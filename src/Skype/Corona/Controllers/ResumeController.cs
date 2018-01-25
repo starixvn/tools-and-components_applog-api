@@ -198,7 +198,10 @@ namespace Corona.Controllers
                         conversationService.Resume(x, model.Event2.Message);
                     });
 
-                    UpdateEventData(model.Event2);
+                    if (model.IsUpdateData)
+                    {
+                        UpdateEventData(model.Event2);
+                    }
 
                     resp.Content = new StringContent("Message is sent at " + DateTime.Now);
                 }
@@ -221,12 +224,16 @@ namespace Corona.Controllers
             {
                 case EventKeyModel.UMNotified:
                 case EventKeyModel.UMExtended:
+                
                     {
                         eventService.UpdateMessageSent2(model.Id, model.IsSent);
                         scheduleService.UpdateSchedule(model.Schedule.Id, model.Schedule.StartDate, model.Schedule.EndDate);
                         break;
                     }
                 case EventKeyModel.UMStarted:
+                case EventKeyModel.UMRebootServer:
+                case EventKeyModel.UMDisabledSQL:
+                case EventKeyModel.UMEnabledSQL:
                     {
                         eventService.UpdateMessageSent2(model.Id, model.IsSent);
                         break;
@@ -240,7 +247,7 @@ namespace Corona.Controllers
                             eventService.UpdateMessageSent2(x.Id, false);
                         });
                         break;
-                    }
+                    }               
                 default:
                     scheduleService.UpdateSchedule(model.Schedule.Id, model.Schedule.StartDate, model.Schedule.EndDate);
                     break;

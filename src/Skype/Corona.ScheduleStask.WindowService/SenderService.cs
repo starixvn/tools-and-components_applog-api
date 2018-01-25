@@ -7,7 +7,7 @@ using Corona.Core;
 using Corona.Models;
 
 
-namespace Corona.ScheduleTask.WindownService
+namespace Corona.ScheduleTask.WindowService
 {
     public class SenderService : BaseService
     {
@@ -34,8 +34,7 @@ namespace Corona.ScheduleTask.WindownService
                 else
                 {
                     ExecuteTask(model);
-                }                
-
+                }               
             });
         }        
 

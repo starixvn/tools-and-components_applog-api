@@ -9,9 +9,9 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using Corona.ScheduleTask.WindownService;
+using Corona.ScheduleTask.WindowService;
 
-namespace Corona.ScheduleStask.WindownService
+namespace Corona.ScheduleStask.WindowService
 {
     public partial class ScheduleTaskService : ServiceBase
     {
@@ -26,7 +26,7 @@ namespace Corona.ScheduleStask.WindownService
         {
             var timer = new Timer
             {
-                Interval = BaseService.TaskInterval * 1000
+                Interval = AppSetting.Interval * 1000
             };
 
             timer.Elapsed += Ontimer;
@@ -45,11 +45,13 @@ namespace Corona.ScheduleStask.WindownService
             }
             catch (Exception ex)
             {
-                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\log.txt");
-                using (StreamWriter sw = File.AppendText(path))
-                {
-                    sw.WriteLine(ex.Message);
-                }
+                //var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\log.txt");
+                //using (StreamWriter sw = File.AppendText(path))
+                //{
+                //    sw.WriteLine(ex.Message);
+                //}
+
+                Fanex.Logging.LogService.Error(ex.Message);
             }
         }
     }

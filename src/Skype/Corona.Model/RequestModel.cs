@@ -13,6 +13,8 @@ namespace Corona.Models
 
         public EventModel2 Event2 { get; set; }
 
-        public string Message { get; set; }     
+        public string Message { get; set; }
+
+        public bool IsUpdateData { get; set; }
     }
 }

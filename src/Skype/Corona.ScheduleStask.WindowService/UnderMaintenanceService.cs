@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Corona.Core;
 using Corona.Models;
 
-namespace Corona.ScheduleTask.WindownService
+namespace Corona.ScheduleTask.WindowService
 {
     public class UnderMaintenanceService : BaseService
     {
@@ -17,7 +17,7 @@ namespace Corona.ScheduleTask.WindownService
         public UnderMaintenanceService()
         {
             connectionStringNames = new Dictionary<string, bool> {
-                {"DBCust.CustDB.bodbAdminNet", false },
+                { "DBCust.CustDB.bodbAdminNet", false },
                 { "DBPRO.bodb02.bodbAdminNet", false },
                 { "DBTXN.bodb02.bodbAdminNet", false}
             };
@@ -55,7 +55,8 @@ namespace Corona.ScheduleTask.WindownService
             var oldEndTime = Utilities.DatetimeConverter(schedule.EndDate);
             var newStarttime = Utilities.DatetimeConverter(umConfig.From);
             var newEndTime = Utilities.DatetimeConverter(umConfig.To);
-            var isUM = umConfig.IsUM != -1 ? umConfig.IsUM == 1 : UnderMaintenance().IsUM == 1;
+            var timeZone = schedule.GMT;
+            var isUM = umConfig.IsUM != -1 ? umConfig.IsUM == 1 : UnderMaintenance(timeZone).IsUM == 1;
 
             switch (model.KeyName)
             {
@@ -63,16 +64,53 @@ namespace Corona.ScheduleTask.WindownService
                     {
                         if (!isUM && oldStartTime != newStarttime && oldEndTime != newEndTime)
                         {
-                            Send(model, newStarttime, newEndTime, true);
+                            Send(model, newStarttime, newEndTime);
                         }
 
+                        break;
+                    }
+                case EventKeyModel.UMDisabledSQL:
+                    {
+                        var isDisabled = CheckSqlDisabled();
+
+                        if (isDisabled)
+                        {
+                            Send(model, newStarttime, newEndTime);
+                        }
+                        break;
+                    }
+                case EventKeyModel.UMEnabledSQL:
+                    {
+                        var isDisabled = CheckSqlDisabled();
+
+                        if (isUM && !isDisabled)
+                        {
+                            Send(model, newStarttime, newEndTime);
+                        }
+
+                        break;
+                    }                   
+                case EventKeyModel.UMRebootServer:
+                    {
+                        var rebootTime = newStarttime.AddMinutes(1);
+                        var currentTime = DateTime.UtcNow.AddHours(timeZone);
+
+                        if (isUM && Utilities.DatetimeComparer(rebootTime, currentTime) == 0)
+                        {
+                            Send(model, newStarttime, newEndTime);
+                        }
+
+                        break;
+                    }
+                case EventKeyModel.UMRebootServerProcessing:
+                    {
                         break;
                     }
                 case EventKeyModel.UMStarted:
                     {
                         if (isUM)
                         {
-                            Send(model, oldStartTime, oldEndTime, true);
+                            Send(model, oldStartTime, oldEndTime);
                         }
 
                         break;
@@ -81,7 +119,7 @@ namespace Corona.ScheduleTask.WindownService
                     {
                         if (isUM && oldEndTime != newEndTime)
                         {
-                            Send(model, oldStartTime, newEndTime, true);
+                            Send(model, oldStartTime, newEndTime);
                         }
 
                         break;
@@ -90,7 +128,7 @@ namespace Corona.ScheduleTask.WindownService
                     {
                         if (!isUM)
                         {
-                            Send(model, oldStartTime, oldEndTime, true);
+                            Send(model, oldStartTime, oldEndTime);
                         }
 
                         break;
@@ -104,20 +142,18 @@ namespace Corona.ScheduleTask.WindownService
 
             connectionStringNames.ToList().ForEach(x =>
             {
-                connectionStatus.Add(x.Key, OpenConnection(x.Key));                
+                connectionStatus.Add(x.Key, OpenConnection(x.Key));
             });
 
-           return connectionStatus.Values.First(x => !x);            
+            return connectionStatus.Values.Any(x => x == false);
         }
 
         private static bool OpenConnection(string connectionStringName)
         {
             var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
 
-            using (var connection = new SqlConnection())
+            using (var connection = new SqlConnection(connectionString))
             {
-                connection.ConnectionString = connectionString;
-
                 if (connection.State == ConnectionState.Open)
                 {
                     return true;
@@ -128,7 +164,7 @@ namespace Corona.ScheduleTask.WindownService
                     {
                         connection.Open();
 
-                        return true;
+                        return connection.State == ConnectionState.Open;
                     }
                     catch
                     {

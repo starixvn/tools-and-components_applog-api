@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sites>
+  <alpha>
+    <server id="1" ip="10.18.200.111"/>
+    <server id="2" ip="10.18.200.112" waiting="1"/>
+  </alpha>
+  <nap>
+    <server id="1" ip="10.3.113.138"/>
+    <server id="2" ip="10.3.113.139" waiting="1"/>
+  </nap>
+  <service>
+    <server id="1" ip="10.40.40.127"/>
+    <server id="2" ip="10.40.40.22"/>
+  </service>
+</sites>

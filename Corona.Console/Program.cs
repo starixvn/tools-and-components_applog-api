@@ -14,19 +14,14 @@ namespace Corona.Console
     class Program
     {
         static void Main(string[] args)
-        {
-            //byte[] secretKeyByteArray = CreateKey("!@#$%^&*()"); //256 bit
-            //var appId = Convert.ToBase64String(secretKeyByteArray);
-            //System.Console.WriteLine("appId: " + appId);
-            //var apiKey = GenerateAPPKey(secretKeyByteArray);
-            //System.Console.WriteLine("apiKey: " + apiKey);
-
-            //System.Console.ReadLine();
+        {          
+            System.Console.Write("Input your message: ");
+            var message = System.Console.ReadLine();
 
             var messageModel = new MessageModel
             {
                 ConversationId = 1,
-                Message = "Testing"
+                Message = message
             };
 
             RunAsync(messageModel).Wait();
@@ -56,17 +51,6 @@ namespace Corona.Console
             }
 
             System.Console.ReadLine();
-        }
-
-        private static string GenerateAPPKey()
-        {
-            using (var cryptoProvider = new RNGCryptoServiceProvider())
-            {
-                byte[] secretKeyByteArray = new byte[32]; //256 bit
-                cryptoProvider.GetBytes(secretKeyByteArray);
-
-                return Convert.ToBase64String(secretKeyByteArray);
-            }
-        }
+        }       
     }
 }

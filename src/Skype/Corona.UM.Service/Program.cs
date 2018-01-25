@@ -19,7 +19,7 @@ namespace Corona.UM.Service
             {
                 new UMService()
             };
-            ServiceBase.Run(ServicesToRun);
+            ServiceBase.Run(ServicesToRun);            
         }
     }
 }

@@ -167,9 +167,12 @@
     <Content Include="App_Data\FunnyMessages.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\NexBotDB2.mdf" />
+    <Content Include="App_Data\NexBotDB2.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Data\NexBotDB2_log.ldf">
       <DependentUpon>NexBotDB2.mdf</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
