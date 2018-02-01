@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Functions>
+  <Function Name="AppLog">
+    <Setting Key="dba_Letstalk_Notify" SpName="dba_Letstalk_Notify" DbName="MonDBDW" Plain="0">
+    </Setting>
+  </Function>
+</Functions>

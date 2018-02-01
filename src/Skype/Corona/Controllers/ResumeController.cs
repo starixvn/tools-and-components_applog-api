@@ -28,6 +28,7 @@ namespace Corona.Controllers
         }
 
         [HttpPost]
+        [HttpGet]
         public async Task<HttpResponseMessage> SendMessage(string message, int conversationId)
         {
             var conversationModel = conversationService.Conversation(conversationId);

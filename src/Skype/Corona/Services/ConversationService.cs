@@ -139,7 +139,7 @@ namespace Corona.Services
                 activityMessage.Conversation = new ConversationAccount(id: conversation.ConversationId);
                 activityMessage.Text = message;
                 activityMessage.Locale = "en-Us";
-
+                activityMessage.TextFormat = TextFormatTypes.Xml;
                 Microsoft​App​Credentials.TrustServiceUrl(conversation.ServiceUrl.ToString());
 
                 var result = connector.Conversations.SendToConversationAsync((Activity)activityMessage);

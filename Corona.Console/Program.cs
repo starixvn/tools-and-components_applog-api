@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
@@ -14,16 +15,13 @@ namespace Corona.Console
     class Program
     {
         static void Main(string[] args)
-        {          
-            System.Console.Write("Input your message: ");
-            var message = System.Console.ReadLine();
-
+        {
             var messageModel = new MessageModel
             {
-                ConversationId = 1,
-                Message = message
+                ConversationId = Convert.ToInt32(args[0]),
+                Message = args[1]
             };
-
+            
             RunAsync(messageModel).Wait();
         }
 
@@ -31,11 +29,13 @@ namespace Corona.Console
         {
             string apiBasePath = ConfigurationManager.AppSettings["API.BasePath"];
 
-            System.Console.WriteLine("Calling the back-end API");                        
+            System.Console.WriteLine("Calling the back-end API");
 
-            CustomDelegatingHandler customDelegatingHandler = new CustomDelegatingHandler();
-
-            HttpClient client = HttpClientFactory.Create(customDelegatingHandler);           
+             CustomDelegatingHandler customDelegatingHandler = new CustomDelegatingHandler();
+                       
+            HttpClient client = HttpClientFactory.Create(customDelegatingHandler);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             HttpResponseMessage response = await client.PostAsJsonAsync(apiBasePath + "api/SendMessage", messageModel);
 
@@ -47,7 +47,8 @@ namespace Corona.Console
             }
             else
             {
-                System.Console.WriteLine("Failed to call the API. HTTP Status: {0}, Reason {1}", response.StatusCode, response.ReasonPhrase);
+                System.Console.WriteLine("Failed to call the API. HTTP Status: {0}, Reason {1}, Response header {2}", response.StatusCode, response.ReasonPhrase, response.Headers.ToString());
+
             }
 
             System.Console.ReadLine();

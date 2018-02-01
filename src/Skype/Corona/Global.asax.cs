@@ -13,5 +13,12 @@ namespace Corona
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
+
+        void Application_Error(object sender, EventArgs e)
+        {
+            Exception exc = Server.GetLastError();
+
+            Fanex.Logging.LogService.Error(exc.Message);
+        }
     }
 }
