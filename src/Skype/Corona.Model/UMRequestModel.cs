@@ -13,8 +13,6 @@ namespace Corona.Models
 
         public bool IsExtend { get; set; }
 
-        public bool IsUM { get; set; }
-
-        public EventModel Events { get; set; }
+        public bool IsUM { get; set; }                
     }
 }

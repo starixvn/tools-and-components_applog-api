@@ -10,25 +10,17 @@ namespace Corona.Services
 {
     public interface IEventService
     {
-        int Insert(EventModel model);
-
-        void Update(int id, EventModel model);
-
         void Delete(int id);
 
         void UpdateEvent(int id, DateTime? start, DateTime? end);
 
         void UpdateEvent2(int id, int scheduleId, bool isSent);
-
-        IList<EventModel> Events { get; }
-
+        
         IList<EventModel2> Events2(int parentId = 0);
 
         IList<EventModel2> Events2List();
 
         EventModel2 GetDirectParent(int ParentId);
-
-        EventModel Event(int id);
 
         void UpdateMessageSent(int id, bool isSent);
 
@@ -48,30 +40,7 @@ namespace Corona.Services
             scheduleService = new ScheduleService();
         }
 
-        public IList<EventModel> Events
-        {
-            get
-            {
-                var events = new List<EventModel>();
-
-                Entities.Events.ToList().ForEach(x => {
-                    events.Add(new EventModel
-                    {
-                        Id = x.Id,
-                        Start = x.Start.Value,
-                        Message = x.Message,
-                        Repeat = (Repeat)x.Repeat.Value,
-                        End = x.End.Value,
-                        IsUM = x.IsUM.Value,
-                        IsSent = x.IsSent.Value,
-                        GMT = x.GMT.Value,
-                        MessageFile = x.MessageFile
-                    });
-                });
-
-                return events;                
-            }
-        }
+       
 
         public IList<EventModel2> Events2(int parentId = 0)
         {
@@ -105,10 +74,7 @@ namespace Corona.Services
             Entities.SaveChanges();
         }
 
-        public EventModel Event(int id)
-        {
-            return Events.First(x => x.Id == id);
-        }
+       
 
         public bool Existing(int id)
         {
@@ -118,50 +84,8 @@ namespace Corona.Services
         public bool Existing2(int id)
         {
             return Entities.Event2.Any(x => x.Id == id);
-        }
-
-        public int Insert(EventModel model)
-        {
-            var eventModel = new EntityModel.Event
-            {
-                Start = model.Start,
-                Message = model.Message,
-                Repeat = (byte)model.Repeat,
-                End = model.End,
-                IsUM = model.IsUM,
-                IsSent = model.IsSent,
-                GMT = model.GMT,
-                MessageFile = model.MessageFile
-            };
-
-            Entities.Entry(eventModel).State = EntityState.Modified;
-
-            Entities.Events.Add(eventModel);
-
-            Entities.SaveChanges();
-
-            return eventModel.Id;
-        }
-
-        public void Update(int id, EventModel model)
-        {
-            var entity = Entities.Events.Find(id);
-
-            if (entity != null)
-            {
-                Entities.Entry(entity).State = EntityState.Modified;
-                entity.Start = model.Start;
-                entity.Message = model.Message;
-                entity.Repeat = (byte)model.Repeat;
-                entity.End = model.End;
-                entity.IsUM = model.IsUM;
-                entity.IsSent = model.IsSent;
-                entity.GMT = model.GMT;
-                entity.MessageFile = model.MessageFile;
-
-                Entities.SaveChanges();
-            }
-        }
+        }         
+     
 
         public void UpdateEvent(int id, DateTime? start, DateTime? end)
         {

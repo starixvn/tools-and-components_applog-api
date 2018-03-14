@@ -126,6 +126,12 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="App.ConnectionString.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Scripts\Reboot.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Corona.ScheduleTask.WindowService.ruleset" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -140,6 +146,10 @@
       <Project>{c9de5c8a-dd9b-4092-a91a-f48e4fb48360}</Project>
       <Name>Corona.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Skype.Bot.Services\Skype.Bot.Services.csproj">
+      <Project>{5B69047F-5320-4806-BC89-CD9DC14ACCDE}</Project>
+      <Name>Skype.Bot.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\GoodMorningMessage.txt">
@@ -147,6 +157,11 @@
     </Content>
     <Content Include="App_Data\ProductionServer.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\SQLConnectionChecking.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\UMConfig.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -181,6 +196,7 @@
     <Analyzer Include="..\..\..\packages\SonarAnalyzer.CSharp.6.3.0.2862\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\..\..\packages\SonarAnalyzer.CSharp.6.3.0.2862\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -17,18 +17,29 @@ namespace Corona.Services
 
         bool Existing(string id);
 
-        IEnumerable<ChannelAccountModel> ChannelAccounts { get; }
+        List<ChannelAccountModel> ChannelAccounts { get; }
 
         ChannelAccountModel ChannelAccount(string id);
     }
 
     public class ChannelAccountService : QueryService, IChannelAccountService
     {
-        public IEnumerable<ChannelAccountModel> ChannelAccounts
+        private ChannelAccountModel Transform(EntityModel.ChannelAccount model)
+        {
+            return new ChannelAccountModel {
+                Id = model.Id,
+                Name = model.Name
+            };
+        }
+        public List<ChannelAccountModel> ChannelAccounts
         {
             get
             {
-                return Entities.ChannelAccounts.Select(x => new ChannelAccountModel { Id = x.Id, Name = x.Name }).ToList();
+                var channelAccounts = new List<ChannelAccountModel>();
+
+                Entities.ChannelAccounts.ToList().ForEach(x => channelAccounts.Add(Transform(x)));
+
+                return channelAccounts;                    
             }
         }
 

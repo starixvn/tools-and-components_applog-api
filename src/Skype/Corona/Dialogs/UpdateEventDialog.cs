@@ -15,87 +15,92 @@ namespace Corona.Dialogs
     [Serializable]
     public class UpdateEventDialog : IDialog<object>
     {
-        public async Task StartAsync(IDialogContext context)
+        public Task StartAsync(IDialogContext context)
         {
-            var formDialog = FormDialog.FromForm(this.BuildForm, FormOptions.PromptInStart);
-
-            context.Call(formDialog, ResumeAfterFormDialog);
+            throw new NotImplementedException();
         }
 
-        private IForm<EventSelectorModel> BuildForm()
-        {
-            var conversationService = new ConversationService();
-            var eventService = new EventService();
-            var conversationEvent = new ConversationEventService();
+        //public async Task StartAsync(IDialogContext context)
+        //{
+        //    var formDialog = FormDialog.FromForm(this.BuildForm, FormOptions.PromptInStart);
 
-            OnCompletionAsyncDelegate<EventSelectorModel> processSelected = async (context, state) =>
-            {                
-                var convesation = conversationService.Conversations.First(x => x.Name == state.Conversation);
-                var eventId = eventService.Insert(new EventModel
-                {
-                    Message = state.Message,
-                    Repeat = state.Repeat.Value,
-                    Start = state.StartDate
-                });
+        //    context.Call(formDialog, ResumeAfterFormDialog);
+        //}
 
-                conversationEvent.Insert(new ConversationEventModel
-                {
-                    ConversationId = convesation.Id,
-                    EventId = eventId,
-                    Name = state.EventName
-                });
+        //private IForm<EventSelectorModel> BuildForm()
+        //{
+        //    var conversationService = new ConversationService();
+        //    var eventService = new EventService();
+        //    var conversationEvent = new ConversationEventService();
 
-                await context.PostAsync($"Event is updated to database.");
-            };
+        //    OnCompletionAsyncDelegate<EventSelectorModel> processSelected = async (context, state) =>
+        //    {                
+        //        var convesation = conversationService.Conversations.First(x => x.Name == state.Conversation);
+        //        var eventId = eventService.Insert(new EventModel
+        //        {
+        //            Message = state.Message,
+        //            Repeat = state.Repeat.Value,
+        //            Start = state.StartDate
+        //        });
 
-            return new FormBuilder<EventSelectorModel>()
-                .Field(nameof(EventSelectorModel.EventName))
-                .Field(nameof(EventSelectorModel.Conversation), validate: async (state, value) =>
-                {
-                    ValidateResult validateResult = new ValidateResult()
-                    {
-                        IsValid = true,
-                        Value = value
-                    };
-                    var isConversation = false;
+        //        conversationEvent.Insert(new ConversationEventModel
+        //        {
+        //            ConversationId = convesation.Id,
+        //            EventId = eventId,
+        //            Name = state.EventName
+        //        });
 
-                    if (conversationService.Conversations.Any())
-                    {
-                        var isExisting = conversationService.Conversations.Where(x => x.Name == value.ToString());
+        //        await context.PostAsync($"Event is updated to database.");
+        //    };
 
-                        isConversation = isExisting != null;
-                    }
+        //    return new FormBuilder<EventSelectorModel>()
+        //        .Field(nameof(EventSelectorModel.EventName))
+        //        .Field(nameof(EventSelectorModel.Conversation), validate: async (state, value) =>
+        //        {
+        //            ValidateResult validateResult = new ValidateResult()
+        //            {
+        //                IsValid = true,
+        //                Value = value
+        //            };
+        //            var isConversation = false;
 
-                    if (isConversation == false)
-                    {
-                        validateResult.IsValid = false;
-                        validateResult.Feedback = $"Not found the conversation name {value}. Please input again";
-                    }
+        //            if (conversationService.Conversations.Any())
+        //            {
+        //                var isExisting = conversationService.Conversations.Where(x => x.Name == value.ToString());
 
-                    return validateResult;
+        //                isConversation = isExisting != null;
+        //            }
 
-                })
-                .Field(nameof(EventSelectorModel.StartDate), validate: async (state, value) =>
-                {
-                    ValidateResult validateResult = new ValidateResult()
-                    {
-                        IsValid = true,
-                        Value = value.ToString().ToLower() == "now" ? DateTime.Now : value
-                    };
+        //            if (isConversation == false)
+        //            {
+        //                validateResult.IsValid = false;
+        //                validateResult.Feedback = $"Not found the conversation name {value}. Please input again";
+        //            }
 
-                    return validateResult;
-                })
-                .Field(nameof(EventSelectorModel.Message))
-                .Field(nameof(EventSelectorModel.Repeat))
-                .Confirm("Are the information correct?" +
-                "\n\rEvent Name: {EventName}" +
-                "\n\rConversation Name: {Conversation}" +
-                "\n\rStart date: {StartDate}" +
-                "\n\rMessage: {Message}" +
-                "\n\rSchedule: {Repeat}")
-                .OnCompletion(processSelected)
-                .Build();
-        }
+        //            return validateResult;
+
+        //        })
+        //        .Field(nameof(EventSelectorModel.StartDate), validate: async (state, value) =>
+        //        {
+        //            ValidateResult validateResult = new ValidateResult()
+        //            {
+        //                IsValid = true,
+        //                Value = value.ToString().ToLower() == "now" ? DateTime.Now : value
+        //            };
+
+        //            return validateResult;
+        //        })
+        //        .Field(nameof(EventSelectorModel.Message))
+        //        .Field(nameof(EventSelectorModel.Repeat))
+        //        .Confirm("Are the information correct?" +
+        //        "\n\rEvent Name: {EventName}" +
+        //        "\n\rConversation Name: {Conversation}" +
+        //        "\n\rStart date: {StartDate}" +
+        //        "\n\rMessage: {Message}" +
+        //        "\n\rSchedule: {Repeat}")
+        //        .OnCompletion(processSelected)
+        //        .Build();
+        //}
 
         private async Task ResumeAfterFormDialog(IDialogContext context, IAwaitable<EventSelectorModel> result)
         {

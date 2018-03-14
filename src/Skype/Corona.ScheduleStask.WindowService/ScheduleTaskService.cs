@@ -15,7 +15,9 @@ namespace Corona.ScheduleStask.WindowService
 {
     public partial class ScheduleTaskService : ServiceBase
     {
-       readonly SenderService senderService;
+        readonly SenderService senderService;
+        private object objLockObject = new object();
+
         public ScheduleTaskService()
         {
             InitializeComponent();
@@ -30,7 +32,7 @@ namespace Corona.ScheduleStask.WindowService
             };
 
             timer.Elapsed += Ontimer;
-            timer.Start();
+            timer.Enabled = true;
         }
 
         protected override void OnStop()
@@ -41,16 +43,10 @@ namespace Corona.ScheduleStask.WindowService
         {
             try
             {
-                senderService.Run2();                
+                senderService.Run();
             }
             catch (Exception ex)
             {
-                //var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\log.txt");
-                //using (StreamWriter sw = File.AppendText(path))
-                //{
-                //    sw.WriteLine(ex.Message);
-                //}
-
                 Fanex.Logging.LogService.Error(ex.Message);
             }
         }

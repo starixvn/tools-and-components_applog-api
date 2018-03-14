@@ -8,10 +8,11 @@ using Corona.Models;
 namespace Corona.Models
 {
     public class RequestModel
-    {        
-        public IList<EventModel> Events { get; set; }
+    {      
 
         public EventModel2 Event2 { get; set; }
+
+        public EventModel Event { get; set; }
 
         public string Message { get; set; }
 

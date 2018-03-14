@@ -1,0 +1,16 @@
+﻿{
+  "GetConversationId": [
+    "Group Id, please",
+    "Please, Give me group Id",
+    "Group Id ?",
+    "Can you give me group id ?",
+    "Group Id",
+    "Group Id please"
+  ],
+  "SayHi": [
+    "Hi",
+    "Hi Bot",
+    "Hi Leffe",
+    "Hey"
+  ]
+}

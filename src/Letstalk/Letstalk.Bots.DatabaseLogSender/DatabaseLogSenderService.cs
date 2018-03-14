@@ -62,36 +62,7 @@ namespace Letstalk.Bots.DatabaseLogSender
 
                     if (logs.Any())
                     {
-                        foreach (var log in logs)
-                        {
-                            // letstalk
-                            var vars = new Dictionary<string, string>
-                            {
-                                { "Title", log.Title },
-                                { "ServerName", log.ServerName },
-                                { "LogDate", log.LogDate.ToString("yyyy-MM-dd hh:mm:ss tt") },
-                                { "Message", log.MsgInfo }
-                            };
-                            var target = log.TargetName;
-
-                            SendMessage(target, vars);
-
-                            // Skype
-                            var logTemplate = new StringBuilder();
-                            logTemplate.Append("Title: " + log.Title);
-                            logTemplate.Append("<br/>");
-                            logTemplate.Append("ServerName: " + log.ServerName);
-                            logTemplate.Append("<br/>");
-                            logTemplate.Append("LogDate: " + log.LogDate.ToString("yyyy-MM-dd hh:mm:ss tt"));
-                            logTemplate.Append("<br/>");
-                            logTemplate.Append("Message: " + log.MsgInfo);
-
-                            SendMessage(new MessageModel
-                            {
-                                ConversationId = 1,
-                                Message = logTemplate.ToString()
-                            });
-                        }
+                        PostMessage(logs);
                     }
                 }
             }
@@ -100,29 +71,42 @@ namespace Letstalk.Bots.DatabaseLogSender
                 LogService.Error(ex.Message);
             }
         }
-        private static async Task SendMessage(string targetName, Dictionary<string, string> vars)
+
+        private static void PostMessage(IList<LogEntry> logs)
         {
-            var serverUrls = AppSetting.LetstalkAPI.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            Notification.Initialize(serverUrls, AppSetting.LetstalkKey);
-
-            Notification.SendAsync(targetName, vars);
-        }
-
-        private static async Task SendMessage(MessageModel messageModel)
-        {
-            string apiBasePath = AppSetting.CoronaService;
-
-            var customDelegatingHandler = new CustomDelegatingHandler();
-
-            HttpClient client = HttpClientFactory.Create(customDelegatingHandler);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            HttpResponseMessage response = await client.PostAsJsonAsync(apiBasePath + "api/SendMessage", messageModel);
-
-            if (!response.IsSuccessStatusCode)
+            foreach (var log in logs)
             {
-                LogService.Error(string.Format("Failed to call the API. HTTP Status: {0}, Reason {1}, Response header {2}", response.StatusCode, response.ReasonPhrase, response.Headers.ToString()));
+
+                var logDate = log.LogDate.ToString("yyyy-MM-dd hh:mm:ss tt");
+                var breakLine = "<br/>";
+
+                // letstalk
+                var letstalkLogTemplate = new Dictionary<string, string>
+                            {
+                                { "Title", log.Title },
+                                { "ServerName", log.ServerName },
+                                { "LogDate", logDate },
+                                { "Message", log.MsgInfo }
+                            };
+                var target = log.TargetName;
+
+                MessageSenderService.LetstalkSender(target, letstalkLogTemplate);
+
+                // Skype
+                var skypeLogTemplate = new StringBuilder();
+                skypeLogTemplate.Append("Title: " + log.Title);
+                skypeLogTemplate.Append(breakLine);
+                skypeLogTemplate.Append("Server Name: " + log.ServerName);
+                skypeLogTemplate.Append(breakLine);
+                skypeLogTemplate.Append("Log Date: " + logDate);
+                skypeLogTemplate.Append(breakLine);
+                skypeLogTemplate.Append("Message: " + log.MsgInfo);
+
+                MessageSenderService.SkypeSender(new MessageModel
+                {
+                    ConversationId = log.SkypeGroupId,
+                    Message = skypeLogTemplate.ToString()
+                });
             }
         }
     }

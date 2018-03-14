@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Corona.Core;
 using Corona.Models;
 using Newtonsoft.Json;
@@ -14,30 +15,40 @@ using Sunplus.UMControllerLibrary;
 namespace Corona.ScheduleTask.WindowService
 {
     public class BaseService
-    {   
-        public static IList<T> GetDataList<T>(string actionName)
+    {
+        public static List<T> GetData<T>(string actionName, Dictionary<string, object> parameters = null)
         {
             var request = new RestRequest(Method.GET);
+            request.AddHeader("Content-Type", "application/xml");
             var basePath = new Uri(AppSetting.BotAPIBaseUrl);
             var client = new RestClient(basePath);
             request.Resource = string.Format(AppSetting.BotAPIData + "/{0}/", actionName);
-            var result = client.Execute<List<T>>(request);
 
-            return JsonConvert.DeserializeObject<List<T>>(result.Content);
-        }
-
-        public static T GetData<T>(string actionName, int parentId)
-        {
-            var request = new RestRequest(Method.GET);
-            var basePath = new Uri(AppSetting.BotAPIBaseUrl);
-            var client = new RestClient(basePath);
-            request.Resource = string.Format(AppSetting.BotAPIData + "/{0}/", actionName);
-            request.AddParameter("ParentId", parentId);
+            if (parameters != null && parameters.Any())
+            {
+                foreach (var param in parameters)
+                {
+                    request.AddParameter(param.Key, param.Value);
+                }
+            }
 
             var result = client.Execute(request);
 
-            return JsonConvert.DeserializeObject<T>(result.Content);
+            if (!string.IsNullOrWhiteSpace(result.Content))
+            {
+                try
+                {
+                    return JsonConvert.DeserializeObject<List<T>>(result.Content);
+                }
+                catch
+                {
+                    Fanex.Logging.LogService.Error("Result.Content=" + result.Content);
+                }
+            }
+
+            return null;
         }
+
 
         public static bool SendMessage(RequestModel parameters, string actionName)
         {
@@ -85,7 +96,7 @@ namespace Corona.ScheduleTask.WindowService
             var umTo = string.Empty;
             var currentDate = DateTime.UtcNow.AddHours(timeZone);
 
-            var isUM = !AppSetting.IsLocal && umController.isUnderMaintainence(Sites.Agency, AppSetting.UMServiceUrl, ref umFrom, ref umTo);
+            var isUM = !AppSetting.IsLocal && umController.isUnderMaintainence(Sunplus.UMControllerLibrary.Sites.Agency, AppSetting.UMServiceUrl, ref umFrom, ref umTo);
 
             return new UnderMaintenanceModel
             {
@@ -95,15 +106,15 @@ namespace Corona.ScheduleTask.WindowService
             };
         }
 
-        public static List<EventModel> GetEvent() => GetDataList<EventModel>("Events").Where(x => !x.IsUM).ToList();
+        public static List<EventModel2> GetEvents2() => GetData<EventModel2>("Events2");
 
-        public static List<EventModel2> GetEvents2() => GetDataList<EventModel2>("Events2").ToList();
+        public static List<EventModel> GetEvents() => GetData<EventModel>("Events");
 
-        public static List<ScheduleModel> GetSchedules() => GetDataList<ScheduleModel>("Schedules").ToList();
+        public static List<ScheduleModel> GetSchedules() => GetData<ScheduleModel>("Schedules");
 
-        public static List<FunctionModel> GetFunctions() => GetDataList<FunctionModel>("Functions").ToList();
+        public static List<FunctionModel> GetFunctions() => GetData<FunctionModel>("Functions");
 
-        public void Send(EventModel2 model, DateTime startDate, DateTime endDate, bool isSent = true, bool isUpdateData = true)
+        public void Send(EventModel model, DateTime startDate, DateTime endDate, bool isSent = true, bool isUpdateData = true)
         {
             var randomMessage = model.Message;
 
@@ -115,7 +126,7 @@ namespace Corona.ScheduleTask.WindowService
 
             SendMessage(new RequestModel
             {
-                Event2 = new EventModel2
+                Event = new EventModel
                 {
                     Id = model.Id,
                     IsSent = isSent,
@@ -131,7 +142,7 @@ namespace Corona.ScheduleTask.WindowService
                     Message = string.Format(randomMessage, startDate.ToString("HH:mm"), endDate.ToString("HH:mm"), endDate.ToString("dddd, MM/dd/yyyy"))
                 },
                 IsUpdateData = isUpdateData
-            }, "SendMessage2");
-        }
+            }, "SendMessage");
+        }                    
     }
 }

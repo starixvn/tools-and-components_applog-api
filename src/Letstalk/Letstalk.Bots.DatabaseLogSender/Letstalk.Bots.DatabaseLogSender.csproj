@@ -158,6 +158,7 @@
     <Compile Include="Services\AppSetting.cs" />
     <Compile Include="Services\CustomDelegatingHandler.cs" />
     <Compile Include="Services\LogMessageService.cs" />
+    <Compile Include="Services\MessageSenderService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

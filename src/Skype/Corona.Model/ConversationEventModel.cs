@@ -12,5 +12,7 @@ namespace Corona.Models
         public int EventId { get; set; }
 
         public string Name { get; set; }
+
+        public bool Disabled { get; set; }
     }
 }

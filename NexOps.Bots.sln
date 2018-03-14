@@ -29,8 +29,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corona", "src\Skype\Corona\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corona.Models", "src\Skype\Corona.Model\Corona.Models.csproj", "{C9DE5C8A-DD9B-4092-A91A-F48E4FB48360}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corona.UM.WindowService", "src\Skype\Corona.UM.Service\Corona.UM.WindowService.csproj", "{A527B59A-ECF2-4340-9C70-8405062543CB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{F3F813C1-0FC1-4F76-A690-D56519AFA056}"
 	ProjectSection(SolutionItems) = preProject
 		SonarQube\AutoBotChatCSharp.ruleset = SonarQube\AutoBotChatCSharp.ruleset
@@ -46,6 +44,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit", "unit", "{9E74D41D-236E-4724-AA8E-B24342564232}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corona.ScheduleTask.UnitTests", "tests\Skype\unit\Corona.ScheduleTask.UnitTests\Corona.ScheduleTask.UnitTests.csproj", "{9ABD3142-7DEC-4BE2-B0A0-7304C7756030}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skype.Bot.Services", "src\Skype\Skype.Bot.Services\Skype.Bot.Services.csproj", "{5B69047F-5320-4806-BC89-CD9DC14ACCDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skype.Bot.DataAccess", "src\Skype\Skype.Bot.DataAccess\Skype.Bot.DataAccess\Skype.Bot.DataAccess.csproj", "{66EAE54D-EE1C-44A6-B27A-57ED73281380}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leffe.Testing", "src\Skype\Leffe.Testing\Leffe.Testing.csproj", "{B31A68AF-9BDD-4860-A040-558040519470}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,10 +77,6 @@ Global
 		{C9DE5C8A-DD9B-4092-A91A-F48E4FB48360}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9DE5C8A-DD9B-4092-A91A-F48E4FB48360}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9DE5C8A-DD9B-4092-A91A-F48E4FB48360}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A527B59A-ECF2-4340-9C70-8405062543CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A527B59A-ECF2-4340-9C70-8405062543CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A527B59A-ECF2-4340-9C70-8405062543CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A527B59A-ECF2-4340-9C70-8405062543CB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7CA56F13-DA28-41EB-A3E2-53FC86BD6970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7CA56F13-DA28-41EB-A3E2-53FC86BD6970}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CA56F13-DA28-41EB-A3E2-53FC86BD6970}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -93,6 +93,18 @@ Global
 		{9ABD3142-7DEC-4BE2-B0A0-7304C7756030}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9ABD3142-7DEC-4BE2-B0A0-7304C7756030}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9ABD3142-7DEC-4BE2-B0A0-7304C7756030}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B69047F-5320-4806-BC89-CD9DC14ACCDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B69047F-5320-4806-BC89-CD9DC14ACCDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B69047F-5320-4806-BC89-CD9DC14ACCDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B69047F-5320-4806-BC89-CD9DC14ACCDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66EAE54D-EE1C-44A6-B27A-57ED73281380}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66EAE54D-EE1C-44A6-B27A-57ED73281380}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66EAE54D-EE1C-44A6-B27A-57ED73281380}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66EAE54D-EE1C-44A6-B27A-57ED73281380}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B31A68AF-9BDD-4860-A040-558040519470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B31A68AF-9BDD-4860-A040-558040519470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B31A68AF-9BDD-4860-A040-558040519470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B31A68AF-9BDD-4860-A040-558040519470}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,15 +121,17 @@ Global
 		{5DB011F3-267D-423E-9011-363B870199CB} = {A043D0A5-3893-4309-95E5-F80ED7B7F1FD}
 		{B3F521A9-1DF7-4BFD-8395-438740C3427B} = {5DB011F3-267D-423E-9011-363B870199CB}
 		{C9DE5C8A-DD9B-4092-A91A-F48E4FB48360} = {5DB011F3-267D-423E-9011-363B870199CB}
-		{A527B59A-ECF2-4340-9C70-8405062543CB} = {5DB011F3-267D-423E-9011-363B870199CB}
 		{7CA56F13-DA28-41EB-A3E2-53FC86BD6970} = {5DB011F3-267D-423E-9011-363B870199CB}
 		{629811DA-ABAB-4F8D-AA17-A72B648C3F1B} = {5DB011F3-267D-423E-9011-363B870199CB}
 		{35A4897D-2AF7-450B-9054-85A31E91DB07} = {5DB011F3-267D-423E-9011-363B870199CB}
 		{9E74D41D-236E-4724-AA8E-B24342564232} = {6E55522F-3B57-4F51-922A-B04A24389371}
 		{9ABD3142-7DEC-4BE2-B0A0-7304C7756030} = {9E74D41D-236E-4724-AA8E-B24342564232}
+		{5B69047F-5320-4806-BC89-CD9DC14ACCDE} = {5DB011F3-267D-423E-9011-363B870199CB}
+		{66EAE54D-EE1C-44A6-B27A-57ED73281380} = {5DB011F3-267D-423E-9011-363B870199CB}
+		{B31A68AF-9BDD-4860-A040-558040519470} = {5DB011F3-267D-423E-9011-363B870199CB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Logging.5.0.505.1\lib\NET35
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Logging.5.0.505.1\lib\NET35
 	EndGlobalSection
 EndGlobal

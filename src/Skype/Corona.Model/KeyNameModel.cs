@@ -23,5 +23,12 @@ namespace Corona.Models
         public const string UMEnabledSQL = "UM.EnabledSQL";
         public const string UMRebootServer = "UM.Reboot.Server";
         public const string UMRebootServerProcessing = "UM.Reboot.Server.Processing";
+        public const string UMPingServerProcessing = "UM.Ping.Server.Processing";
+    }
+
+    public static class UserMessageKeyModel
+    {
+        public const string GetConversationId = "GetConversationId";
+        public const string SayHi = "SayHi";
     }
 }

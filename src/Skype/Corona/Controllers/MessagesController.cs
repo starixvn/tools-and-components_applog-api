@@ -25,6 +25,7 @@ namespace Corona
         private readonly IChannelAccountService channelAccountService;
         private readonly IConversationEventService conversationEventService;
         private readonly IList<string> HelloCollection;
+        private readonly IList<string> QueryConversationIdMessages;
 
         public MessagesController()
         {
@@ -37,8 +38,16 @@ namespace Corona
                 "Hi Corona",
                 "Hey"
             };
-        }
 
+            QueryConversationIdMessages = new List<string> {
+                "Group Id, please",
+                "Please, Give me group Id",
+                "Group Id ?",
+                "Can you give me group id ?",
+                "Group Id",
+                "Group Id please"
+            };
+        }
 
         /// <summary>
         /// POST: api/Messages
@@ -49,9 +58,9 @@ namespace Corona
             try
             {
                 if (activity.Type == ActivityTypes.Message)
-                {                    
+                {
                     activity.Text = CoreService.FormatMessage(activity.Text);
-                                        
+
                     var isSayHello = HelloCollection.Any(x => x.Equals(activity.Text, StringComparison.OrdinalIgnoreCase));
                     if (isSayHello)
                     {
@@ -59,16 +68,32 @@ namespace Corona
                         var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
 
                         await connector.Conversations.ReplyToActivityAsync(reply).ConfigureAwait(false);
+                       // await Conversation.SendAsync(activity, () => new RootDialog()).ConfigureAwait(false);
                     }
+                    else
+                    {
+                        var isGetGroupId = QueryConversationIdMessages.Any(x => x.Equals(activity.Text, StringComparison.OrdinalIgnoreCase));
 
-                    await Conversation.SendAsync(activity, () => new RootDialog()).ConfigureAwait(false);
+                        if (isGetGroupId)
+                        {
+                            QueryConversationId(activity);
+                        }
+                        else
+                        {
+                            
+                            Activity reply = activity.CreateReply("Sorry! I cannot response your message. Thanks.");
+                            var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+
+                            await connector.Conversations.ReplyToActivityAsync(reply).ConfigureAwait(false);
+                        }
+                    }                    
                 }
                 else
                 {
                     HandleSystemMessage(activity);
                 }
 
-             
+
             }
             catch (Exception ex)
             {
@@ -88,10 +113,10 @@ namespace Corona
                 // Not available in all channels
 
                 if (message.MembersAdded.Any(x => x.Id == message.Recipient.Id))
-                {                   
+                {
                     var replyMessage = new StringBuilder();
 
-                    InsertConversation(message);                    
+                    InsertConversation(message);
 
                     replyMessage.Append("Hi! \n\n");
                     replyMessage.Append("My name is Corona. I'm very happy to chat with you. Thanks \n\n");
@@ -106,13 +131,13 @@ namespace Corona
                 {
                     DeleteConversation(message);
                 }
-            }        
+            }
         }
 
         private void InsertConversation(Activity activity)
         {
-            if (activity.Conversation.IsGroup.HasValue && activity.Conversation.IsGroup.Value)            
-            {  
+            if (activity.Conversation.IsGroup.HasValue && activity.Conversation.IsGroup.Value)
+            {
                 var conversationModel = new ConversationModel
                 {
                     ChannelId = activity.ChannelId,
@@ -158,10 +183,34 @@ namespace Corona
             var conversation = conversationService.Conversation(activity.Conversation.Id);
 
             if (conversation.Id != 0)
-            {                
+            {
                 conversationService.Delete(conversation.Id);
                 conversationEventService.DeleteConversation(conversation.Id);
             }
+        }
+
+        private static void QueryConversationId(Activity activity)
+        {
+            string message = "Sorry, this is not the Skype group. Please try again. Thanks.";
+
+            if (activity.Conversation.IsGroup.HasValue && activity.Conversation.IsGroup.Value)
+            {
+                var conService = new ConversationService();
+
+                var conversations = conService.Conversations;
+
+                if (conversations.Any())
+                {
+                    var id = conversations.First(x => x.ConversationId == activity.Conversation.Id).Id;
+
+                    message = "The group id is " + id.ToString();
+                }
+            }
+
+            Activity reply = activity.CreateReply(message);
+            var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+
+            connector.Conversations.ReplyToActivityAsync(reply).ConfigureAwait(false);
         }
     }
 }

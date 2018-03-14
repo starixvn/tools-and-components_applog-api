@@ -5,32 +5,25 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Corona.Core;
 using Corona.Models;
+using Skype.Bot.Services;
 
 namespace Corona.ScheduleTask.WindowService
 {
     public class UnderMaintenanceService : BaseService
     {
-        private readonly IDictionary<string, bool> connectionStringNames;
-        public UnderMaintenanceService()
-        {
-            connectionStringNames = new Dictionary<string, bool> {
-                { "DBCust.CustDB.bodbAdminNet", false },
-                { "DBPRO.bodb02.bodbAdminNet", false },
-                { "DBTXN.bodb02.bodbAdminNet", false}
-            };
-
-
-        }
-        public void ExecuteUMTask(EventModel2 model)
+        private IEnumerable<Site> disableAccBySites;
+        private bool rebootServerExecuted = false;
+        private bool pingServerExecuted = false;
+        private bool disabledSQLAccountExecuted = false;
+        
+        public void ExecuteUMTask(EventModel model)
         {
             if (model != null)
-            {
-                var umConfig = BaseService.UMConfig();
-                var schedules = GetSchedules();
-
+            {               
                 if (model.IsSent)
                 {
                     if (model.Child.Any())
@@ -43,12 +36,15 @@ namespace Corona.ScheduleTask.WindowService
                 }
                 else
                 {
+                    var schedules = GetSchedules();
+                    var umConfig = BaseService.UMConfig();
+
                     UMProcessing(model, umConfig, schedules);
                 }
             }
         }
 
-        private void UMProcessing(EventModel2 model, UnderMaintenanceModel umConfig, List<ScheduleModel> schedules)
+        private void UMProcessing(EventModel model, UnderMaintenanceModel umConfig, IEnumerable<ScheduleModel> schedules)
         {
             var schedule = schedules.First(x => x.Id == model.Schedule.Id);
             var oldStartTime = Utilities.DatetimeConverter(schedule.StartDate);
@@ -71,40 +67,64 @@ namespace Corona.ScheduleTask.WindowService
                     }
                 case EventKeyModel.UMDisabledSQL:
                     {
-                        var isDisabled = CheckSqlDisabled();
-
-                        if (isDisabled)
+                        if (isUM && !disabledSQLAccountExecuted)
                         {
-                            Send(model, newStarttime, newEndTime);
+                            DisabledSQL(model, newStarttime, newEndTime);
                         }
+
                         break;
                     }
                 case EventKeyModel.UMEnabledSQL:
                     {
-                        var isDisabled = CheckSqlDisabled();
-
-                        if (isUM && !isDisabled)
+                        if (isUM)
                         {
-                            Send(model, newStarttime, newEndTime);
+                            EnabledSQL(model, newStarttime, newEndTime);
                         }
 
                         break;
-                    }                   
+                    }
                 case EventKeyModel.UMRebootServer:
                     {
-                        var rebootTime = newStarttime.AddMinutes(1);
-                        var currentTime = DateTime.UtcNow.AddHours(timeZone);
-
-                        if (isUM && Utilities.DatetimeComparer(rebootTime, currentTime) == 0)
+                        if (isUM)
                         {
-                            Send(model, newStarttime, newEndTime);
+                            var rebootTime = newStarttime.AddMinutes(1);
+                            var currentTime = DateTime.UtcNow.AddHours(timeZone);
+
+                            if (Utilities.DatetimeComparer(rebootTime, currentTime) == 0)
+                            {
+                                Send(model, newStarttime, newEndTime);
+                            }
                         }
 
                         break;
                     }
                 case EventKeyModel.UMRebootServerProcessing:
                     {
+                        if (isUM)
+                        {
+                            var rebootTime = newStarttime.AddMinutes(2);
+                            var currentTime = DateTime.UtcNow.AddHours(timeZone);
 
+                            if (Utilities.DatetimeComparer(rebootTime, currentTime) == 0 && !rebootServerExecuted)
+                            {
+                                RebootServerProcessing(model, newStarttime, newEndTime);
+                            }
+                        }
+
+                        break;
+                    }
+                case EventKeyModel.UMPingServerProcessing:
+                    {
+                        if (isUM)
+                        {
+                            var rebootTime = newStarttime.AddMinutes(5);
+                            var currentTime = DateTime.UtcNow.AddHours(timeZone);
+
+                            if (Utilities.DatetimeComparer(rebootTime, currentTime) == 0 && !pingServerExecuted)
+                            {
+                                PingServerProcessing(model, newStarttime, newEndTime);
+                            }
+                        }
 
                         break;
                     }
@@ -138,22 +158,202 @@ namespace Corona.ScheduleTask.WindowService
             }
         }
 
-        public bool CheckSqlDisabled()
+        private void PingServerProcessing(EventModel model, DateTime newStarttime, DateTime newEndTime)
         {
-            var connectionStatus = new Dictionary<string, bool>();
+            pingServerExecuted = true;
+            var path = AppDomain.CurrentDomain.BaseDirectory + "\\App_Data\\ProductionServer.xml";
+            var serverList = CoreService.GetXMLData(path);
+            var messages = new StringBuilder();
 
-            connectionStringNames.ToList().ForEach(x =>
+            if (serverList.Site.Any())
             {
-                connectionStatus.Add(x.Key, OpenConnection(x.Key));
-            });
+                foreach (var site in serverList.Site)
+                {
+                    model.Message = site.Name + " is checking status...";
+                    Send(model, newStarttime, newEndTime, false, false);
+                    Thread.Sleep(5000);
 
-            return connectionStatus.Values.Any(x => x == false);
+                    foreach (var server in site.Servers)
+                    {
+                        var result = false;
+                        var counter = 0;
+
+                        while (!result && counter < 100)
+                        {
+                            result = CoreService.Ping(server.Ip);
+                            counter++;
+                            Thread.Sleep(5000);
+                        }
+
+                        messages.Append(" -" + server.Ip + " is " + (result ? "UP" : "DOWN") + " now...");
+                        messages.Append("<br/>");
+                    }
+
+                    model.Message = messages.ToString();
+                    Send(model, newStarttime, newEndTime, false, false);
+                    messages.Clear();
+                    Thread.Sleep(5000);
+                }
+
+                Thread.Sleep(5000);
+                model.Message = "All web servers are READY now...<br/>-----------------------------------";
+                Send(model, newStarttime, newEndTime);
+                pingServerExecuted = false;
+            }
+        }
+
+        private void RebootServerProcessing(EventModel model, DateTime newStarttime, DateTime newEndTime)
+        {
+            rebootServerExecuted = true;
+            var path = AppDomain.CurrentDomain.BaseDirectory + "\\App_Data\\ProductionServer.xml";
+            var serverList = CoreService.GetXMLData(path);
+            var messages = new StringBuilder();
+
+            foreach (var site in serverList.Site)
+            {
+                messages.Append(site.Name + " is rebooting...");
+                messages.Append("<br/>");
+
+                foreach (var server in site.Servers)
+                {
+                    if (server.Waiting != null)
+                    {
+                        var waitingServerIp = site.Servers.First(x => x.Id == server.Waiting).Ip;
+                        var result = false;
+
+                        while (!result)
+                        {
+                            result = CoreService.Ping(waitingServerIp);
+                        }
+                    }
+
+                    CoreService.Reboot(server.Ip);
+
+                    messages.Append(" -" + server.Ip + " is rebooting...");
+                    messages.Append("<br/>");
+                }
+
+                model.Message = messages.ToString();
+                Send(model, newStarttime, newEndTime, false, false);
+                messages.Clear();
+                Thread.Sleep(10000);
+            }
+
+            Thread.Sleep(5000);
+            model.Message = "All web servers are in the process of restarting...<br/>-----------------------------------";
+            Send(model, newStarttime, newEndTime);
+            rebootServerExecuted = false;
+        }
+
+        private void EnabledSQL(EventModel model, DateTime newStarttime, DateTime newEndTime)
+        {
+            
+            var enabledSites = new List<Site>();
+
+            if (disableAccBySites.Any())
+            {
+                var sites = CheckSqlAccount(disableAccBySites.ToList());
+
+                disableAccBySites = sites.Where(x => x.Connectionstrings.Any(a => !a.IsEnabled));
+                enabledSites = sites.Where(x => x.Connectionstrings.Any(a => a.IsEnabled)).ToList();
+            }
+
+            if (enabledSites.Any())
+            {
+                var messages = new StringBuilder();
+
+                foreach (var enabledSite in enabledSites)
+                {
+                    messages.Append(enabledSite.Name);
+                    messages.Append("<br/>");
+
+                    foreach (var enabledConn in enabledSite.Connectionstrings)
+                    {
+                        messages.Append("  -Account: " + enabledConn.User + " on " + enabledConn.DataSource + " is ENABLED.");
+                        messages.Append("<br/>");
+                    }
+                }
+
+                model.Message = messages.ToString();
+
+                Send(model, newStarttime, newEndTime, false, false);
+
+                
+                Thread.Sleep(10000);
+            }
+        }
+
+        private void DisabledSQL(EventModel model, DateTime newStarttime, DateTime newEndTime)
+        {
+            disabledSQLAccountExecuted = true;
+            var sites = CheckSqlAccount();
+
+            disableAccBySites = sites.Where(x => x.Connectionstrings.Any(a => !a.IsEnabled));
+
+            if (disableAccBySites.Any())
+            {
+                var messages = new StringBuilder();
+                foreach (var disableSite in disableAccBySites)
+                {
+                    messages.Append(disableSite.Name);
+                    messages.Append("<br/>");
+
+                    foreach (var disableConn in disableSite.Connectionstrings)
+                    {
+                        messages.Append("  -Account: " + disableConn.User + " on " + disableConn.DataSource + " is DISABLED.");
+                        messages.Append("<br/>");
+                    }
+                }
+
+                model.Message = messages.ToString();
+
+                Send(model, newStarttime, newEndTime);
+
+                disabledSQLAccountExecuted = false;
+                Thread.Sleep(10000);
+            }
+        }
+
+        private List<Site> CheckSqlAccount(List<Site> listSite = null)
+        {
+            if (listSite == null || !listSite.Any())
+            {
+                var path = AppDomain.CurrentDomain.BaseDirectory + "App_Data\\SQLConnectionChecking.xml";
+                listSite = CoreService.GetXMLData(path).Site;
+            }
+
+            var result = new List<Site>();
+            foreach (var site in listSite)
+            {
+                var connectionStrings = new List<ConnectionString>();
+                foreach (var conn in site.Connectionstrings)
+                {
+                    if (ConfigurationManager.ConnectionStrings[conn.Name] != null)
+                    {
+                        connectionStrings.Add(new ConnectionString
+                        {
+                            Name = conn.Name,
+                            DataSource = conn.DataSource,
+                            User = conn.User,
+                            IsEnabled = OpenConnection(conn.Name)
+                        });
+                    }
+                }
+
+                result.Add(new Site
+                {
+                    Name = site.Name,
+                    Connectionstrings = connectionStrings
+                });
+            }
+
+            return result;
         }
 
         private static bool OpenConnection(string connectionStringName)
         {
             var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
-
+            SqlConnection.ClearAllPools();
             using (var connection = new SqlConnection(connectionString))
             {
                 if (connection.State == ConnectionState.Open)
@@ -170,6 +370,7 @@ namespace Corona.ScheduleTask.WindowService
                     }
                     catch
                     {
+
                         return false;
                     }
                 }

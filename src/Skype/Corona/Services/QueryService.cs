@@ -11,6 +11,7 @@ namespace Corona.Services
         private readonly DBEntities _entities;
 
         public QueryService() : this(null) { }
+
         public QueryService(DBEntities entities)
         {
             _entities = entities ?? new DBEntities();

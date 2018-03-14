@@ -8,27 +8,37 @@ namespace Corona.Services
 {
     public interface IFunctionService
     {
-        IList<FunctionModel> Functions { get; }
+        List<FunctionModel> Functions { get; }
 
         FunctionModel Function(int funtionId);
     }
     public class FunctionService : QueryService, IFunctionService
-    {       
-        public IList<FunctionModel> Functions
+    {
+        private FunctionModel Transform(EntityModel.Function model)
+        {
+            return new FunctionModel
+            {
+                Id = model.Id,
+                Key = model.Key,
+                Name = model.Name
+            };
+        }
+
+        public List<FunctionModel> Functions
         {
             get
             {
-                return Entities.Functions.Select(x => new FunctionModel {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Key = x.Key
-                }).ToList();
+                var functions = new List<FunctionModel>();
+
+                Entities.Functions.ToList().ForEach(x => functions.Add(Transform(x)));
+
+                return functions;
             }
         }
 
         public FunctionModel Function(int funtionId)
         {
-            if(Functions.Any())
+            if (Functions.Any())
             {
                 return Functions.First(x => x.Id == funtionId);
             }

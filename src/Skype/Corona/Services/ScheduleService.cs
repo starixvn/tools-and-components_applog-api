@@ -16,19 +16,29 @@ namespace Corona.Services
     }
     public class ScheduleService : QueryService, IScheduleService
     {
+
+        private ScheduleModel Transform(EntityModel.Schedule model)
+        {
+            return new ScheduleModel
+            {
+                Id = model.Id,
+                StartDate = model.StartDate.Value,
+                EndDate = model.EndDate.Value,
+                Name = model.Name,
+                Repeat = (Repeat)model.Repeat,
+                GMT = model.GMT.Value
+            };
+        }
+
         public List<ScheduleModel> Schedules
         {
             get
             {
-                return Entities.Schedules.Select(x => new ScheduleModel
-                {
-                    Id = x.Id,
-                    StartDate = x.StartDate.Value,
-                    EndDate = x.EndDate.Value,
-                    Name = x.Name,
-                    Repeat = (Repeat)x.Repeat,
-                    GMT = x.GMT.Value
-                }).ToList();
+                var schedules = new List<ScheduleModel>();
+
+                Entities.Schedules.ToList().ForEach(x => schedules.Add(Transform(x)));
+
+                return schedules;
             }
         }
 
