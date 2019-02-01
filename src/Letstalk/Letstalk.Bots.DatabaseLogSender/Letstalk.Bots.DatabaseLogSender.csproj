@@ -161,6 +161,9 @@
     <Compile Include="Services\MessageSenderService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Letstalk.Bots.DatabaseLogSender.exe.pro.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="App.config" />
     <None Include="Letstalk.Bots.DatabaseLogSender.ruleset" />
     <None Include="packages.config" />

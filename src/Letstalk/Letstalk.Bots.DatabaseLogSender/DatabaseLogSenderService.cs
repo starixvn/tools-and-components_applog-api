@@ -1,20 +1,20 @@
-﻿using System.ServiceProcess;
-using System.Timers;
-using Fanex.Data;
+﻿using Fanex.Data;
 using Fanex.Data.OldConnectionStringProvider;
+using Fanex.Logging;
+using Letstalk.Bots.DatabaseLogSender.Models;
 using Letstalk.Bots.DatabaseLogSender.Services;
-using System.Linq;
-using System.Collections.Generic;
-using System;
 using ONEbook.NotificationService;
-using System.Threading.Tasks;
+using Sunplus.UMControllerLibrary;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using Letstalk.Bots.DatabaseLogSender.Models;
-using Fanex.Logging;
+using System.ServiceProcess;
 using System.Text;
-using Sunplus.UMControllerLibrary;
-using System.Globalization;
+using System.Threading.Tasks;
+using System.Timers;
 
 namespace Letstalk.Bots.DatabaseLogSender
 {
@@ -92,21 +92,21 @@ namespace Letstalk.Bots.DatabaseLogSender
 
                 MessageSenderService.LetstalkSender(target, letstalkLogTemplate);
 
-                // Skype
-                var skypeLogTemplate = new StringBuilder();
-                skypeLogTemplate.Append("Title: " + log.Title);
-                skypeLogTemplate.Append(breakLine);
-                skypeLogTemplate.Append("Server Name: " + log.ServerName);
-                skypeLogTemplate.Append(breakLine);
-                skypeLogTemplate.Append("Log Date: " + logDate);
-                skypeLogTemplate.Append(breakLine);
-                skypeLogTemplate.Append("Message: " + log.MsgInfo);
+                ////// Skype
+                ////var skypeLogTemplate = new StringBuilder();
+                ////skypeLogTemplate.Append("Title: " + log.Title);
+                ////skypeLogTemplate.Append(breakLine);
+                ////skypeLogTemplate.Append("Server Name: " + log.ServerName);
+                ////skypeLogTemplate.Append(breakLine);
+                ////skypeLogTemplate.Append("Log Date: " + logDate);
+                ////skypeLogTemplate.Append(breakLine);
+                ////skypeLogTemplate.Append("Message: " + log.MsgInfo);
 
-                MessageSenderService.SkypeSender(new MessageModel
-                {
-                    ConversationId = log.SkypeGroupId,
-                    Message = skypeLogTemplate.ToString()
-                });
+                ////MessageSenderService.SkypeSender(new MessageModel
+                ////{
+                ////    ConversationId = log.SkypeGroupId,
+                ////    Message = skypeLogTemplate.ToString()
+                ////});
             }
         }
     }
