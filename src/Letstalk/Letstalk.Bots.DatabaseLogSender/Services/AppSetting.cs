@@ -15,12 +15,6 @@ namespace Letstalk.Bots.DatabaseLogSender.Services
 
         public static string LetstalkKey => ConfigurationManager.AppSettings["letstalk:AuthKey"];
 
-        public static bool IsProduction => ConfigurationManager.AppSettings["isProduction"] == "false";
-
-        public static string CoronaService => ConfigurationManager.AppSettings["corona.Service"];
-
-        public static string CoronaAuthKey => ConfigurationManager.AppSettings["corona.AuthKey"];
-
-        public static string  UnderMaintenanceService => ConfigurationManager.AppSettings["UnderMaintenanceUrl"]; 
+        public static string UnderMaintenanceService => ConfigurationManager.AppSettings["UnderMaintenanceUrl"];
     }
 }

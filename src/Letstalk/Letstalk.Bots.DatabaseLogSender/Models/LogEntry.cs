@@ -17,7 +17,5 @@
         public DateTime LogDate { get; set; }
 
         public string TargetName { get; set; }
-
-        public int SkypeGroupId { get; set; }
     }
 }

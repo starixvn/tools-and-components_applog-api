@@ -21,12 +21,13 @@ namespace Letstalk.Bots.DatabaseLogSender
     public partial class DatabaseLogSenderService : ServiceBase
     {
         private readonly ILogmessageService logMessageService;
-        private readonly UMBusiness _umService;
+        private readonly UMBusiness umService;
+
         public DatabaseLogSenderService()
         {
             InitializeComponent();
             logMessageService = new LogMessageService();
-            _umService = new UMBusiness();
+            umService = new UMBusiness();
 
             DbSettingProviderManager
                .StartNewSession()
@@ -54,7 +55,7 @@ namespace Letstalk.Bots.DatabaseLogSender
         {
             try
             {
-                bool isUnderMaintenance = _umService.isUnderMaintainence(Sites.Agency, AppSetting.UnderMaintenanceService);
+                bool isUnderMaintenance = umService.isUnderMaintainence(Sites.Agency, AppSetting.UnderMaintenanceService);
 
                 if (!isUnderMaintenance)
                 {
@@ -68,7 +69,7 @@ namespace Letstalk.Bots.DatabaseLogSender
             }
             catch (Exception ex)
             {
-                LogService.Error(ex.Message);
+                LogService.Error(ex.Message, ex);
             }
         }
 
@@ -76,37 +77,26 @@ namespace Letstalk.Bots.DatabaseLogSender
         {
             foreach (var log in logs)
             {
+                try
+                {
+                    var logDate = log.LogDate.ToString("yyyy-MM-dd hh:mm:ss tt");
 
-                var logDate = log.LogDate.ToString("yyyy-MM-dd hh:mm:ss tt");
-                var breakLine = "<br/>";
-
-                // letstalk
-                var letstalkLogTemplate = new Dictionary<string, string>
+                    // letstalk
+                    var letstalkLogTemplate = new Dictionary<string, string>
                             {
                                 { "Title", log.Title },
                                 { "ServerName", log.ServerName },
                                 { "LogDate", logDate },
                                 { "Message", log.MsgInfo }
                             };
-                var target = log.TargetName;
+                    var target = log.TargetName;
 
-                MessageSenderService.LetstalkSender(target, letstalkLogTemplate);
-
-                ////// Skype
-                ////var skypeLogTemplate = new StringBuilder();
-                ////skypeLogTemplate.Append("Title: " + log.Title);
-                ////skypeLogTemplate.Append(breakLine);
-                ////skypeLogTemplate.Append("Server Name: " + log.ServerName);
-                ////skypeLogTemplate.Append(breakLine);
-                ////skypeLogTemplate.Append("Log Date: " + logDate);
-                ////skypeLogTemplate.Append(breakLine);
-                ////skypeLogTemplate.Append("Message: " + log.MsgInfo);
-
-                ////MessageSenderService.SkypeSender(new MessageModel
-                ////{
-                ////    ConversationId = log.SkypeGroupId,
-                ////    Message = skypeLogTemplate.ToString()
-                ////});
+                    MessageSenderService.LetstalkSender(target, letstalkLogTemplate);
+                }
+                catch (Exception ex)
+                {
+                    LogService.Error(ex.Message, ex);
+                }
             }
         }
     }

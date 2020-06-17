@@ -153,11 +153,9 @@
       <DependentUpon>DatabaseLogSenderService.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\LogEntry.cs" />
-    <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AppSetting.cs" />
-    <Compile Include="Services\CustomDelegatingHandler.cs" />
     <Compile Include="Services\LogMessageService.cs" />
     <Compile Include="Services\MessageSenderService.cs" />
   </ItemGroup>
