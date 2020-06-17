@@ -1,5 +1,0 @@
-﻿Scheduled Maintenance on {2}, {0} - {1} (GMT+8)
-Scheduled Maintenance, {0} - {1} on {2} (GMT+8)
-Maintenance is planned for {2}, {0} - {1} (GMT+8)
-System will be under maintenance between {0} and {1} on {2} (GMT+8).
-Please be informed that the server will be carried out on {2} from {0} to {1} (GMT+8).
