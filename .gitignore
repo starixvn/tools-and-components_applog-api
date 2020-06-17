@@ -19,3 +19,4 @@ Thumbs.db
 obj/
 packages/
 *.Publish.xml
+.vs/
