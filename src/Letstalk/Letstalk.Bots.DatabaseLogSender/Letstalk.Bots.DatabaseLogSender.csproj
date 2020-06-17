@@ -163,7 +163,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="App.config" />
-    <Content Include="Letstalk.Bots.DatabaseLogSender.exe.pronew.config">
+    <Content Include="Letstalk.Bots.DatabaseLogSender.exe.newpro.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Letstalk.Bots.DatabaseLogSender.ruleset" />
