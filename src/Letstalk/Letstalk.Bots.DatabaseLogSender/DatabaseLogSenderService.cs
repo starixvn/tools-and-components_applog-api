@@ -4,7 +4,6 @@ using Fanex.Logging;
 using Letstalk.Bots.DatabaseLogSender.Models;
 using Letstalk.Bots.DatabaseLogSender.Services;
 using ONEbook.NotificationService;
-using Sunplus.UMControllerLibrary;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -21,13 +20,13 @@ namespace Letstalk.Bots.DatabaseLogSender
     public partial class DatabaseLogSenderService : ServiceBase
     {
         private readonly ILogmessageService logMessageService;
-        private readonly UMBusiness umService;
+        private readonly UMService umService;
 
         public DatabaseLogSenderService()
         {
             InitializeComponent();
             logMessageService = new LogMessageService();
-            umService = new UMBusiness();
+            umService = new UMServiceImpl(AppSetting.OneBookUMUrl);
 
             DbSettingProviderManager
                .StartNewSession()
@@ -55,7 +54,7 @@ namespace Letstalk.Bots.DatabaseLogSender
         {
             try
             {
-                bool isUnderMaintenance = umService.isUnderMaintainence(Sites.Agency, AppSetting.UnderMaintenanceService);
+                bool isUnderMaintenance = umService.IsUM();
 
                 if (!isUnderMaintenance)
                 {

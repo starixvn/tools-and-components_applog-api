@@ -15,6 +15,6 @@ namespace Letstalk.Bots.DatabaseLogSender.Services
 
         public static string LetstalkKey => ConfigurationManager.AppSettings["letstalk:AuthKey"];
 
-        public static string UnderMaintenanceService => ConfigurationManager.AppSettings["UnderMaintenanceUrl"];
+        public static string OneBookUMUrl => ConfigurationManager.AppSettings["ONEBook.UM.API.Url"];
     }
 }
