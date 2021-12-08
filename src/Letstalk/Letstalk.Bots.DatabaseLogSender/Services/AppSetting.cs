@@ -16,5 +16,9 @@ namespace Letstalk.Bots.DatabaseLogSender.Services
         public static string LetstalkKey => ConfigurationManager.AppSettings["letstalk:AuthKey"];
 
         public static string OneBookUMUrl => ConfigurationManager.AppSettings["ONEBook.UM.API.Url"];
+
+        public static string SentryDsn => ConfigurationManager.AppSettings.Get("SentryDsn");
+
+        public static string SentryEnvironment => ConfigurationManager.AppSettings.Get("SentryEnvironment");
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Fanex.Data;
 using Fanex.Data.OldConnectionStringProvider;
 using Fanex.Logging;
+using Fanex.Logging.Sentry.RavenClient;
 using Letstalk.Bots.DatabaseLogSender.Models;
 using Letstalk.Bots.DatabaseLogSender.Services;
 using ONEbook.NotificationService;
+using SharpRaven;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -27,6 +29,16 @@ namespace Letstalk.Bots.DatabaseLogSender
             InitializeComponent();
             logMessageService = new LogMessageService();
             umService = new UMServiceImpl(AppSetting.OneBookUMUrl);
+
+            LogManager
+                 .SetDefaultLogCategory(AppSetting.SentryEnvironment)
+                 .Use(new List<ILogEngine>
+                 {
+                     new SentryLogging(new SentryEngineOptions {
+                        Dsn = new Dsn(AppSetting.SentryDsn),
+                        Environment = AppSetting.SentryEnvironment
+                     })
+                 });
 
             DbSettingProviderManager
                .StartNewSession()
@@ -72,7 +84,7 @@ namespace Letstalk.Bots.DatabaseLogSender
             }
         }
 
-        private static void PostMessage(IList<LogEntry> logs)
+        private static void PostMessage(IList<Models.LogEntry> logs)
         {
             foreach (var log in logs)
             {

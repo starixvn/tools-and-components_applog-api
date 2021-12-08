@@ -14,6 +14,7 @@ namespace Letstalk.Bots.DatabaseLogSender
             {
                 new DatabaseLogSenderService()
             };
+
             ServiceBase.Run(ServicesToRun);
         }
     }
