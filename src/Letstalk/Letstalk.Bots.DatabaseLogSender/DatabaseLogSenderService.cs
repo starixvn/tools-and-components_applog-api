@@ -4,6 +4,7 @@ using Fanex.Logging;
 using Fanex.Logging.Sentry.RavenClient;
 using Letstalk.Bots.DatabaseLogSender.Models;
 using Letstalk.Bots.DatabaseLogSender.Services;
+using Newtonsoft.Json;
 using ONEbook.NotificationService;
 using SharpRaven;
 using System;
@@ -74,6 +75,8 @@ namespace Letstalk.Bots.DatabaseLogSender
 
                     if (logs.Any())
                     {
+                        LogService.Info(JsonConvert.SerializeObject(logs));
+
                         PostMessage(logs);
                     }
                 }
