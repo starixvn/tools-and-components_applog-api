@@ -73,12 +73,16 @@ namespace Letstalk.Bots.DatabaseLogSender
                 {
                     var logs = logMessageService.GetLatestData();
 
+                    LogService.Info(JsonConvert.SerializeObject(logs));
+
                     if (logs.Any())
                     {
-                        LogService.Info(JsonConvert.SerializeObject(logs));
-
                         PostMessage(logs);
                     }
+                }
+                else
+                {
+                    LogService.Info("UM is starting. Pause sending messages!");
                 }
             }
             catch (Exception ex)
