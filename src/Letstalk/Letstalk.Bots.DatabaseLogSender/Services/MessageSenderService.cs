@@ -13,12 +13,12 @@ namespace Letstalk.Bots.DatabaseLogSender.Services
 {
     public static class MessageSenderService
     {
-        public static async Task LetstalkSender(string targetName, Dictionary<string, string> vars)
+        public static bool SendLetstalk(string targetName, Dictionary<string, string> vars)
         {
             var serverUrls = AppSetting.LetstalkAPI.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             Notification.Initialize(serverUrls, AppSetting.LetstalkKey);
 
-            Notification.SendAsync(targetName, vars);
+            return Notification.Send(targetName, vars);
         }
     }
 }
