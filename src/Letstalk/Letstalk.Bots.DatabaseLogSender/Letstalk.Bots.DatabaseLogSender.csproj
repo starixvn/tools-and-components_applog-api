@@ -152,6 +152,9 @@
     <Content Include="Letstalk.Bots.DatabaseLogSender.exe.newpro.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Letstalk.Bots.DatabaseLogSender.exe.sit.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Letstalk.Bots.DatabaseLogSender.ruleset" />
     <None Include="packages.config" />
   </ItemGroup>
