@@ -63,7 +63,7 @@ namespace Letstalk.Bots.DatabaseLogSender
             // Method intentionally left empty.
         }
 
-        private void Ontimer(object sender, ElapsedEventArgs e)
+        private async void Ontimer(object sender, ElapsedEventArgs e)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace Letstalk.Bots.DatabaseLogSender
 
                     if (logs.Any())
                     {
-                        PostMessage(logs);
+                        await PostMessage(logs);
                     }
                 }
                 else
@@ -91,7 +91,7 @@ namespace Letstalk.Bots.DatabaseLogSender
             }
         }
 
-        private static void PostMessage(IList<Models.LogEntry> logs)
+        private static async Task PostMessage(IList<Models.LogEntry> logs)
         {
             foreach (var log in logs)
             {
@@ -109,7 +109,7 @@ namespace Letstalk.Bots.DatabaseLogSender
                             };
                     var target = log.TargetName;
 
-                    MessageSenderService.LetstalkSender(target, letstalkLogTemplate);
+                    await MessageSenderService.LetstalkSender(target, letstalkLogTemplate);
                 }
                 catch (Exception ex)
                 {
