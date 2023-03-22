@@ -73,11 +73,19 @@ namespace Letstalk.Bots.DatabaseLogSender
                 {
                     var logs = logMessageService.GetLatestData();
 
-                    LogService.Info(JsonConvert.SerializeObject(logs));
-
                     if (logs.Any())
                     {
+                        LogService.Info(JsonConvert.SerializeObject(logs));
+
                         PostMessage(logs);
+                    }
+                    else if (AppSetting.DebugSentryLog)
+                    {
+                        LogService.Info(JsonConvert.SerializeObject(logs));
+                    }
+                    else
+                    {
+                        //Do nothing
                     }
                 }
                 else

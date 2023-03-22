@@ -20,5 +20,7 @@ namespace Letstalk.Bots.DatabaseLogSender.Services
         public static string SentryDsn => ConfigurationManager.AppSettings.Get("SentryDsn");
 
         public static string SentryEnvironment => ConfigurationManager.AppSettings.Get("SentryEnvironment");
+
+        public static bool DebugSentryLog => bool.Parse(ConfigurationManager.AppSettings.Get("DebugSentryLog"));
     }
 }
