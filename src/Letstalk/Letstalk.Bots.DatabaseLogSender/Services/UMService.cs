@@ -20,6 +20,7 @@ namespace Letstalk.Bots.DatabaseLogSender.Services
     {
         private IHttpClientWrapper client;
         private readonly Uri umApiUrl;
+        private const string TestSiteId = "9999999";
 
         public UMServiceImpl(string umApiUrl) : this(umApiUrl, null)
         {
@@ -46,8 +47,9 @@ namespace Letstalk.Bots.DatabaseLogSender.Services
             {
                 string content = await client.GetAsync(umApiUrl).ConfigureAwait(false);
                 var umData = JsonConvert.DeserializeObject<Dictionary<string, UMInfoModel>>(content);
+                var umInfos = umData.Where(x => x.Key != TestSiteId).ToDictionary(x => x.Key, x => x.Value);
 
-                isUM = umData.Values.Any(x => x.IsUnderMaintenanceTime);
+                isUM = umInfos.Values.Any(x => x.IsUnderMaintenanceTime);
             }
             catch (Exception ex)
             {
