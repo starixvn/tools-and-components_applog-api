@@ -5,14 +5,10 @@ using Fanex.Logging.Sentry.RavenClient;
 using Letstalk.Bots.DatabaseLogSender.Models;
 using Letstalk.Bots.DatabaseLogSender.Services;
 using Newtonsoft.Json;
-using ONEbook.NotificationService;
 using SharpRaven;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,13 +73,13 @@ namespace Letstalk.Bots.DatabaseLogSender
 
                     if (logs.Any())
                     {
-                        LogService.Info(JsonConvert.SerializeObject(logs));
+                        await LogService.InfoAsync(JsonConvert.SerializeObject(logs));
 
                         await PostMessage(logs);
                     }
                     else if (AppSetting.DebugSentryLog)
                     {
-                        LogService.Info(JsonConvert.SerializeObject(logs));
+                        await LogService.InfoAsync(JsonConvert.SerializeObject(logs));
                     }
                     else
                     {
@@ -92,12 +88,12 @@ namespace Letstalk.Bots.DatabaseLogSender
                 }
                 else
                 {
-                    LogService.Info("UM is starting. Pause sending messages!");
+                    await LogService.InfoAsync("UM is starting. Pause sending messages!");
                 }
             }
             catch (Exception ex)
             {
-                LogService.Error(ex.Message, ex);
+                await LogService.ErrorAsync(ex.Message, ex);
             }
         }
 
@@ -115,17 +111,17 @@ namespace Letstalk.Bots.DatabaseLogSender
 
                     if (!isSuccessful)
                     {
-                        LogService.Error($"There is an error when sending a message ({log.MsgInfo}) to Mattermost (Channel ID: {channelId})");
+                        await LogService.ErrorAsync($"There is an error when sending a message ({log.MsgInfo}) to Mattermost (Channel ID: {channelId})");
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogService.Error(ex.Message, ex);
+                    await LogService.ErrorAsync(ex.Message, ex);
                 }
             }
         }
 
-        private string FormatLogMessage(Models.LogEntry log, string logDate)
+        private static string FormatLogMessage(Models.LogEntry log, string logDate)
         {
             var messageBuilder = new StringBuilder();
             messageBuilder.AppendLine($"### {log.Title}");

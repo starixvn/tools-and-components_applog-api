@@ -11,14 +11,12 @@ namespace Letstalk.Bots.DatabaseLogSender.Services
     {
         private readonly HttpClient _httpClient;
         private readonly string _mattermostUrl;
-        private readonly string _botToken;
 
         public MattermostService(string mattermostUrl, string botToken)
         {
             _mattermostUrl = mattermostUrl.TrimEnd('/');
-            _botToken = botToken;
             _httpClient = new HttpClient();
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _botToken);
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", botToken);
         }
 
         public async Task<bool> SendMessageAsync(string channelId, string message)
@@ -28,7 +26,7 @@ namespace Letstalk.Bots.DatabaseLogSender.Services
                 var payload = new
                 {
                     channel_id = channelId,
-                    message = message
+                    message
                 };
 
                 var content = new StringContent(
@@ -36,14 +34,17 @@ namespace Letstalk.Bots.DatabaseLogSender.Services
                     Encoding.UTF8,
                     "application/json");
 
-                var response = await _httpClient.PostAsync($"{_mattermostUrl}/api/v4/posts", content);
+                var uri = new Uri($"{_mattermostUrl}/api/v4/posts");
+                var response = await _httpClient.PostAsync(uri, content);
+
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
             {
-                LogService.Error($"Error sending message to Mattermost: {ex.Message}", ex);
+                await LogService.ErrorAsync($"Error sending message to Mattermost: {ex.Message}", ex);
+
                 return false;
             }
         }
     }
-} 
+}
