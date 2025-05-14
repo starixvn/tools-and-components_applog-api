@@ -24,12 +24,14 @@ namespace Letstalk.Bots.DatabaseLogSender
     {
         private readonly ILogmessageService logMessageService;
         private readonly UMService umService;
+        private readonly MattermostService mattermostService;
 
         public DatabaseLogSenderService()
         {
             InitializeComponent();
             logMessageService = new LogMessageService();
             umService = new UMServiceImpl(AppSetting.OneBookUMUrl);
+            mattermostService = new MattermostService(AppSetting.MattermostUrl, AppSetting.MattermostBotToken);
 
             LogManager
                  .SetDefaultLogCategory(AppSetting.SentryEnvironment)
@@ -63,7 +65,7 @@ namespace Letstalk.Bots.DatabaseLogSender
             // Method intentionally left empty.
         }
 
-        private void Ontimer(object sender, ElapsedEventArgs e)
+        private async void Ontimer(object sender, ElapsedEventArgs e)
         {
             try
             {
@@ -77,7 +79,7 @@ namespace Letstalk.Bots.DatabaseLogSender
                     {
                         LogService.Info(JsonConvert.SerializeObject(logs));
 
-                        PostMessage(logs);
+                        await PostMessage(logs);
                     }
                     else if (AppSetting.DebugSentryLog)
                     {
@@ -99,29 +101,21 @@ namespace Letstalk.Bots.DatabaseLogSender
             }
         }
 
-        private static void PostMessage(IList<Models.LogEntry> logs)
+        private async Task PostMessage(IList<Models.LogEntry> logs)
         {
             foreach (var log in logs)
             {
                 try
                 {
                     var logDate = log.LogDate.ToString("yyyy-MM-dd hh:mm:ss tt");
+                    var formattedMessage = FormatLogMessage(log, logDate);
+                    var channelId = log.TargetName; // Using the target name as channel ID
 
-                    // letstalk
-                    var letstalkLogTemplate = new Dictionary<string, string>
-                            {
-                                { "Title", log.Title },
-                                { "ServerName", log.ServerName },
-                                { "LogDate", logDate },
-                                { "Message", log.MsgInfo }
-                            };
-                    var target = log.TargetName;
-
-                    bool isSuccessful = MessageSenderService.SendLetstalk(target, letstalkLogTemplate);
+                    bool isSuccessful = await mattermostService.SendMessageAsync(channelId, formattedMessage);
 
                     if (!isSuccessful)
                     {
-                        LogService.Error($"There is an error when sending a message ({log.MsgInfo}) to Letstalk ({target})");
+                        LogService.Error($"There is an error when sending a message ({log.MsgInfo}) to Mattermost (Channel ID: {channelId})");
                     }
                 }
                 catch (Exception ex)
@@ -129,6 +123,21 @@ namespace Letstalk.Bots.DatabaseLogSender
                     LogService.Error(ex.Message, ex);
                 }
             }
+        }
+
+        private string FormatLogMessage(Models.LogEntry log, string logDate)
+        {
+            var messageBuilder = new StringBuilder();
+            messageBuilder.AppendLine($"### {log.Title}");
+            messageBuilder.AppendLine($"**Server:** {log.ServerName}");
+            messageBuilder.AppendLine($"**Time:** {logDate}");
+            messageBuilder.AppendLine();
+            messageBuilder.AppendLine("**Message:**");
+            messageBuilder.AppendLine($"```");
+            messageBuilder.AppendLine(log.MsgInfo);
+            messageBuilder.AppendLine("```");
+
+            return messageBuilder.ToString();
         }
     }
 }
